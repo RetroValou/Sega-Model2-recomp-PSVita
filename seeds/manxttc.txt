@@ -1303,3 +1303,6 @@
 0007cbb4
 0007cd9c
 0007cf9c
+# scripts/seed_scan.py, --count 4000: a function the 400-instruction check missed
+# (430 instructions before its ret)
+00035f90

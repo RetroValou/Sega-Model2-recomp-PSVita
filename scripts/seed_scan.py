@@ -128,8 +128,9 @@ def main():
     decoded = {}
 
     def is_code(a):
+        # 4,000 instructions: doaa's 0x5f190 runs 813 before its first branch.
         if a not in decoded:
-            out = subprocess.run([dis, "--start", hex(off(a)), "--count", "400", prog_path],
+            out = subprocess.run([dis, "--start", hex(off(a)), "--count", "4000", prog_path],
                                  capture_output=True, text=True).stdout
             decoded[a] = False
             for line in out.splitlines():

@@ -1151,3 +1151,6 @@
 0009c6f0
 0009c7b0
 000ac3d0
+# scripts/seed_scan.py, --count 4000: the entry the 400-instruction check missed
+# (813 instructions before its first branch), third of the 14-pointer table at 0x69fa0
+0005f190

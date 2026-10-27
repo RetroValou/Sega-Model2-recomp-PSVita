@@ -1,5 +1,23 @@
 # Handoff
 
+## Dead or Alive: "no recompiled code at 0005f190"; seed_scan's check limit (2026-10-27)
+
+The user hit it on doaa. 0x5f190 is a function start (lda 0x50(sp),sp), the
+third of a 14-pointer table at 0x69fa0 whose 13 others were seeded; the MAME
+harvest (attract, fight, test walk) never called it. seed_scan.py had it as
+a ROM-word candidate but is_code decoded only 400 instructions looking for a
+ret/b/bx/balx; this one runs 813 before its first b (0x604f8). Now 4,000.
+seeds/doaa.txt +0x5f190 (the only new candidate for doaa).
+The same scan on the other sets: manxttc 0x35f90 is a real function (after
+ret + padding, 430 instructions before its ret), added to seeds/manxttc.txt.
+The rest, 16 addresses (daytona93 2, vcop 2, vcop2 5, vf2 4, manxttc 5), are
+bare rets (a ROM word pointing at a ret after a call the recompiler treats
+as not returning, or after a bx): accepted with either limit, almost surely
+data coincidences, not added (the user's choice). srallyc, fvipers: none.
+Checked: doaa and manxttc recompile and build, L_0005f190 and L_00035f90
+generated. Not checked: the path to either function in game (no input
+script reaches them), MAME, the Vita.
+
 ## Vita: POLYGON ORDER HYBRID raises cut-outs, checker and dark flat polygons (2026-10-22)
 
 The user: with HYBRID, cut-out polygons, checker-transparent ones and very
