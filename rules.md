@@ -140,6 +140,16 @@ legal problem, or hours re-deriving something already established.
 - **One shader path.** No per-platform shader forks.
 - **Ghidra output is for humans.** Names and jump-table targets go into
   `seeds.toml`; decompiled pseudo-C is never compiled in and never committed.
+- **Coprocessor HLE (the project owner's decision, 31 Oct 2026).** At most
+  about five very hot routines of a game's coprocessor program (the Model 2B
+  SHARC's) may be reimplemented in C++ from our own analysis of what they
+  compute, in `src/games/<set>_sharc_hle.h`, their entries listed in
+  `seeds/<set>_sharc_hle.txt`. They are compiled only into fast_inaccuracy
+  builds (`m2sharcrecomp --fast --hle`); exact builds and every parity check
+  run the recompiled program. No instruction, opcode or listing of the
+  program is copied into them; addresses are fine, as everywhere. Each one is
+  checked against MAME (`m2sharccheck_gen` on a build with it) before it
+  ships, and its measured gain is recorded in `HANDOFF.md`.
 - **Sweep test parameters well past the value you believe**, or the test
   confirms the setting instead of testing it.
 

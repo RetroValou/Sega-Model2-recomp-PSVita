@@ -1,5 +1,48 @@
 # Handoff
 
+## SHARC HLE pipeline; Fighting Vipers' command loop (2026-10-31)
+
+rules.md "Coprocessor HLE" (the owner's decision): at most ~5 very hot
+routines of a game's SHARC program may be C++ written from what they
+compute, fast_inaccuracy builds only, checked against MAME, no instruction
+copied. The pipeline, standard per game:
+- seeds/<set>_sharc_hle.txt: "include games/<set>_sharc_hle.h", then
+  "ENTRY name" lines;
+- src/games/<set>_sharc_hle.h: run_hle<sharc_hle_NAME>(done) specialisations
+  (adsp21062_device member template, sharc.h); included by the chunks inside
+  namespace rt::sharc, so the macros, compute helpers (MAME's flags) and
+  dm/pm accessors are in scope. Returns where the program goes on (the
+  generated code CHANGE_PCs there, the instructions it stands for added to
+  done) or 0: the recompiled code runs;
+- m2sharcrecomp --fast --hle FILE (refused without --fast; the entry must be
+  a plain instruction, no loop end, no delay slot); build_vita.py
+  --fast-inaccuracy and recompile.py --fast_inaccuracy pass it when the set
+  has the file (games.sharc_hle_args). The profile counts HLE runs and
+  declines; its first line says "code --fast + HLE".
+The routines to pick: the profile's routine table (previous entry).
+fvipers: seeds/fvipers_sharc_hle.txt, entry 0x20130, command_loop: wait for
+the input FIFO (declines while FLAG0 is set: the recompiled wait loop polls),
+read the word through I0/M0, check its three command-number bytes (else
+0x20148 as the code goes there, delay slots included), DM 8 = the word, M7 =
+the number, I15 = the handler from the table at I2, R15 stored at PM 0x21f38
+and twice at DM I3+0x20, call I15+M8 returning to 0x20147. Flags through
+MAME's compute_and/compute_comp/SHIFT_OPERATION_IMM_i. 23 instructions a
+command (13/15 on the error paths).
+Checks: m2sharccheck_gen with --fast --hle: MATCH, fight 613,709,679 and
+attract 459,076 instructions (the same counts: the HLE counts as the code
+runs); fvipers_fight 6,000 frames, last screen 2fcd2223eeb056c0; profile:
+1,048.6 runs and 5.7 declines a frame. PC time within its noise (another
+process on 3 cores); -1.46 G x86 instructions on the fight check (~230 a
+command).
+Vita (user, build_fightingvipers/perf.log, not committed: --fast-inaccuracy
+--diagnostics, no --sharc-profile, so no per-instruction counters, unlike the
+earlier rows): fight 12.3-12.5 ms of SHARC a frame for ~130 k instructions
+(10.5 M/s), 35.7-36.3 fps; core 0 27.5-27.8 ms a frame (vblank handler
+18.9). Earlier profiled --fast: 19.1-19.3 ms, 6.8 M/s, 30.2-30.8 fps. The
+layout, the HLE and the removed counters are in that difference together.
+Core 2 saturates: sound board 27.5 ms a frame, the DSP 16.4 of it (next
+entry).
+
 ## SHARC: routines' inclusive cost in the profile (HLE candidates) (2026-10-31)
 
 Profiled builds count each routine from call to return, callees included

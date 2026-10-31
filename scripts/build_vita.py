@@ -123,7 +123,7 @@ def vita_code(host, gen, build, mode, game, tgp_profile=False, i960_profile=Fals
 
     TGP always m2tgprecomp --fast_inaccuracy: the game's unbudgeted calls counted once
     per basic block, without the budget test; exact (the TGP has no interrupts). Model
-    2B's SHARC: m2sharcrecomp --fast (and --layout, as recompile.py) with --fast-inaccuracy (less pipeline, ASTAT
+    2B's SHARC: m2sharcrecomp --fast (and --layout, as recompile.py, and the set's HLE routines, --hle) with --fast-inaccuracy (less pipeline, ASTAT
     history and budget bookkeeping around the same handlers; the computed results
     unchanged), the host's code as it is with --fast-gen. The 68000 code as the host
     generated it. tgp_profile: the TGP code with m2tgprecomp's
@@ -171,7 +171,7 @@ def vita_code(host, gen, build, mode, game, tgp_profile=False, i960_profile=Fals
         run([sharc_tool, sharc_program, tmp / "sharc/sharc_gen.cpp",
              "--ops", ROOT / "src/runtime/sharc/sharcops_table.inc",
              "--sharcops", ROOT / "src/runtime/sharc/sharcops.hxx",
-             "--compute", ROOT / "src/runtime/sharc/compute.hxx", "--fast", *games.sharc_layout_args(game)], os.environ)
+             "--compute", ROOT / "src/runtime/sharc/compute.hxx", "--fast", *games.sharc_layout_args(game), *games.sharc_hle_args(game)], os.environ)
     out = build / "gen_vita"
     sync(i960_out, out / game)
     sync(tmp / "tgp", out / f"{game}_tgp")

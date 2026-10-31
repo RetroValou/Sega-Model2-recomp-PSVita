@@ -1,0 +1,5 @@
+# Fighting Vipers: HLE routines of the SHARC program (m2sharcrecomp --fast --hle; rules.md "Coprocessor HLE").
+# Only fast_inaccuracy builds use them. "include" names the header defining them (from src/);
+# then "ENTRY name": run_hle<sharc_hle_name> runs at that entry instead of the recompiled routine.
+include games/fvipers_sharc_hle.h
+20130 command_loop

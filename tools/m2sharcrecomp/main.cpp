@@ -291,6 +291,10 @@ int main(int argc, char **argv) {
     // instruction and the transfers between them; seeds/<set>_sharc_layout.txt). Exact: where the code sits only.
     std::string layout_path;
     uint32_t layout_cap = 384; // --layout-cap: most instructions a chunk with --layout
+    // --hle FILE (with --fast only; seeds/<set>_sharc_hle.txt): a game's HLE routines (rules.md "Coprocessor
+    // HLE"). Lines: "include PATH" (the header defining them, from src/), "ADDRESS NAME": at that entry the
+    // chunk calls run_hle<sharc_hle_NAME>(done) and goes on where it returns, or runs the recompiled code (0).
+    std::string hle_path;
     // Instructions a chunk (a function and a file). fvipers' fight, PC profile, chunk
     // calls a frame / dispatches per 1000 instructions: 256 4,116 / 109, 512 4,035 /
     // 107, 1024 2,300 / 76, 2048 1,279 / 58 (its hot code calls far away); yet the
@@ -299,7 +303,7 @@ int main(int argc, char **argv) {
     // (handlers forced inline) takes 133 s for a 1024 chunk, 183 s and 800 MB for 2048.
     uint32_t chunk = 256;
     if (argc < 3) {
-        std::fprintf(stderr, "usage: m2sharcrecomp SHARC_PROGRAM.bin OUT.cpp [--ops SHARCOPS_TABLE.inc] [--fast] [--cfg FILE] [--layout PROFILE [--layout-cap N]]\n");
+        std::fprintf(stderr, "usage: m2sharcrecomp SHARC_PROGRAM.bin OUT.cpp [--ops SHARCOPS_TABLE.inc] [--fast] [--cfg FILE] [--layout PROFILE [--layout-cap N]] [--hle FILE]\n");
         return 2;
     }
     for (int i = 3; i < argc; ++i) {
@@ -311,6 +315,7 @@ int main(int argc, char **argv) {
         else if (!std::strcmp(argv[i], "--cfg") && i + 1 < argc) cfg_path = argv[++i];
         else if (!std::strcmp(argv[i], "--layout") && i + 1 < argc) layout_path = argv[++i];
         else if (!std::strcmp(argv[i], "--layout-cap") && i + 1 < argc) layout_cap = uint32_t(std::strtoul(argv[++i], nullptr, 0));
+        else if (!std::strcmp(argv[i], "--hle") && i + 1 < argc) hle_path = argv[++i];
         else if (!std::strcmp(argv[i], "--chunk") && i + 1 < argc) chunk = uint32_t(std::strtoul(argv[++i], nullptr, 0));
         else {
             std::fprintf(stderr, "m2sharcrecomp: unknown option %s\n", argv[i]);
@@ -630,6 +635,31 @@ int main(int argc, char **argv) {
             }
         }
         for (uint32_t k = 0; k < n; ++k) if (full[k]) pinned[k] = false;
+
+        // The HLE routines' entries (--hle): a plain instruction, no loop end, no delay slot.
+        std::map<uint32_t, std::string> hle; // index -> routine name
+        std::string hle_include;
+        if (!hle_path.empty()) {
+            if (!fast) throw std::runtime_error("--hle needs --fast (HLE routines are for fast_inaccuracy builds only)");
+            std::ifstream hf(hle_path);
+            if (!hf) throw std::runtime_error("cannot read " + hle_path);
+            std::string line;
+            while (std::getline(hf, line)) {
+                std::istringstream ls(line);
+                std::string first, second;
+                if (!(ls >> first) || first[0] == '#') continue;
+                ls >> second;
+                if (first == "include") { hle_include = second; continue; }
+                const uint32_t k = uint32_t(std::strtoul(first.c_str(), nullptr, 16)) - base;
+                if (k >= n || second.empty()) throw std::runtime_error(hle_path + ": bad line: " + line);
+                const bool slot = (k >= 1 && pinned[k - 1] && has_j(handler(ops, prog[k - 1]), prog[k - 1])) ||
+                                  (k >= 2 && pinned[k - 2] && has_j(handler(ops, prog[k - 2]), prog[k - 2]));
+                if (full[k] || pinned[k] || loop_ends.count(base + k) || slot)
+                    throw std::runtime_error(hle_path + ": " + first + " is not a plain instruction outside loop ends and delay slots");
+                hle[k] = second;
+            }
+            if (!hle.empty() && hle_include.empty()) throw std::runtime_error(hle_path + ": no include line");
+        }
         if (full_steps) full.assign(n, true), pinned.assign(n, false);
 
         if (const char *prof = std::getenv("M2SHARC_PROFILE_FILE")) { // the dynamic share, from m2sharcprof's counts
@@ -704,6 +734,10 @@ int main(int argc, char **argv) {
                  "#include \"runtime/sharc/sharc_step.h\"\n"
                  "#include \"sharc_handlers.h\"\n"
               << (by_layout ? "\nextern const uint16_t sharc_chunk_of[]; // sharc_gen.cpp: each instruction's chunk (--layout)\n" : "")
+              << [&] { // the game's HLE routines (--hle), where this chunk has an entry
+                     for (uint32_t k : list) if (hle.count(k)) return "#include \"" + hle_include + "\"\n";
+                     return std::string();
+                 }()
               << "\n// 0 when control leaves the chunk (step_pre done), 1 when the SHARC waits,\n"
                  "// 2 when the budget ran out, 3 when the next instruction needs the\n"
                  "// interpreter's step (plain_ready).\n"
@@ -725,6 +759,15 @@ int main(int argc, char **argv) {
                 const std::string call = handler(ops, prog[k]) + "_t<" + hx(prog[k]) + "ull>();";
                 o << "\tL_" << std::hex << a << std::dec << ":\n"
                   << "\t\tM2SHARC_COUNT(" << k << ");\n";
+                if (hle.count(k)) // the game's HLE routine; 0: the recompiled code runs
+                    o << "\t\tdone += plain; plain = 0;\n"
+                         "\t\tif (const uint32_t hle_to = run_hle<sharc_hle_" << hle.at(k) << ">(done)) {\n"
+                         "\t\t\tM2SHARC_EV(hle_runs);\n"
+                         "\t\t\tCHANGE_PC(hle_to);\n"
+                         "\t\t\tif (done >= m_budget) return 2;\n"
+                         "\t\t\tcontinue;\n"
+                         "\t\t}\n"
+                         "\t\tM2SHARC_EV(hle_declined);\n";
                 if (!full[k]) {
                     const std::string h = handler(ops, prog[k]);
                     if (pinned[k] && fast) // what the handler (pc, daddr for the delay slots) and the taken test read
@@ -872,7 +915,7 @@ int main(int argc, char **argv) {
             o << "\n};\n\n";
         }
         // The profile's view of the program (sharc_profile.h): each instruction's handler and kind.
-        o << "#ifdef M2_SHARC_PROFILE\nconst char *const sharc_gen_mode = \"" << (full_steps ? "full steps" : fast ? "--fast" : "exact")
+        o << "#ifdef M2_SHARC_PROFILE\nconst char *const sharc_gen_mode = \"" << (full_steps ? "full steps" : fast ? (hle.empty() ? "--fast" : "--fast + HLE") : "exact")
           << "\";\nconst uint32_t sharc_gen_count = " << n << ";\nconst char *const sharc_gen_names[" << n << "] = {\n";
         for (uint32_t k = 0; k < n; ++k) o << "    \"" << handler(ops, prog[k]).substr(8) << "\",\n"; // without "sharcop_"
         o << "};\nconst uint8_t sharc_gen_kinds[" << n << "] = {";
@@ -928,9 +971,9 @@ int main(int argc, char **argv) {
              "\t\t\tthrow SharcFatal(emu_fatalerror::fmt(\"SHARC: no recompiled code at %05x\", m_core->daddr));\n"
              "\t}\n}\n\n} // namespace rt::sharc\n";
         write_file(out_path, o.str());
-        std::printf("m2sharcrecomp: %u instructions (%u plain), %zu loop ends, %zu wait loops, %zu handlers templated -> %s and %u chunks%s%s\n", n,
+        std::printf("m2sharcrecomp: %u instructions (%u plain), %zu loop ends, %zu wait loops, %zu handlers templated -> %s and %u chunks%s%s%s\n", n,
                     plain_count, loop_ends.size(), waits.size(), handlers, argv[2], chunks, by_layout ? " by affinity (--layout)" : "",
-                    fast ? " (--fast)" : "");
+                    fast ? " (--fast)" : "", hle.empty() ? "" : (", " + std::to_string(hle.size()) + " HLE routine(s)").c_str());
         return 0;
     } catch (const std::exception &e) {
         std::fprintf(stderr, "m2sharcrecomp: %s\n", e.what());

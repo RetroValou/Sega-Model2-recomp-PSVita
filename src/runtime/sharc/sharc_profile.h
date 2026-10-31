@@ -55,6 +55,7 @@ struct SharcProfile {
     // run_generated (sharc_gen.cpp) and the chunks.
     uint64_t gen_calls = 0, chunk_calls = 0, dispatches = 0, run_ends = 0, taken = 0, slot_taken = 0, loop_backs = 0;
     uint64_t full_steps = 0, fallback_entries = 0, fallback_steps = 0, exit_wait = 0, exit_budget = 0;
+    uint64_t hle_runs = 0, hle_declined = 0; // HLE routines (run_hle): run, or 0 returned (the recompiled code ran)
     uint64_t sizes[kSharcSizeBuckets]{};
     // The data space (data_space::read_dword / write_dword) and program memory data.
     uint64_t dm_r = 0, dm_w = 0, short_r = 0, short_w = 0, iop_r = 0, iop_w = 0, ext_r = 0, ext_w = 0;

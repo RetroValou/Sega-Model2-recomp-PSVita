@@ -271,6 +271,13 @@ def sharc_layout(romset):
     return f"seeds/{romset}_sharc_layout.txt"
 
 
+def sharc_hle_args(romset):
+    """Model 2B, fast_inaccuracy builds only: m2sharcrecomp's --hle option when the set has HLE routines
+    (seeds/<set>_sharc_hle.txt, rules.md "Coprocessor HLE")."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", f"seeds/{romset}_sharc_hle.txt")
+    return ["--hle", os.path.abspath(path)] if os.path.isfile(path) else []
+
+
 def sharc_layout_args(romset, disabled=False):
     """m2sharcrecomp's --layout option for the set, when its profile exists (and not disabled)."""
     path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", sharc_layout(romset))

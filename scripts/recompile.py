@@ -43,7 +43,9 @@ the generated code is the same).
 Model 2B: when seeds/<set>_sharc_layout.txt exists (a profiled build's SHARC
 dump: executions and transfers, CRC-checked), the SHARC's chunks are cut by
 affinity (m2sharcrecomp --layout): the same results, fewer chunk changes.
---no-sharc-layout cuts them by address.
+--no-sharc-layout cuts them by address. With --fast_inaccuracy the SHARC code
+is m2sharcrecomp --fast, with the set's HLE routines when it has some
+(seeds/<set>_sharc_hle.txt; rules.md "Coprocessor HLE").
 --inline-bus: the i960 code with the set's board bus inlined (m2recomp
 --board, CMake M2_INLINE_BUS; build_vita.py --inline-bus on the Vita, off by
 default there too: no measurable gain): the same results, for checking it
@@ -187,7 +189,8 @@ def main():
              "--ops", os.path.join(ROOT, "src/runtime/sharc/sharcops_table.inc"),
              "--sharcops", os.path.join(ROOT, "src/runtime/sharc/sharcops.hxx"),
              "--compute", os.path.join(ROOT, "src/runtime/sharc/compute.hxx"),
-             *games.sharc_layout_args(args.set, args.no_sharc_layout)])
+             *games.sharc_layout_args(args.set, args.no_sharc_layout),
+             *(["--fast", *games.sharc_hle_args(args.set)] if args.fast_inaccuracy else [])])
 
     if args.recomp_only:
         print(f"recompile: recompiled into {games.gen_root(args.set)}/ (--recomp-only: the desktop game is not built)")

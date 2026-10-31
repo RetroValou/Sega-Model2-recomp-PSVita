@@ -101,6 +101,9 @@ size_t SharcProfileReport::format(char *out, size_t size, uint64_t frames, uint6
     o.add("    calls by instructions run:");
     for (int b = 0; b < kSharcSizeBuckets; ++b) o.add(" %s %.1f%%", kSize[b], ratio(d(now.sizes[b], at_.sizes[b]) * 100, gen));
     o.add("; exits: waiting %.1f, budget %.1f a frame\n", d(now.exit_wait, at_.exit_wait) / f, d(now.exit_budget, at_.exit_budget) / f);
+    if (now.hle_runs != at_.hle_runs || now.hle_declined != at_.hle_declined)
+        o.add("    HLE routines: %.1f runs a frame, %.1f declined (the recompiled code ran)\n", d(now.hle_runs, at_.hle_runs) / f,
+              d(now.hle_declined, at_.hle_declined) / f);
 
     // Memory.
     o.add("  memory, per 1000 instructions: data space: internal r %.0f w %.0f, 16-bit view r %.1f w %.1f, IOP r %.1f w %.1f, "

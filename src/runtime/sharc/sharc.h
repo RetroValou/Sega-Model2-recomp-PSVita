@@ -328,6 +328,11 @@ private:
     inline void board_write(uint32_t address, uint32_t data);
 #endif
     template <int CHUNK> int run_chunk(uint64_t &done);
+    // A game's HLE routine (m2sharcrecomp --fast --hle seeds/<set>_sharc_hle.txt; rules.md "Coprocessor
+    // HLE"): its specialisation, in src/games/<set>_sharc_hle.h, runs instead of the recompiled routine at
+    // its entry. It returns where the program goes on (the generated code makes it the pipeline), the
+    // instructions it stands for added to done; or 0 without touching anything: the recompiled code runs.
+    template <typename ROUTINE> uint32_t run_hle(uint64_t &done);
     uint64_t m_budget = 0; // run_generated's, read by the chunks (end_run lowers it)
     template <uint64_t OPCODE> void sharcop_compute_dreg_dm_dreg_pm_t();
     template <uint64_t OPCODE> void sharcop_compute_t();
