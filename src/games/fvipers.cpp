@@ -106,6 +106,11 @@ extern const Game fvipers_game = {
     .sound = SoundBoardType::Scsp, .native_sound = nullptr,
     .io = {port, nullptr}, .link = false,
     .control_list = kControls,
+    // Its SCSP DSP program: in the sound program ROM at 0x8c9c, 84 steps; the
+    // driver copies it into MPRO at boot (logged at ScspDsp::Start in m2run, a
+    // fight: one load). Interpreted, it was ~16.4 ms a frame of the Vita's
+    // sound core (21 us a sample) in a fight: m2dsprecomp's program instead.
+    .dsp = {0x8c9c, 84, 0xD08F9EB4u},
     .spin = {{Game::SpinWait::ByteIsReg, 0x118dc, 0x00500000, 2, 16}},
 };
 

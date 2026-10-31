@@ -1,5 +1,21 @@
 # Handoff
 
+## Fighting Vipers: its SCSP DSP program recompiled (2026-10-31)
+
+The Vita's sound core saturated in fights (user perf.log: sound board 27.5
+ms a frame, SCSP render ~23.3 of it, DSP ~16.4 ms, 21.3 us a sample): fvipers
+had no Game::dsp, so its DSP program ran on the interpreter. Found as VF2's
+was (a temporary probe at ScspDsp::Start printing MPRO, not committed): one
+load in a fight, 84 steps, in sound_program.bin at 0x8c9c (one occurrence),
+CRC-32 0xD08F9EB4. src/games/fvipers.cpp .dsp = {0x8c9c, 84, 0xD08F9EB4u}.
+A cache made before has an empty dsp_program.bin: delete it (or the
+rom_cache) so recompile.py imports again.
+Checks: m2dsprecomp 84 steps; the WAV of fvipers_fight (3,000 frames, 10 MB)
+identical byte for byte to the interpreter's; gdb stops in
+snd::dspgen::step from Scsp::render (the recompiled program is the one
+running); last screen a044b11c22ced247 both ways; ctest 23/23. Vita: not
+measured yet (VF2's went x4.2 on the PC).
+
 ## SHARC HLE pipeline; Fighting Vipers' command loop (2026-10-31)
 
 rules.md "Coprocessor HLE" (the owner's decision): at most ~5 very hot
