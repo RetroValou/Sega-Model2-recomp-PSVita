@@ -287,6 +287,10 @@ int main(int argc, char **argv) {
     // loop end can see another ASTAT history than the interpreter's.
     bool fast = false;
     std::string cfg_path; // --cfg FILE: each instruction's handler, fall-through and constant target (the layout's input)
+    // --layout PROFILE: the chunks cut by affinity instead of by address (a profiled build's dump: executions per
+    // instruction and the transfers between them; seeds/<set>_sharc_layout.txt). Exact: where the code sits only.
+    std::string layout_path;
+    uint32_t layout_cap = 384; // --layout-cap: most instructions a chunk with --layout
     // Instructions a chunk (a function and a file). fvipers' fight, PC profile, chunk
     // calls a frame / dispatches per 1000 instructions: 256 4,116 / 109, 512 4,035 /
     // 107, 1024 2,300 / 76, 2048 1,279 / 58 (its hot code calls far away); yet the
@@ -295,7 +299,7 @@ int main(int argc, char **argv) {
     // (handlers forced inline) takes 133 s for a 1024 chunk, 183 s and 800 MB for 2048.
     uint32_t chunk = 256;
     if (argc < 3) {
-        std::fprintf(stderr, "usage: m2sharcrecomp SHARC_PROGRAM.bin OUT.cpp [--ops SHARCOPS_TABLE.inc] [--fast] [--cfg FILE]\n");
+        std::fprintf(stderr, "usage: m2sharcrecomp SHARC_PROGRAM.bin OUT.cpp [--ops SHARCOPS_TABLE.inc] [--fast] [--cfg FILE] [--layout PROFILE [--layout-cap N]]\n");
         return 2;
     }
     for (int i = 3; i < argc; ++i) {
@@ -305,6 +309,8 @@ int main(int argc, char **argv) {
         else if (!std::strcmp(argv[i], "--full-steps")) full_steps = true;
         else if (!std::strcmp(argv[i], "--fast")) fast = true;
         else if (!std::strcmp(argv[i], "--cfg") && i + 1 < argc) cfg_path = argv[++i];
+        else if (!std::strcmp(argv[i], "--layout") && i + 1 < argc) layout_path = argv[++i];
+        else if (!std::strcmp(argv[i], "--layout-cap") && i + 1 < argc) layout_cap = uint32_t(std::strtoul(argv[++i], nullptr, 0));
         else if (!std::strcmp(argv[i], "--chunk") && i + 1 < argc) chunk = uint32_t(std::strtoul(argv[++i], nullptr, 0));
         else {
             std::fprintf(stderr, "m2sharcrecomp: unknown option %s\n", argv[i]);
@@ -365,7 +371,6 @@ int main(int argc, char **argv) {
         // to it, what every chunk needs inline: sharcops.hxx's macros and inline
         // helpers, compute.hxx without its two lookup tables (the only
         // definitions it cannot repeat) and the templated handlers.
-        const uint32_t chunks = (n + chunk - 1) / chunk;
         const std::string out_path = argv[2];
         const std::string dir = out_path.find('/') == std::string::npos ? "." : out_path.substr(0, out_path.rfind('/'));
         const auto write_file = [](const std::string &path, const std::string &text) {
@@ -467,6 +472,145 @@ int main(int argc, char **argv) {
                 for (uint32_t j = k >= 3 ? k - 3 : 0; j < k; ++j) astat_shift[j] = true;
             if (flag_loop_ends.count(base + k)) astat_shift[k] = true; // as the full step's fetch did
         }
+        // The chunks: which instructions each holds, in the order it emits them. By address (--chunk
+        // instructions each) or, with --layout, by affinity: units (ranges whose instructions reach the
+        // next only by falling through: never split, but at the cap) merged along their heaviest
+        // transfers in the profile while the chunk stays within --layout-cap (Pettis-Hansen); executed
+        // groups first-fit into chunks, the rest by address. Fall-through flow, not in the profile, is an
+        // instruction's executions minus the transfers into it. scripts/sharc_layout.py is the same model.
+        const auto falls = [&](uint32_t k) { // can k's execution go on at k + 1 (not counting delay slots)?
+            const std::string h = handler(ops, prog[k]);
+            const bool jump = h.find("_jump") != std::string::npos || h == "sharcop_rts";
+            const bool call = h.find("_call") != std::string::npos;
+            const bool always = (unsigned(prog[k] >> 33) & 0x1f) == 0x1f; // op_get_cond: TRUE
+            return !(call || h == "sharcop_rti" || (jump && always));
+        };
+        const auto reaches = [&](uint32_t k) { // k -> k + 1 without a transfer
+            if (k + 1 >= n) return false;
+            if (!falls(k) && !has_j(handler(ops, prog[k]), prog[k])) return false;
+            return !(k >= 2 && !falls(k - 2) && has_j(handler(ops, prog[k - 2]), prog[k - 2])); // k: a never-falling branch's second slot
+        };
+        std::vector<std::vector<uint32_t>> chunk_list;
+        bool by_layout = false;
+        if (!layout_path.empty()) {
+            std::ifstream pf(layout_path);
+            if (!pf) throw std::runtime_error("cannot read " + layout_path);
+            std::vector<double> count(n, 0.0);
+            struct Xfer { uint32_t from, to; double n; };
+            std::vector<Xfer> xfers;
+            std::vector<double> into(n, 0.0);
+            std::string line;
+            uint32_t crc = 0;
+            bool has_crc = false;
+            while (std::getline(pf, line)) {
+                if (line.empty()) continue;
+                if (line[0] == '#') {
+                    const size_t at = line.find("program crc32 ");
+                    if (at != std::string::npos) crc = uint32_t(std::strtoul(line.c_str() + at + 14, nullptr, 16)), has_crc = true;
+                    continue;
+                }
+                std::istringstream ls(line);
+                if (line[0] == '>') {
+                    std::string mark, from, to, kind;
+                    double e = 0;
+                    ls >> mark >> from >> to >> kind >> e;
+                    const uint32_t t = uint32_t(std::strtoul(to.c_str(), nullptr, 16)) - base;
+                    if (t >= n) continue;
+                    into[t] += e;
+                    if (from != "entry") {
+                        const uint32_t fr = uint32_t(std::strtoul(from.c_str(), nullptr, 16)) - base;
+                        if (fr < n) xfers.push_back({fr, t, e});
+                    }
+                } else {
+                    std::string addr;
+                    double e = 0;
+                    ls >> addr >> e;
+                    const uint32_t k = uint32_t(std::strtoul(addr.c_str(), nullptr, 16)) - base;
+                    if (k < n) count[k] = e;
+                }
+            }
+            const uint32_t our_crc = crc32(raw.data(), raw.size());
+            if (!has_crc || crc != our_crc) {
+                std::fprintf(stderr, "m2sharcrecomp: %s is %s, not this program's (crc32 %08x): chunks by address\n", layout_path.c_str(),
+                             has_crc ? "another program's profile" : "a profile without the program's crc32", our_crc);
+            } else {
+                by_layout = true;
+                for (uint32_t k = 1; k < n; ++k)
+                    if (reaches(k - 1) && count[k] - into[k] > 0.5) xfers.push_back({k - 1, k, count[k] - into[k]});
+                // Units, split at the cap.
+                std::vector<uint32_t> unit_of(n);
+                std::vector<std::vector<uint32_t>> units;
+                for (uint32_t k = 0; k < n; ++k) {
+                    if (k == 0 || !reaches(k - 1) || units.back().size() >= layout_cap) units.emplace_back();
+                    units.back().push_back(k);
+                    unit_of[k] = uint32_t(units.size() - 1);
+                }
+                std::map<std::pair<uint32_t, uint32_t>, double> weight;
+                for (const Xfer &x : xfers) {
+                    const uint32_t a = unit_of[x.from], b = unit_of[x.to];
+                    if (a != b) weight[{std::min(a, b), std::max(a, b)}] += x.n;
+                }
+                std::vector<std::pair<double, std::pair<uint32_t, uint32_t>>> order;
+                for (const auto &[ab, w] : weight) order.push_back({w, ab});
+                std::sort(order.begin(), order.end(), [](const auto &x, const auto &y) { return x.first > y.first || (x.first == y.first && x.second < y.second); });
+                std::vector<uint32_t> parent(units.size()), size(units.size());
+                for (uint32_t u = 0; u < units.size(); ++u) parent[u] = u, size[u] = uint32_t(units[u].size());
+                const auto find = [&](uint32_t u) {
+                    while (parent[u] != u) u = parent[u] = parent[parent[u]];
+                    return u;
+                };
+                for (const auto &[w, ab] : order) {
+                    const uint32_t ga = find(ab.first), gb = find(ab.second);
+                    if (ga == gb || size[ga] + size[gb] > layout_cap) continue;
+                    parent[gb] = ga;
+                    size[ga] += size[gb];
+                }
+                std::map<uint32_t, std::vector<uint32_t>> groups; // representative -> units, in address order
+                for (uint32_t u = 0; u < units.size(); ++u) groups[find(u)].push_back(u);
+                std::vector<std::pair<double, std::vector<uint32_t>>> hot; // executions, units
+                std::vector<uint32_t> cold;
+                for (const auto &[g, us] : groups) {
+                    double e = 0;
+                    for (uint32_t u : us) for (uint32_t k : units[u]) e += count[k];
+                    if (e > 0) hot.push_back({e, us});
+                    else cold.insert(cold.end(), us.begin(), us.end());
+                }
+                std::stable_sort(hot.begin(), hot.end(), [](const auto &x, const auto &y) { return x.first > y.first; });
+                std::vector<uint32_t> fill;
+                for (const auto &[e, us] : hot) { // first fit
+                    uint32_t sz = 0;
+                    for (uint32_t u : us) sz += uint32_t(units[u].size());
+                    size_t c = 0;
+                    while (c < chunk_list.size() && fill[c] + sz > layout_cap) ++c;
+                    if (c == chunk_list.size()) chunk_list.emplace_back(), fill.push_back(0);
+                    for (uint32_t u : us) chunk_list[c].insert(chunk_list[c].end(), units[u].begin(), units[u].end());
+                    fill[c] += sz;
+                }
+                std::sort(cold.begin(), cold.end());
+                bool fresh = true;
+                for (uint32_t u : cold) { // by address, after the executed code
+                    if (fresh || chunk_list.back().size() + units[u].size() > chunk) chunk_list.emplace_back(), fresh = false;
+                    chunk_list.back().insert(chunk_list.back().end(), units[u].begin(), units[u].end());
+                }
+            }
+        }
+        if (!by_layout)
+            for (uint32_t k = 0; k < n; ++k) {
+                if (k % chunk == 0) chunk_list.emplace_back();
+                chunk_list.back().push_back(k);
+            }
+        const uint32_t chunks = uint32_t(chunk_list.size());
+        if (chunks > 0xffff) throw std::runtime_error("too many chunks");
+        std::vector<uint32_t> chunk_of(n);
+        std::vector<int64_t> next_text(n, -1); // the instruction its chunk emits right after k
+        for (uint32_t c = 0; c < chunks; ++c)
+            for (size_t i = 0; i < chunk_list[c].size(); ++i) {
+                chunk_of[chunk_list[c][i]] = c;
+                if (i + 1 < chunk_list[c].size()) next_text[chunk_list[c][i]] = chunk_list[c][i + 1];
+            }
+        const auto text_next = [&](uint32_t k) { return next_text[k] == int64_t(k) + 1; }; // k + 1 follows k in the chunk's text
+        const auto in_chunk = [&](uint32_t target, uint32_t c) { return target >= base && target - base < n && chunk_of[target - base] == c; };
+
         // Delay slots, to a fixed point (a branch that cannot keep its slots in
         // the run becomes a full step, and its slots too).
         for (bool changed = true; changed;) {
@@ -474,7 +618,7 @@ int main(int argc, char **argv) {
             for (uint32_t k = 0; k < n; ++k) {
                 const std::string h = handler(ops, prog[k]);
                 if (!has_j(h, prog[k])) continue;
-                const bool slots_ok = pinned[k] && !full[k] && k + 2 < n && (k + 2) / chunk == k / chunk &&
+                const bool slots_ok = pinned[k] && !full[k] && k + 2 < n && text_next(k) && text_next(k + 1) &&
                                       !full[k + 1] && !full[k + 2] && !pinned[k + 1] && !pinned[k + 2] &&
                                       !loop_ends.count(base + k + 1) && !loop_ends.count(base + k + 2);
                 if (slots_ok) continue;
@@ -549,7 +693,7 @@ int main(int argc, char **argv) {
         // pieces inline (a shared-handler version, a few bytes an instruction,
         // ran 26 % slower on the Vita: its code cache was not the limit).
         for (uint32_t c = 0; c < chunks; ++c) {
-            const uint32_t first = c * chunk, last = std::min(n, first + chunk);
+            const std::vector<uint32_t> &list = chunk_list[c];
             std::ostringstream o;
             o << "// Generated by m2sharcrecomp: the recompiled SHARC program, chunk " << c << ".\n"
                  "// Derived from the game: never commit.\n"
@@ -559,7 +703,8 @@ int main(int argc, char **argv) {
                  "#include \"runtime/sharc/sharcinternal.ipp\"\n"
                  "#include \"runtime/sharc/sharc_step.h\"\n"
                  "#include \"sharc_handlers.h\"\n"
-                 "\n// 0 when control leaves the chunk (step_pre done), 1 when the SHARC waits,\n"
+              << (by_layout ? "\nextern const uint16_t sharc_chunk_of[]; // sharc_gen.cpp: each instruction's chunk (--layout)\n" : "")
+              << "\n// 0 when control leaves the chunk (step_pre done), 1 when the SHARC waits,\n"
                  "// 2 when the budget ran out, 3 when the next instruction needs the\n"
                  "// interpreter's step (plain_ready).\n"
                  "template <>\nint adsp21062_device::run_chunk<" << c << ">(uint64_t &done)\n{\n"
@@ -568,13 +713,14 @@ int main(int argc, char **argv) {
                  "\tfor (;;) {\n"
                  "\t\tif (!plain_ready()) return 3;\n"
                  "\t\tM2SHARC_EV(dispatches);\n"
-                 "\t\tM2SHARC_DISPATCH(" << hx(base + first) << "u, " << hx(base + last) << "u);\n"
+                 "\t\tM2SHARC_DISPATCH(" << (by_layout ? "m_core->daddr - " + hx(base) + "u < " + std::to_string(n) + "u && sharc_chunk_of[m_core->daddr - " + hx(base) + "u] == " + std::to_string(c)
+                                                    : "m_core->daddr - " + hx(base + list.front()) + "u < " + std::to_string(list.size()) + "u") << ");\n"
                  "\t\tpending = 0;\n"
                  "\t\tswitch (m_core->daddr) {\n";
-            for (uint32_t k = first; k < last; ++k) o << "\t\tcase " << hx(base + k) << ": goto L_" << std::hex << base + k << std::dec << ";\n";
+            for (uint32_t k : list) o << "\t\tcase " << hx(base + k) << ": goto L_" << std::hex << base + k << std::dec << ";\n";
             o << "\t\tdefault: return 0;\n"
                  "\t\t}\n";
-            for (uint32_t k = first; k < last; ++k) {
+            for (uint32_t k : list) {
                 const uint32_t a = base + k;
                 const std::string call = handler(ops, prog[k]) + "_t<" + hx(prog[k]) + "ull>();";
                 o << "\tL_" << std::hex << a << std::dec << ":\n"
@@ -609,7 +755,7 @@ int main(int argc, char **argv) {
                       << "\t\t++plain;\n";
                     if (loop_end) {
                         const auto &tops = loop_tops.at(a);
-                        const bool goto_top = tops.size() == 1 && *tops.begin() - base >= first && *tops.begin() - base < last;
+                        const bool goto_top = tops.size() == 1 && in_chunk(*tops.begin(), c);
                         const std::string pipe = "m_core->pc = top; m_core->daddr = top; m_core->faddr = top + 1; m_core->nfaddr = top + 2;";
                         o << "\t\tif (back) {\n"
                              "\t\t\tconst uint32_t top = TOP_PC();\n"
@@ -641,8 +787,8 @@ int main(int argc, char **argv) {
                     // Where a pinned branch is taken: the count, budget and step_pre as at a
                     // run's end (CHANGE_PC wrote the pipeline), then the target.
                     const auto taken = [&](uint32_t target, const char *event) {
-                        const bool in_chunk = target >= base && target - base >= first && target - base < last;
-                        const std::string go = in_chunk ? "\t\t\tif (m_core->daddr == " + hx(target) + ") { M2SHARC_GOTO(" + std::to_string(k) +
+                        const bool here = in_chunk(target, c);
+                        const std::string go = here ? "\t\t\tif (m_core->daddr == " + hx(target) + ") { M2SHARC_GOTO(" + std::to_string(k) +
                                                               ", m_core->daddr); goto L_" + [&] {
                             char b[16];
                             std::snprintf(b, sizeof b, "%x", target);
@@ -650,7 +796,7 @@ int main(int argc, char **argv) {
                         }() + "; }\n" : std::string();
                         o << "\t\t\tM2SHARC_EV(" << event << ");\n"
                              "\t\t\tdone += plain; plain = 0;\n";
-                        if (fast && in_chunk && target > a) // forward: no budget test (backward edges keep it)
+                        if (fast && here && target > a) // forward: no budget test (backward edges keep it)
                             o << go << "\t\t\tif (done >= m_budget) return 2;\n";
                         else
                             o << "\t\t\tif (done >= m_budget) return 2;\n" << go;
@@ -671,7 +817,7 @@ int main(int argc, char **argv) {
                              "\t\t\tm_core->pc = " << hx(a) << "; m_core->daddr = t; m_core->faddr = t + 1; m_core->nfaddr = t + 2;\n";
                         taken(target_of(handler(ops, prog[k - 2]), a - 2, prog[k - 2]), "slot_taken");
                     }
-                    if (k + 1 < last && !full[k + 1]) continue; // the run goes on
+                    if (text_next(k) && !full[k + 1]) continue; // the run goes on
                     // The run ends: the pipeline as this instruction leaves it, its count.
                     o << "\t\tM2SHARC_EV(run_ends);\n"
                       << "\t\tm_core->pc = " << hx(a) << "; m_core->daddr = " << hx(a + 1) << "; m_core->faddr = " << hx(a + 2)
@@ -687,7 +833,7 @@ int main(int argc, char **argv) {
                     if (waits.count(a)) o << "\t\tif (m_core->daddr == " << hx(a) << ") { ++done; return 1; } // polling its flags\n";
                     o << "\t\t++done;\n\t\tif (done >= m_budget) return 2;\n\t\tif (!step_pre()) return 1;\n";
                 }
-                if (k + 1 < last) {
+                if (k + 1 < n && chunk_of[k + 1] == c) {
                     // From a full step into a plain instruction: only in a state it can run in.
                     const bool guard = full[k] && !full[k + 1];
                     o << "\t\tif (m_core->daddr == " << hx(a + 1) << (guard ? " && plain_ready()" : "") << ") goto L_" << std::hex << a + 1
@@ -711,6 +857,11 @@ int main(int argc, char **argv) {
           << ";\n\nnamespace {\nconstexpr uint64_t kProgram[" << n << "] = {\n";
         for (uint32_t k = 0; k < n; ++k) o << "    " << hx(prog[k]) << "ull,\n";
         o << "};\n} // namespace\n\n";
+        if (by_layout) { // each instruction's chunk (--layout): run_generated's switch and the profile's dispatch probe
+            o << "extern const uint16_t sharc_chunk_of[];\nconst uint16_t sharc_chunk_of[" << n << "] = {";
+            for (uint32_t k = 0; k < n; ++k) o << (k % 32 ? "" : "\n    ") << chunk_of[k] << ",";
+            o << "\n};\n\n";
+        }
         // The profile's view of the program (sharc_profile.h): each instruction's handler and kind.
         o << "#ifdef M2_SHARC_PROFILE\nconst char *const sharc_gen_mode = \"" << (full_steps ? "full steps" : fast ? "--fast" : "exact")
           << "\";\nconst uint32_t sharc_gen_count = " << n << ";\nconst char *const sharc_gen_names[" << n << "] = {\n";
@@ -746,7 +897,10 @@ int main(int argc, char **argv) {
              "\tfor (;;) {\n"
              "\t\tint r;\n"
              "\t\tM2SHARC_EV(chunk_calls);\n"
-             "\t\tswitch ((m_core->daddr - " << hx(base) << ") / " << chunk << "u) {\n";
+             << (by_layout ? "\t\tif (m_core->daddr - " + hx(base) + "u >= " + std::to_string(n) + "u)\n"
+                             "\t\t\tthrow SharcFatal(emu_fatalerror::fmt(\"SHARC: no recompiled code at %05x\", m_core->daddr));\n"
+                             "\t\tswitch (sharc_chunk_of[m_core->daddr - " + hx(base) + "u]) {\n"
+                           : "\t\tswitch ((m_core->daddr - " + hx(base) + ") / " + std::to_string(chunk) + "u) {\n");
         for (uint32_t c = 0; c < chunks; ++c) o << "\t\tcase " << c << ": r = run_chunk<" << c << ">(done); break;\n";
         o << "\t\tdefault: throw SharcFatal(emu_fatalerror::fmt(\"SHARC: no recompiled code at %05x\", m_core->daddr));\n"
              "\t\t}\n"
@@ -765,8 +919,9 @@ int main(int argc, char **argv) {
              "\t\t\tthrow SharcFatal(emu_fatalerror::fmt(\"SHARC: no recompiled code at %05x\", m_core->daddr));\n"
              "\t}\n}\n\n} // namespace rt::sharc\n";
         write_file(out_path, o.str());
-        std::printf("m2sharcrecomp: %u instructions (%u plain), %zu loop ends, %zu wait loops, %zu handlers templated -> %s and %u chunks%s\n", n,
-                    plain_count, loop_ends.size(), waits.size(), handlers, argv[2], chunks, fast ? " (--fast)" : "");
+        std::printf("m2sharcrecomp: %u instructions (%u plain), %zu loop ends, %zu wait loops, %zu handlers templated -> %s and %u chunks%s%s\n", n,
+                    plain_count, loop_ends.size(), waits.size(), handlers, argv[2], chunks, by_layout ? " by affinity (--layout)" : "",
+                    fast ? " (--fast)" : "");
         return 0;
     } catch (const std::exception &e) {
         std::fprintf(stderr, "m2sharcrecomp: %s\n", e.what());

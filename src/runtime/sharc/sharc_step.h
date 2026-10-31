@@ -25,15 +25,15 @@ inline void adsp21062_device::CHANGE_PC_DELAYED(uint32_t newpc)
 
 // Per-instruction execution counts for profiling builds (M2_SHARC_PROFILE).
 // And the transfers (sharc_profile.h SharcEdges): M2SHARC_GOTO where a chunk jumps to a
-// constant label, M2SHARC_DISPATCH at a chunk's switch (from: the last instruction counted),
+// constant label, M2SHARC_DISPATCH at a chunk's switch (inside: the target is in this chunk; from: the last instruction counted),
 // M2SHARC_ENTRY at run_generated's start.
 #ifdef M2_SHARC_PROFILE
 #define M2SHARC_COUNT(k) do { if (m_profile) { ++m_profile[k]; m_prof_last = (k); } } while (0)
 #define M2SHARC_GOTO(k, to) do { if (m_profile) ::rt::sharc::sharc_edges.add((k), (to) - 0x20000u, ::rt::sharc::SharcEdgeGoto); } while (0)
-#define M2SHARC_DISPATCH(lo, hi) do { \
+#define M2SHARC_DISPATCH(inside) do { \
 	if (m_profile) { \
 		const uint32_t to_ = m_core->daddr; \
-		if (to_ - (lo) < (hi) - (lo)) { \
+		if (inside) { \
 			::rt::sharc::sharc_edges.add(m_prof_last, to_ - 0x20000u, m_prof_last == ::rt::sharc::kSharcFromEntry ? ::rt::sharc::SharcEdgeEntry \
 			                             : m_prof_cross ? ::rt::sharc::SharcEdgeChunk : ::rt::sharc::SharcEdgeDispatch); \
 			m_prof_cross = false; \
@@ -43,7 +43,7 @@ inline void adsp21062_device::CHANGE_PC_DELAYED(uint32_t newpc)
 #else
 #define M2SHARC_COUNT(k) do {} while (0)
 #define M2SHARC_GOTO(k, to) do {} while (0)
-#define M2SHARC_DISPATCH(lo, hi) do {} while (0)
+#define M2SHARC_DISPATCH(inside) do {} while (0)
 #define M2SHARC_ENTRY() do {} while (0)
 #endif
 

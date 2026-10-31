@@ -40,6 +40,10 @@ it to go back. --i960-profile: the same for the i960 (m2recomp --profile,
 CMake M2_I960_PROFILE, src/runtime/cpu/i960_profile.h). --sharc-profile: the
 SHARC's (Model 2B; CMake M2_SHARC_PROFILE, src/runtime/sharc/sharc_profile.h;
 the generated code is the same).
+Model 2B: when seeds/<set>_sharc_layout.txt exists (a profiled build's SHARC
+dump: executions and transfers, CRC-checked), the SHARC's chunks are cut by
+affinity (m2sharcrecomp --layout): the same results, fewer chunk changes.
+--no-sharc-layout cuts them by address.
 --inline-bus: the i960 code with the set's board bus inlined (m2recomp
 --board, CMake M2_INLINE_BUS; build_vita.py --inline-bus on the Vita, off by
 default there too: no measurable gain): the same results, for checking it
@@ -100,6 +104,8 @@ def main():
                     help="SHARC profiling (Model 2B): time by caller, run_generated, memory, hottest instructions in m2run")
     ap.add_argument("--inline-bus", action="store_true",
                     help="the board's bus inlined in the i960 code (m2recomp --board, CMake M2_INLINE_BUS)")
+    ap.add_argument("--no-sharc-layout", action="store_true",
+                    help="Model 2B: the SHARC's chunks by address, not by seeds/<set>_sharc_layout.txt")
     ap.add_argument("--recomp-only", action="store_true",
                     help="stop after the recompilation: build only the tools, not the desktop game")
     args = ap.parse_args()
@@ -180,7 +186,8 @@ def main():
         run([tool(build, args.config, "m2sharcrecomp"), sharc_program, os.path.join(sharc, "sharc_gen.cpp"),
              "--ops", os.path.join(ROOT, "src/runtime/sharc/sharcops_table.inc"),
              "--sharcops", os.path.join(ROOT, "src/runtime/sharc/sharcops.hxx"),
-             "--compute", os.path.join(ROOT, "src/runtime/sharc/compute.hxx")])
+             "--compute", os.path.join(ROOT, "src/runtime/sharc/compute.hxx"),
+             *games.sharc_layout_args(args.set, args.no_sharc_layout)])
 
     if args.recomp_only:
         print(f"recompile: recompiled into {games.gen_root(args.set)}/ (--recomp-only: the desktop game is not built)")

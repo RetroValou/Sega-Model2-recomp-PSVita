@@ -92,6 +92,7 @@ extern SharcEdges sharc_edges;
 // m2sharcrecomp: what each instruction of the program is (the generated
 // sharc_gen.cpp defines them; sharc_nogen.cpp none).
 enum SharcKind : uint8_t { SharcPlain, SharcPinned, SharcFull };
+extern const uint32_t sharc_program_crc32; // the recompiled program's (0 without one): the dump's header, --layout's check
 extern const char *const sharc_gen_mode; // how m2sharcrecomp made it: "exact", "--fast", "full steps" (the report's first line)
 extern const uint32_t sharc_gen_count;
 extern const char *const sharc_gen_names[];

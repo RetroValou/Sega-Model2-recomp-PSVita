@@ -8,6 +8,7 @@ namespace rt::sharc {
 
 #ifdef M2_SHARC_PROFILE
 const char *const sharc_gen_mode = "none";
+const uint32_t sharc_program_crc32 = 0;
 const uint32_t sharc_gen_count = 0;
 const char *const sharc_gen_names[1] = {""};
 const uint8_t sharc_gen_kinds[1] = {SharcPlain};

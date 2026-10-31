@@ -1,0 +1,4163 @@
+# program crc32 92dcec90 (code exact); 6000 frames, 101168 instructions a frame; address, executions a frame, kind (p plain, b pinned branch, F full step), handler
+20005 0.00 b direct_jump
+20006 0.00 p nop
+20007 0.00 p nop
+20080 0.00 F imm_to_ureg
+20081 0.00 F imm_to_ureg
+20082 0.00 p imm_to_ureg
+20083 0.00 p imm_to_ureg
+20084 0.00 p imm_to_ureg
+20085 0.00 p imm_to_ureg
+20086 0.00 p imm_to_ureg
+20087 0.00 p imm_to_ureg
+20088 0.00 p imm_to_ureg
+20089 0.00 p imm_to_ureg
+2008a 0.00 p imm_to_ureg
+2008b 0.00 p imm_to_ureg
+2008c 0.00 p imm_to_ureg
+2008d 0.00 p imm_to_ureg
+2008e 0.00 p imm_to_ureg
+2008f 0.00 p imm_to_ureg
+20090 0.00 p imm_to_ureg
+20091 0.00 p imm_to_ureg
+20092 0.00 p imm_to_ureg
+20093 0.00 p imm_to_ureg
+20094 0.00 p imm_to_dmpm
+20095 0.00 p imm_to_dmpm
+20096 0.00 p sysreg_bitop
+20097 0.00 p imm_to_ureg
+20098 0.00 p imm_to_ureg
+20099 0.00 p imm_to_ureg
+2009a 0.00 p imm_to_ureg
+2009b 0.00 p imm_to_ureg
+2009c 0.00 p imm_to_ureg
+2009d 0.00 p imm_to_ureg
+2009e 0.00 p imm_to_ureg
+2009f 0.00 p imm_to_ureg
+200a0 0.00 p imm_to_ureg
+200a1 0.00 p imm_to_ureg
+200a2 0.00 p imm_to_ureg
+200a3 0.00 p imm_to_ureg
+200a4 0.00 p imm_to_ureg
+200a5 0.00 p imm_to_ureg
+200a6 0.00 p imm_to_dmpm
+200a7 0.00 p imm_to_dmpm
+200a8 0.00 p imm_to_dmpm
+200a9 0.00 p imm_to_dmpm
+200aa 0.00 p imm_to_dmpm
+200ab 0.00 p imm_to_dmpm
+200ac 0.00 p imm_to_dmpm
+200ad 0.00 p imm_to_dmpm
+200ae 0.00 p imm_to_dmpm
+200af 0.00 p imm_to_dmpm
+200b0 0.00 p imm_to_dmpm
+200b1 0.00 p imm_to_dmpm
+200b2 0.00 p imm_to_dmpm
+200b3 0.00 p imm_to_dmpm
+200b4 0.00 p imm_to_dmpm
+200b5 0.00 p imm_to_dmpm
+200b6 0.00 p imm_to_dmpm
+200b7 0.00 p imm_to_dmpm
+200b8 0.00 p imm_to_dmpm
+200b9 0.00 p imm_to_dmpm
+200ba 0.00 p imm_to_dmpm
+200bb 0.00 p imm_to_dmpm
+200bc 0.00 p imm_to_dmpm
+200bd 0.00 p imm_to_dmpm
+200be 0.00 p imm_to_dmpm
+200bf 0.00 p imm_to_dmpm
+200c0 0.00 p imm_to_dmpm
+200c1 0.00 p imm_to_dmpm
+200c2 0.00 p imm_to_dmpm
+200c3 0.00 p imm_to_dmpm
+200c4 0.00 p imm_to_dmpm
+200c5 0.00 p imm_to_dmpm
+200c6 0.00 p imm_to_dmpm
+200c7 0.00 p imm_to_dmpm
+200c8 0.00 p imm_to_dmpm
+200c9 0.00 p imm_to_dmpm
+200ca 0.00 p imm_to_dmpm
+200cb 0.00 p imm_to_dmpm
+200cc 0.00 p imm_to_dmpm
+200cd 0.00 p imm_to_dmpm
+200ce 0.00 p imm_to_dmpm
+200cf 0.00 p imm_to_dmpm
+200d0 0.00 p imm_to_dmpm
+200d1 0.00 p imm_to_dmpm
+200d2 0.00 p imm_to_dmpm
+200d3 0.00 p imm_to_dmpm
+200d4 0.00 p imm_to_dmpm
+200d5 0.00 p imm_to_dmpm
+200d6 0.00 p imm_to_dmpm
+200d7 0.00 p imm_to_dmpm
+200d8 0.00 p imm_to_dmpm
+200d9 0.00 p imm_to_dmpm
+200da 0.00 p imm_to_dmpm
+200db 0.00 p imm_to_dmpm
+200dc 0.00 p imm_to_dmpm
+200dd 0.00 p imm_to_dmpm
+200de 0.00 p imm_to_dmpm
+200df 0.00 p imm_to_dmpm
+200e0 0.00 p imm_to_dmpm
+200e1 0.00 p imm_to_dmpm
+200e2 0.00 p imm_to_dmpm
+200e3 0.00 p imm_to_dmpm
+200e4 0.00 p imm_to_dmpm
+200e5 0.00 p imm_to_dmpm
+200e6 0.00 p imm_to_dmpm
+200e7 0.00 p imm_to_dmpm
+200e8 0.00 p imm_to_dmpm
+200e9 0.00 p imm_to_dmpm
+200ea 0.00 p imm_to_dmpm
+200eb 0.00 p imm_to_dmpm
+200ec 0.00 p imm_to_dmpm
+200ed 0.00 p imm_to_dmpm
+200ee 0.00 p imm_to_dmpm
+200ef 0.00 p imm_to_dmpm
+200f0 0.00 p imm_to_dmpm
+200f1 0.00 p imm_to_dmpm
+200f2 0.00 p imm_to_dmpm
+200f3 0.00 p imm_to_dmpm
+200f4 0.00 p imm_to_dmpm
+200f5 0.00 p imm_to_dmpm
+200f6 0.00 p imm_to_dmpm
+200f7 0.00 p imm_to_dmpm
+200f8 0.00 p imm_to_dmpm
+200f9 0.00 p imm_to_dmpm
+200fa 0.00 p imm_to_dmpm
+200fb 0.00 p imm_to_dmpm
+200fc 0.00 p imm_to_dmpm
+200fd 0.00 p imm_to_dmpm
+200fe 0.00 p imm_to_dmpm
+200ff 0.00 p imm_to_dmpm
+20100 0.00 p imm_to_dmpm
+20101 0.00 p imm_to_dmpm
+20102 0.00 p imm_to_dmpm
+20103 0.00 p imm_to_dmpm
+20104 0.00 p imm_to_dmpm
+20105 0.00 p imm_to_dmpm
+20106 0.00 p imm_to_dmpm
+20107 0.00 p imm_to_dmpm
+20108 0.00 p imm_to_dmpm
+20109 0.00 p imm_to_dmpm
+2010a 0.00 p imm_to_dmpm
+2010b 0.00 p imm_to_dmpm
+2010c 0.00 p imm_to_dmpm
+2010d 0.00 p imm_to_dmpm
+2010e 0.00 p imm_to_dmpm
+2010f 0.00 p imm_to_dmpm
+20110 0.00 p imm_to_dmpm
+20111 0.00 p imm_to_dmpm
+20112 0.00 p imm_to_dmpm
+20113 0.00 p imm_to_dmpm
+20114 0.00 p imm_to_dmpm
+20115 0.00 p imm_to_dmpm
+20116 0.00 p imm_to_dmpm
+20117 0.00 p imm_to_dmpm
+20118 0.00 p imm_to_dmpm
+20119 0.00 p imm_to_dmpm
+2011a 0.00 p imm_to_dmpm
+2011b 0.00 p imm_to_dmpm
+2011c 0.00 p imm_to_dmpm
+2011d 0.00 p imm_to_dmpm
+2011e 0.00 p imm_to_dmpm
+2011f 0.00 p imm_to_dmpm
+20120 0.00 p imm_to_dmpm
+20121 0.00 p imm_to_dmpm
+20122 0.00 p imm_to_dmpm
+20123 0.00 p imm_to_dmpm
+20124 0.00 p imm_to_dmpm
+20125 0.00 b do_until_counter_imm
+20126 0.02 p imm_to_dmpm
+20127 0.00 p imm_to_ureg
+20128 0.00 p imm_to_ureg
+20129 0.00 p imm_to_ureg
+2012a 0.00 p imm_to_dmpm
+2012b 0.00 p imm_to_dmpm
+2012c 0.00 p imm_to_dmpm
+2012d 0.00 p ureg_to_dm_indirect
+2012e 0.00 p ureg_to_dm_indirect
+2012f 0.00 b do_until
+20130 1054.32 p imm_to_ureg
+20131 1054.32 p sysreg_bitop
+20132 1054.32 b do_until
+20133 1060.08 p nop
+20134 1054.32 p sysreg_bitop
+20135 1054.32 p compute_ureg_dmpm_premod
+20136 1054.32 p imm_shift
+20137 1054.32 p compute
+20138 1054.32 p compute
+20139 1054.32 p compute
+2013a 1054.32 b direct_jump
+2013b 1054.32 p imm_shift
+2013c 1054.32 p compute
+2013d 1054.32 p compute
+2013e 1054.32 b direct_jump
+2013f 1054.32 p ureg_to_dm_direct
+20140 1054.32 p compute_ureg_to_ureg
+20141 1054.32 p compute_ureg_dmpm_premod
+20142 1054.32 p ureg_to_pm_direct
+20143 1054.32 p ureg_to_pm_direct
+20144 1054.32 p ureg_to_dm_indirect
+20145 1054.32 p ureg_to_dm_indirect
+20146 1054.32 b indirect_call
+20147 1054.32 p nop
+2014c 156.81 p dm_to_ureg_indirect
+2014d 156.81 p dm_to_ureg_indirect
+2014e 156.81 p dm_to_ureg_indirect
+2014f 156.81 p dm_to_ureg_indirect
+20150 156.81 p compute_dm_to_dreg_immmod
+20151 156.81 p compute_dm_to_dreg_immmod
+20152 156.81 p compute_dm_to_dreg_immmod
+20153 156.81 p compute_dm_to_dreg_immmod
+20154 156.81 p compute_dm_to_dreg_immmod
+20155 156.81 p compute_dm_to_dreg_immmod
+20156 156.81 p compute_dm_to_dreg_immmod
+20157 156.81 p compute_dm_to_dreg_immmod
+20158 156.81 b rts
+20159 156.81 p compute
+2015a 156.81 p compute
+2015b 86.68 p dm_to_ureg_direct
+2015c 86.68 p dm_to_ureg_indirect
+2015d 86.68 p dm_to_ureg_indirect
+2015e 86.68 p dm_to_ureg_indirect
+2015f 86.68 p dm_to_ureg_indirect
+20160 86.68 p compute_dm_to_dreg_immmod
+20161 86.68 p compute_dm_to_dreg_immmod
+20162 86.68 p compute_dm_to_dreg_immmod
+20163 86.68 p compute_dm_to_dreg_immmod
+20164 86.68 p compute_dm_to_dreg_immmod
+20165 86.68 p compute_dm_to_dreg_immmod
+20166 86.68 p compute_dm_to_dreg_immmod
+20167 86.68 p compute_dm_to_dreg_immmod
+20168 86.68 p compute_dreg_to_dm_immmod
+20169 86.68 p compute_dreg_to_dm_immmod
+2016a 86.68 p ureg_to_dm_indirect
+2016b 86.68 b rts
+2016c 86.68 p ureg_to_dm_indirect
+2016d 86.68 p ureg_to_dm_indirect
+2016e 13.61 p dm_to_ureg_indirect
+2016f 13.61 p compute_dm_to_dreg_immmod
+20170 13.61 p ureg_to_dm_indirect
+20171 13.61 p compute_dm_to_dreg_immmod
+20172 13.61 p ureg_to_dm_indirect
+20173 13.61 p compute_dm_to_dreg_immmod
+20174 13.61 p ureg_to_dm_indirect
+20175 13.61 p compute_dm_to_dreg_immmod
+20176 13.61 p ureg_to_dm_indirect
+20177 13.61 p compute_dm_to_dreg_immmod
+20178 13.61 p ureg_to_dm_indirect
+20179 13.61 p compute_dm_to_dreg_immmod
+2017a 13.61 p ureg_to_dm_indirect
+2017b 13.61 p compute_dm_to_dreg_immmod
+2017c 13.61 p ureg_to_dm_indirect
+2017d 13.61 p compute_dm_to_dreg_immmod
+2017e 13.61 p compute_dreg_to_dm_immmod
+2017f 13.61 p ureg_to_dm_indirect
+20180 13.61 b rts
+20181 13.61 p ureg_to_dm_indirect
+20182 13.61 p ureg_to_dm_indirect
+20183 59.07 b direct_call
+20184 59.07 p dm_to_ureg_indirect
+20185 59.07 p compute_dm_to_dreg_immmod
+20186 59.07 p compute
+20187 59.07 p compute_dm_to_dreg_immmod
+20188 59.07 p compute_dreg_to_dm_immmod
+20189 59.07 p compute_dm_to_dreg_immmod
+2018a 59.07 p compute_dreg_to_dm_immmod
+2018b 59.07 p compute_dm_to_dreg_immmod
+2018c 59.07 p compute_dreg_to_dm_immmod
+2018d 59.07 p compute_dm_to_dreg_immmod
+2018e 59.07 p compute_dreg_to_dm_immmod
+2018f 59.07 p compute
+20190 59.07 p compute_dreg_to_dm_immmod
+20191 59.07 p compute
+20192 59.07 p ureg_to_dm_indirect
+20193 59.07 b rts
+20194 59.07 p ureg_to_dm_indirect
+20195 59.07 p ureg_to_dm_indirect
+20196 87.09 b direct_call
+20197 93.52 p dm_to_ureg_indirect
+20198 93.52 p compute_dm_to_dreg_immmod
+20199 93.52 p compute
+2019a 93.52 p compute_dm_to_dreg_immmod
+2019b 93.52 p compute_dreg_to_dm_immmod
+2019c 93.52 p compute_dm_to_dreg_immmod
+2019d 93.52 p compute_dreg_to_dm_immmod
+2019e 93.52 p compute_dm_to_dreg_immmod
+2019f 93.52 p compute_dreg_to_dm_immmod
+201a0 93.52 p compute_dm_to_dreg_immmod
+201a1 93.52 p compute_dreg_to_dm_immmod
+201a2 93.52 p compute
+201a3 93.52 p compute_dreg_to_dm_immmod
+201a4 93.52 p compute
+201a5 93.52 p ureg_to_dm_indirect
+201a6 93.52 b rts
+201a7 93.52 p ureg_to_dm_indirect
+201a8 93.52 p ureg_to_dm_indirect
+201a9 59.42 b direct_call
+201aa 77.95 p dm_to_ureg_indirect
+201ab 77.95 p compute_dm_to_dreg_immmod
+201ac 77.95 p compute
+201ad 77.95 p compute_dm_to_dreg_immmod
+201ae 77.95 p compute_dreg_to_dm_immmod
+201af 77.95 p compute_dm_to_dreg_immmod
+201b0 77.95 p compute_dreg_to_dm_immmod
+201b1 77.95 p compute_dm_to_dreg_immmod
+201b2 77.95 p compute_dreg_to_dm_immmod
+201b3 77.95 p compute_dm_to_dreg_immmod
+201b4 77.95 p compute_dreg_to_dm_immmod
+201b5 77.95 p compute
+201b6 77.95 p compute_dreg_to_dm_immmod
+201b7 77.95 p compute
+201b8 77.95 p ureg_to_dm_indirect
+201b9 77.95 b rts
+201ba 77.95 p ureg_to_dm_indirect
+201bb 77.95 p ureg_to_dm_indirect
+201bc 48.36 p imm_to_ureg
+201bd 52.49 p compute_dreg_dm_dreg_pm
+201be 52.49 p compute_ureg_dmpm_postmod
+201bf 52.49 p compute_ureg_dmpm_postmod
+201c0 52.49 b do_until_counter_imm
+201c1 157.46 p compute_dreg_dm_dreg_pm
+201c2 157.46 p compute_dreg_dm_dreg_pm
+201c3 157.46 p compute_ureg_dmpm_postmod
+201c4 157.46 p compute_ureg_dmpm_postmod
+201c5 157.46 p compute_ureg_dmpm_postmod
+201c6 157.46 p compute_dreg_dm_dreg_pm
+201c7 157.46 p compute_dreg_dm_dreg_pm
+201c8 157.46 p compute_dreg_dm_dreg_pm
+201c9 157.46 p compute_dreg_dm_dreg_pm
+201ca 157.46 p ureg_to_pm_direct
+201cb 157.46 p ureg_to_pm_direct
+201cc 52.49 p compute_dreg_dm_dreg_pm
+201cd 52.49 p compute_dreg_dm_dreg_pm
+201ce 52.49 p compute_ureg_dmpm_postmod
+201cf 52.49 p compute_ureg_dmpm_postmod
+201d0 52.49 p compute_ureg_dmpm_postmod
+201d1 52.49 p compute_ureg_dmpm_postmod
+201d2 52.49 p compute_ureg_dmpm_postmod
+201d3 52.49 p compute_ureg_dmpm_postmod
+201d4 52.49 p compute_ureg_dmpm_postmod
+201d5 52.49 p compute_ureg_dmpm_postmod
+201d6 52.49 p compute_ureg_dmpm_postmod
+201d7 52.49 p compute_ureg_dmpm_postmod
+201d8 52.49 b rts
+201d9 52.49 p ureg_to_pm_direct
+201da 52.49 p ureg_to_pm_direct
+201f2 25.56 p compute_dreg_dm_dreg_pm
+201f3 25.56 p compute_ureg_dmpm_postmod
+201f4 25.56 p compute_ureg_dmpm_postmod
+201f5 25.56 b do_until_counter_imm
+201f6 76.69 p compute_dreg_dm_dreg_pm
+201f7 76.69 p compute_dreg_dm_dreg_pm
+201f8 76.69 p compute_ureg_dmpm_postmod
+201f9 76.69 p compute_ureg_dmpm_postmod
+201fa 76.69 p compute_ureg_dmpm_postmod
+201fb 76.69 p compute_dreg_dm_dreg_pm
+201fc 76.69 p compute_dreg_dm_dreg_pm
+201fd 76.69 p compute_dreg_dm_dreg_pm
+201fe 76.69 p compute_dreg_dm_dreg_pm
+201ff 76.69 p ureg_to_dm_indirect
+20200 76.69 p ureg_to_dm_indirect
+20201 25.56 p compute_dreg_dm_dreg_pm
+20202 25.56 p compute_dreg_dm_dreg_pm
+20203 25.56 p compute_ureg_dmpm_postmod
+20204 25.56 p compute_ureg_dmpm_postmod
+20205 25.56 p compute_ureg_dmpm_postmod
+20206 25.56 p compute_dreg_dm_dreg_pm
+20207 25.56 p compute_ureg_dmpm_postmod
+20208 25.56 p compute_ureg_dmpm_postmod
+20209 25.56 p compute_ureg_dmpm_postmod
+2020a 25.56 p compute_ureg_dmpm_postmod
+2020b 25.56 p compute_ureg_dmpm_postmod
+2020c 25.56 p compute_ureg_dmpm_postmod
+2020d 25.56 b rts
+2020e 25.56 p ureg_to_dm_indirect
+2020f 25.56 p ureg_to_dm_indirect
+20210 3.19 p imm_to_ureg
+20211 3.19 p dm_to_ureg_indirect
+20212 3.19 p dm_to_ureg_indirect
+20213 3.19 p compute_dm_to_dreg_immmod
+20214 3.19 p compute_dm_to_dreg_immmod
+20215 3.19 p compute_dm_to_dreg_immmod
+20216 3.19 p compute_dm_to_dreg_immmod
+20217 3.19 p compute_dm_to_dreg_immmod
+20218 3.19 p ureg_to_dm_indirect
+20219 3.19 p compute_dm_to_dreg_immmod
+2021a 3.19 p ureg_to_dm_indirect
+2021b 3.19 p compute_dm_to_dreg_immmod
+2021c 3.19 p ureg_to_dm_indirect
+2021d 3.19 p compute_dm_to_dreg_immmod
+2021e 3.19 p compute_dm_to_dreg_immmod
+2021f 3.19 p compute_dm_to_dreg_immmod
+20220 3.19 p compute_dm_to_dreg_immmod
+20221 3.19 p ureg_to_dm_indirect
+20222 3.19 p compute_dm_to_dreg_immmod
+20223 3.19 p ureg_to_dm_indirect
+20224 3.19 p compute_dm_to_dreg_immmod
+20225 3.19 p ureg_to_dm_indirect
+20226 3.19 p compute_dm_to_dreg_immmod
+20227 3.19 p compute_dm_to_dreg_immmod
+20228 3.19 p compute_dm_to_dreg_immmod
+20229 3.19 p compute_dm_to_dreg_immmod
+2022a 3.19 p ureg_to_dm_indirect
+2022b 3.19 p compute_dm_to_dreg_immmod
+2022c 3.19 p ureg_to_dm_indirect
+2022d 3.19 p compute_dm_to_dreg_immmod
+2022e 3.19 p ureg_to_dm_indirect
+2022f 3.19 p ureg_to_dm_indirect
+20230 3.19 p ureg_to_dm_indirect
+20231 3.19 p dm_to_ureg_indirect
+20232 3.19 p compute_dm_to_dreg_immmod
+20233 3.19 p dm_to_ureg_indirect
+20234 3.19 p compute_dm_to_dreg_immmod
+20235 3.19 p dm_to_ureg_indirect
+20236 3.19 p compute
+20237 3.19 p compute
+20238 3.19 p compute
+20239 3.19 p compute
+2023a 3.19 p ureg_to_dm_indirect
+2023b 3.19 p dm_to_ureg_indirect
+2023c 3.19 p dm_to_ureg_indirect
+2023d 3.19 p compute_dm_to_dreg_immmod
+2023e 3.19 p dm_to_ureg_indirect
+2023f 3.19 p compute_dm_to_dreg_immmod
+20240 3.19 p dm_to_ureg_indirect
+20241 3.19 p compute
+20242 3.19 p compute
+20243 3.19 p compute
+20244 3.19 p compute
+20245 3.19 p ureg_to_dm_indirect
+20246 3.19 p dm_to_ureg_indirect
+20247 3.19 p dm_to_ureg_indirect
+20248 3.19 p compute_dm_to_dreg_immmod
+20249 3.19 p dm_to_ureg_indirect
+2024a 3.19 p compute_dm_to_dreg_immmod
+2024b 3.19 p dm_to_ureg_indirect
+2024c 3.19 p compute
+2024d 3.19 p compute
+2024e 3.19 p compute
+2024f 3.19 p compute
+20250 3.19 p ureg_to_dm_indirect
+20251 3.19 p ureg_to_dm_indirect
+20252 3.19 p ureg_to_dm_indirect
+20253 3.19 p dm_to_ureg_indirect
+20254 3.19 p dm_to_ureg_indirect
+20255 3.19 p compute_dm_to_dreg_immmod
+20256 3.19 p dm_to_ureg_indirect
+20257 3.19 p compute_dm_to_dreg_immmod
+20258 3.19 p dm_to_ureg_indirect
+20259 3.19 p compute
+2025a 3.19 p compute
+2025b 3.19 p compute
+2025c 3.19 p imm_to_ureg
+2025d 3.19 p compute_ureg_to_ureg
+2025e 3.19 p compute_ureg_to_ureg
+2025f 3.19 p compute_ureg_dmpm_premod
+20260 3.19 p compute
+20261 3.19 p compute
+20262 3.19 p compute
+20263 3.19 p compute
+20264 3.19 p compute
+20265 3.19 p compute
+20266 3.19 b do_until_counter_imm
+20267 38.34 p compute_ureg_dmpm_postmod
+20268 38.34 p compute
+20269 38.34 p compute_ureg_dmpm_postmod
+2026a 3.19 p ureg_to_dm_indirect
+2026b 3.19 p ureg_to_dm_indirect
+2026c 3.19 p imm_to_ureg
+2026d 3.19 b rts
+2026e 30.03 p compute
+2026f 30.03 b direct_jump
+20270 30.03 p imm_to_ureg
+20271 30.03 p imm_to_ureg
+20272 30.03 p compute
+20273 30.03 p compute
+20274 30.03 p compute
+20275 30.03 p compute
+20276 30.03 p compute
+20277 30.03 p compute
+20278 30.03 p compute
+20279 30.03 p compute
+2027a 30.03 p compute
+2027b 30.03 p compute
+2027c 30.03 b rts
+2027d 30.03 p compute
+2027e 30.03 p compute
+20281 57.99 p compute
+20282 57.99 b rts
+20283 53.88 p imm_to_ureg
+20284 53.88 p imm_to_ureg
+20285 53.88 p compute
+20286 53.88 p compute
+20287 53.88 p compute
+20288 53.88 p compute
+20289 53.88 p compute
+2028a 53.88 p compute
+2028b 53.88 p compute
+2028c 53.88 p compute
+2028d 53.88 p compute
+2028e 53.88 p compute
+2028f 53.88 p compute
+20290 53.88 p compute
+20291 53.88 b rts
+20292 53.88 p compute
+20293 53.88 p compute
+20294 260.15 p imm_to_ureg
+20295 260.15 p imm_to_ureg
+20296 260.15 p imm_shift
+20297 260.15 p imm_shift
+20298 260.15 p compute
+20299 260.15 p compute_ureg_to_ureg
+2029a 260.15 b rts
+2029b 260.15 p compute_ureg_dmpm_premod
+2029c 260.15 p compute_ureg_dmpm_premod
+2029d 31.39 b direct_call
+2029e 31.39 p imm_to_ureg
+2029f 31.39 p compute
+202a0 31.39 p compute
+202a1 31.39 b rts
+202a2 31.39 p imm_shift
+202a3 31.39 p imm_shift
+202a4 33.54 p ureg_to_dm_indirect
+202a5 33.54 p ureg_to_dm_indirect
+202a6 33.54 p ureg_to_dm_indirect
+202a7 33.54 p compute_ureg_to_ureg
+202a8 33.54 p dm_to_ureg_indirect
+202a9 33.54 p imm_to_ureg
+202aa 33.54 p imm_to_ureg
+202ab 33.54 p imm_to_ureg
+202ac 33.54 p compute
+202ad 33.54 b direct_jump
+202ae 32.49 p compute_dm_to_dreg_immmod
+202af 32.49 p compute_ureg_to_ureg
+202b0 32.49 p compute_ureg_to_ureg
+202b1 32.49 p compute
+202b2 32.49 p imm_to_ureg
+202b3 32.49 p compute
+202b4 32.49 b direct_jump
+202b5 32.49 p compute
+202b6 32.49 p compute
+202b7 32.49 b direct_jump
+202b8 30.66 p compute_ureg_to_ureg
+202b9 30.66 p compute
+202ba 30.66 p compute
+202bb 30.66 p compute
+202bc 30.66 p compute
+202bd 30.66 p compute
+202be 30.66 p compute
+202bf 30.66 p compute
+202c0 30.66 p compute
+202c1 30.66 p compute
+202c2 30.66 p imm_to_ureg
+202c3 30.66 p compute
+202c4 30.66 p imm_to_ureg
+202c5 30.66 p compute_dm_to_dreg_immmod
+202c6 30.66 b direct_jump
+202c7 13.69 p compute_ureg_to_ureg
+202c8 13.69 p compute
+202c9 13.69 p compute
+202ca 13.69 p compute
+202cb 13.69 p compute
+202cc 13.69 p compute
+202cd 13.69 p compute
+202ce 13.69 p compute
+202cf 13.69 p imm_to_ureg
+202d0 30.66 p compute
+202d1 30.66 b direct_jump
+202d2 15.18 p compute_dm_to_dreg_immmod
+202d3 15.18 p compute
+202d4 15.18 p compute
+202d5 15.18 p compute
+202d6 15.18 p compute_ureg_to_ureg
+202d7 15.18 p compute
+202d8 15.18 p compute
+202d9 15.18 p compute
+202da 15.18 p compute
+202db 15.18 p compute
+202dc 15.18 p compute
+202dd 15.18 p compute
+202de 30.66 p compute_dm_to_dreg_immmod
+202df 30.66 p compute
+202e0 30.66 b direct_jump
+202e1 29.46 p compute_dm_to_dreg_immmod
+202e2 29.46 p compute_dm_to_dreg_immmod
+202e3 29.46 p compute_dm_to_dreg_immmod
+202e4 29.46 p compute
+202e5 29.46 p compute_dm_to_dreg_immmod
+202e6 29.46 p compute
+202e7 29.46 p compute
+202e8 29.46 p compute_ureg_to_ureg
+202e9 29.46 p compute
+202ea 29.46 p compute
+202eb 29.46 p compute
+202ec 29.46 p compute
+202ed 29.46 p compute
+202ee 29.46 p compute
+202ef 29.46 p compute
+202f0 29.46 p compute
+202f1 29.46 p compute
+202f2 30.66 p compute_dm_to_dreg_immmod
+202f3 30.66 p compute_ureg_to_ureg
+202f4 30.66 p compute
+202f5 30.66 p compute_ureg_dmpm_premod
+202f6 30.66 p compute
+202f7 32.49 p compute
+202f8 32.49 p compute
+202f9 33.41 b rts
+202fa 33.41 p compute
+202fb 33.41 p compute
+202fc 1.82 b direct_jump
+202fd 1.82 p imm_to_ureg
+202fe 1.82 p nop
+202ff 0.93 F direct_jump
+20302 1.05 p compute
+20303 1.05 b direct_jump
+20304 0.13 b rts
+20305 4.99 p compute_ureg_dmpm_premod
+20306 4.99 p compute
+20307 4.99 b direct_jump
+20308 4.99 p compute
+20309 4.99 p compute
+2030a 4.99 b direct_jump
+2030b 4.99 p compute
+2030c 4.99 b direct_call
+2030d 4.99 b direct_jump
+20312 0.72 p compute_ureg_dmpm_premod
+20313 0.72 p compute
+20314 0.72 b direct_jump
+20315 0.72 p compute
+20316 0.72 p compute
+20317 0.72 b direct_jump
+20318 0.72 p compute
+20319 0.72 b direct_call
+2031a 0.72 b direct_jump
+2031b 0.00 p imm_to_ureg
+2031c 0.00 b rts
+20325 12.38 p compute
+20326 12.38 b direct_jump
+20327 12.38 p compute
+20328 12.38 p compute
+20329 1.76 p compute
+2032a 1.76 p compute
+2032b 1.76 p compute
+2032c 1.76 b direct_jump
+2032d 1.76 p compute
+2032e 1.76 p compute
+2032f 0.87 p compute
+20330 0.87 b direct_jump
+20331 0.87 p compute
+20332 0.87 p compute
+20333 0.00 p imm_to_ureg
+20334 0.00 p ureg_to_dm_direct
+20335 0.00 p imm_to_ureg
+20336 0.00 p ureg_to_dm_direct
+20337 0.00 b rts
+20338 0.00 p ureg_to_dm_indirect
+20339 0.00 p ureg_to_dm_indirect
+2033a 112.58 p dm_to_ureg_direct
+2033b 112.58 p imm_to_ureg
+2033c 112.58 p compute
+2033d 112.58 b direct_jump
+2033e 112.58 p compute
+2033f 112.58 p ureg_to_dm_direct
+20340 112.58 p dm_to_ureg_direct
+20341 112.58 p imm_to_ureg
+20342 112.58 b do_until_counter_imm
+20343 1238.36 p compute_ureg_dmpm_postmod
+20344 1238.36 p compute_ureg_dmpm_premod
+20345 112.58 p compute_ureg_dmpm_postmod
+20346 112.58 p compute_ureg_dmpm_premod
+20347 112.58 p ureg_to_dm_direct
+20348 112.58 b rts
+20349 112.58 p ureg_to_dm_indirect
+2034a 112.58 p ureg_to_dm_indirect
+2034e 112.58 p dm_to_ureg_direct
+2034f 112.58 p compute
+20350 112.58 b rts
+20351 112.58 p imm_to_ureg
+20352 112.58 p compute
+20353 112.58 b direct_jump
+20354 112.58 p compute
+20355 112.58 p ureg_to_dm_direct
+20356 112.58 p dm_to_ureg_direct
+20357 112.58 p imm_to_ureg
+20358 112.58 p compute
+20359 112.58 p ureg_to_dm_direct
+2035a 112.58 b rts
+2035b 112.58 p ureg_to_dm_indirect
+2035c 112.58 p ureg_to_dm_indirect
+20360 12.32 p dm_to_ureg_direct
+20361 12.32 p imm_to_ureg
+20362 12.32 p imm_to_ureg
+20363 12.32 b do_until_counter_imm
+20364 24.64 p compute_ureg_dmpm_postmod
+20365 24.64 p compute_ureg_dmpm_postmod
+20366 24.64 p compute_ureg_dmpm_postmod
+20367 24.64 p compute_ureg_dmpm_postmod
+20368 12.32 p compute_ureg_dmpm_postmod
+20369 12.32 p compute_ureg_dmpm_postmod
+2036a 12.32 p compute_ureg_dmpm_postmod
+2036b 12.32 p compute_ureg_dmpm_postmod
+2036c 12.32 b rts
+2036d 12.32 p ureg_to_dm_indirect
+2036e 12.32 p ureg_to_dm_indirect
+20378 8.73 p dm_to_ureg_direct
+20379 8.73 b do_until_counter_imm
+2037a 104.81 p compute_ureg_dmpm_postmod
+2037b 104.81 b relative_jump
+2037c 104.81 p compute_ureg_dmpm_premod
+2037d 104.81 p nop
+2037e 104.81 p nop
+2037f 8.73 b rts
+20380 79.06 b relative_jump
+20381 79.06 p compute_ureg_dmpm_premod
+20382 79.06 b relative_jump
+20383 79.06 p compute_ureg_dmpm_premod
+20384 79.06 b relative_jump
+20385 79.06 p compute_ureg_dmpm_premod
+20386 79.06 b direct_call
+20387 79.06 b rts
+20388 11.44 b relative_jump
+20389 11.44 p compute_ureg_dmpm_premod
+2038a 11.44 b relative_jump
+2038b 11.44 p compute_ureg_dmpm_premod
+2038c 11.44 b relative_jump
+2038d 11.44 p compute_ureg_dmpm_premod
+2038e 13.61 p dm_to_ureg_direct
+2038f 13.61 b direct_call
+20390 13.61 b rts
+20391 33.70 b relative_jump
+20392 33.70 p compute_ureg_dmpm_premod
+20393 34.42 p dm_to_ureg_direct
+20394 34.42 b direct_call
+20395 34.42 b rts
+20396 58.12 b relative_jump
+20397 58.12 p compute_ureg_dmpm_premod
+20398 62.44 p dm_to_ureg_direct
+20399 62.44 b direct_call
+2039a 62.44 b rts
+2039b 34.77 b relative_jump
+2039c 34.77 p compute_ureg_dmpm_premod
+2039d 34.77 p dm_to_ureg_direct
+2039e 34.77 b direct_call
+2039f 34.77 b rts
+203a0 8.04 p dm_to_ureg_direct
+203a1 8.04 b relative_jump
+203a2 8.04 p compute_ureg_dmpm_premod
+203a3 8.04 b direct_call
+203a4 8.04 b relative_jump
+203a5 8.04 p compute_ureg_dmpm_premod
+203a6 8.04 b direct_call
+203a7 8.04 b relative_jump
+203a8 8.04 p compute_ureg_dmpm_premod
+203a9 8.04 b direct_call
+203aa 8.04 p imm_to_ureg
+203ab 8.04 b relative_jump
+203ac 8.04 p compute_ureg_dmpm_premod
+203ad 8.04 b rts
+203ae 0.82 p imm_to_ureg
+203af 0.82 b do_until_counter_imm
+203b0 9.84 b relative_jump
+203b1 9.84 p compute_ureg_dmpm_premod
+203b2 9.84 p nop
+203b3 9.84 p compute_ureg_dmpm_postmod
+203b4 0.82 p ureg_to_pm_direct
+203b5 0.82 p ureg_to_pm_direct
+203b6 0.82 p dm_to_ureg_direct
+203b7 0.82 p imm_to_ureg
+203b8 0.82 b direct_call
+203b9 0.82 p compute_ureg_dmpm_postmod
+203ba 0.82 b do_until_counter_imm
+203bb 8.20 p compute_dreg_dm_dreg_pm
+203bc 0.82 p compute_dreg_dm_dreg_pm
+203bd 0.82 p compute_ureg_dmpm_postmod
+203be 0.82 b rts
+203bf 0.82 p ureg_to_dm_indirect
+203c0 0.82 p ureg_to_dm_indirect
+203e4 3.19 p imm_to_ureg
+203e5 3.19 p dm_to_ureg_direct
+203e6 3.19 b direct_call
+203e7 3.19 b do_until_counter_imm
+203e8 35.15 p compute_ureg_dmpm_postmod
+203e9 35.15 p compute_ureg_dmpm_postmod
+203ea 3.19 p compute_ureg_dmpm_postmod
+203eb 3.19 p compute_ureg_dmpm_postmod
+203ec 3.19 b rts
+203ed 3.19 p ureg_to_dm_indirect
+203ee 3.19 p ureg_to_dm_indirect
+203ef 1.70 p dm_to_ureg_direct
+203f0 1.70 p compute_dm_to_dreg_immmod
+203f1 1.70 p imm_to_ureg
+203f2 1.70 p compute_ureg_dmpm_postmod
+203f3 1.70 p compute_ureg_dmpm_postmod
+203f4 1.70 p compute_ureg_dmpm_postmod
+203f5 1.70 b rts
+203f6 1.70 p ureg_to_dm_indirect
+203f7 1.70 p ureg_to_dm_indirect
+203f8 3.23 p dm_to_ureg_direct
+203f9 3.23 p compute_dm_to_dreg_immmod
+203fa 3.23 b do_until_counter_imm
+203fb 9.70 b relative_jump
+203fc 9.70 p compute_ureg_dmpm_premod
+203fd 9.70 p nop
+203fe 9.70 p compute_ureg_dmpm_postmod
+203ff 3.23 p ureg_to_dm_indirect
+20400 3.23 p ureg_to_dm_indirect
+20401 3.23 b rts
+20402 29.87 p dm_to_ureg_direct
+20403 29.87 p compute_dm_to_dreg_immmod
+20404 29.87 b do_until_counter_imm
+20405 89.61 p compute_ureg_dmpm_postmod
+20406 89.61 b relative_jump
+20407 89.61 p compute_ureg_dmpm_premod
+20408 89.61 p nop
+20409 89.61 p nop
+2040a 29.87 b rts
+2040b 0.82 p dm_to_ureg_direct
+2040c 0.82 b do_until_counter_imm
+2040d 2.46 p compute_ureg_dmpm_postmod
+2040e 2.46 b relative_jump
+2040f 2.46 p compute_ureg_dmpm_premod
+20410 2.46 p nop
+20411 2.46 p nop
+20412 0.82 b rts
+20413 0.82 p dm_to_ureg_direct
+20414 0.82 p compute_dm_to_dreg_immmod
+20415 0.82 b do_until_counter_imm
+20416 2.46 p compute_ureg_dmpm_postmod
+20417 2.46 b relative_jump
+20418 2.46 p compute_ureg_dmpm_premod
+20419 2.46 p nop
+2041a 2.46 p nop
+2041b 0.82 b rts
+20443 3.22 p dm_to_ureg_direct
+20444 3.22 b do_until_counter_imm
+20445 28.94 b relative_jump
+20446 28.94 p compute_ureg_dmpm_premod
+20447 28.94 p nop
+20448 28.94 p compute_ureg_dmpm_postmod
+20449 3.22 p ureg_to_dm_indirect
+2044a 3.22 p ureg_to_dm_indirect
+2044b 3.22 b rts
+2045b 1.61 p dm_to_ureg_direct
+2045c 1.61 b do_until_counter_imm
+2045d 14.47 p compute_ureg_dmpm_postmod
+2045e 14.47 b relative_jump
+2045f 14.47 p compute_ureg_dmpm_premod
+20460 14.47 p nop
+20461 14.47 p nop
+20462 1.61 b rts
+20463 0.01 b relative_jump
+20464 0.01 p compute_ureg_dmpm_premod
+20465 0.01 p imm_shift
+20466 0.01 p imm_to_ureg
+20467 0.01 p compute
+20468 0.01 p compute_ureg_to_ureg
+20469 0.01 p dm_to_ureg_direct
+2046a 0.01 b do_until_counter_imm
+2046b 0.13 p compute_ureg_dmpm_postmod
+2046c 0.13 p compute_ureg_dmpm_postmod
+2046d 0.01 p imm_to_ureg
+2046e 0.01 b relative_jump
+2046f 0.01 p compute_ureg_dmpm_premod
+20470 0.01 p ureg_to_dm_indirect
+20471 0.01 p ureg_to_dm_indirect
+20472 0.01 b rts
+20473 25.72 b relative_jump
+20474 25.72 p compute_ureg_dmpm_premod
+20475 25.72 p imm_to_ureg
+20476 25.72 p compute
+20477 25.72 p imm_to_ureg
+20478 25.72 p compute
+20479 25.72 p imm_to_ureg
+2047a 25.72 b direct_jump
+2047b 12.86 p imm_to_ureg
+2047c 25.72 b relative_jump
+2047d 25.72 p compute_ureg_dmpm_premod
+2047e 25.72 p compute
+2047f 25.72 p compute_ureg_to_ureg
+20480 25.72 p dm_to_ureg_direct
+20481 25.72 b do_until_counter_imm
+20482 308.67 p compute_ureg_dmpm_postmod
+20483 308.67 p compute_ureg_dmpm_postmod
+20484 25.72 p ureg_to_dm_indirect
+20485 25.72 p ureg_to_dm_indirect
+20486 25.72 b rts
+20487 3.47 b relative_jump
+20488 3.47 p compute_ureg_dmpm_premod
+20489 3.47 p imm_to_ureg
+2048a 3.47 p compute
+2048b 3.47 p imm_to_ureg
+2048c 3.47 p compute
+2048d 3.47 p imm_to_ureg
+2048e 3.47 b direct_jump
+2048f 0.88 p imm_to_ureg
+20490 3.47 b relative_jump
+20491 3.47 p compute_ureg_dmpm_premod
+20492 3.47 p compute
+20493 3.47 p compute_ureg_to_ureg
+20494 3.47 p dm_to_ureg_direct
+20495 3.47 b do_until_counter_imm
+20496 41.63 p compute_ureg_dmpm_postmod
+20497 41.63 p compute_ureg_dmpm_postmod
+20498 3.47 p ureg_to_dm_indirect
+20499 3.47 p ureg_to_dm_indirect
+2049a 3.47 b rts
+2049b 47.54 b relative_jump
+2049c 47.54 p compute_ureg_dmpm_premod
+2049d 47.54 p imm_to_ureg
+2049e 47.54 p compute
+2049f 47.54 p imm_to_ureg
+204a0 47.54 p compute
+204a1 47.54 p imm_to_ureg
+204a2 47.54 b direct_jump
+204a3 22.74 p imm_to_ureg
+204a4 47.54 b relative_jump
+204a5 47.54 p compute_ureg_dmpm_premod
+204a6 47.54 p compute
+204a7 47.54 p compute_ureg_to_ureg
+204a8 47.54 p imm_to_ureg
+204a9 47.54 b do_until_counter_imm
+204aa 570.50 p compute_ureg_dmpm_postmod
+204ab 570.50 p compute_ureg_dmpm_postmod
+204ac 47.54 p ureg_to_pm_direct
+204ad 47.54 p ureg_to_pm_direct
+204ae 47.54 p dm_to_ureg_direct
+204af 47.54 p imm_to_ureg
+204b0 47.54 b direct_call
+204b1 47.54 b do_until_counter_imm
+204b2 570.50 p compute_ureg_dmpm_postmod
+204b3 570.50 p compute_ureg_dmpm_postmod
+204b4 47.54 p ureg_to_dm_indirect
+204b5 47.54 p ureg_to_dm_indirect
+204b6 47.54 b rts
+204b7 0.65 b relative_jump
+204b8 0.65 p compute_ureg_dmpm_premod
+204b9 0.65 b relative_jump
+204ba 0.65 p compute_ureg_dmpm_premod
+204bb 0.65 b relative_jump
+204bc 0.65 p compute_ureg_dmpm_premod
+204bd 0.65 b relative_jump
+204be 0.65 p compute_ureg_dmpm_premod
+204bf 0.65 b relative_jump
+204c0 0.65 p compute_ureg_dmpm_premod
+204c1 0.65 b relative_jump
+204c2 0.65 p compute_ureg_dmpm_premod
+204c3 0.65 p imm_to_ureg
+204c4 0.65 p compute_ureg_to_ureg
+204c5 0.65 p imm_to_ureg
+204c6 0.65 p compute
+204c7 0.65 p compute_ureg_to_ureg
+204c8 0.65 b do_until_counter_imm
+204c9 10.36 p compute_ureg_dmpm_premod
+204ca 10.36 p compute_ureg_dmpm_premod
+204cb 10.36 p compute_ureg_dmpm_premod
+204cc 10.36 p compute_ureg_dmpm_postmod
+204cd 10.36 p compute_ureg_dmpm_postmod
+204ce 10.36 p compute_dreg_to_dm_immmod
+204cf 10.36 p ureg_to_dm_indirect
+204d0 10.36 p ureg_to_dm_indirect
+204d1 10.36 p compute_ureg_dmpm_premod
+204d2 10.36 p compute_ureg_dmpm_premod
+204d3 10.36 p compute_ureg_dmpm_premod
+204d4 10.36 p compute_ureg_dmpm_postmod
+204d5 10.36 p compute_ureg_dmpm_postmod
+204d6 10.36 p compute_dreg_to_dm_immmod
+204d7 0.65 p ureg_to_dm_indirect
+204d8 0.65 p ureg_to_dm_indirect
+204d9 0.65 b rts
+204db 15.85 p dm_to_ureg_direct
+204dc 15.85 p dm_to_ureg_indirect
+204dd 15.85 p compute_dm_to_dreg_immmod
+204de 15.85 p compute
+204df 15.85 p compute
+204e0 15.85 b direct_call
+204e1 15.85 p compute
+204e2 15.85 p compute
+204e3 15.85 p ureg_to_dm_indirect
+204e4 15.85 p ureg_to_dm_indirect
+204e5 15.85 p ureg_to_dm_indirect
+204e6 15.85 p ureg_to_dm_indirect
+204e7 15.85 p dm_to_ureg_indirect
+204e8 15.85 p compute_dm_to_dreg_immmod
+204e9 15.85 p ureg_to_dm_indirect
+204ea 15.85 p ureg_to_dm_indirect
+204eb 15.85 b rts
+204ec 15.85 p ureg_to_dm_indirect
+204ed 15.85 p ureg_to_dm_indirect
+204ee 3.47 p dm_to_ureg_direct
+204ef 3.47 p dm_to_ureg_indirect
+204f0 3.47 p compute_dm_to_dreg_immmod
+204f1 3.47 p compute
+204f2 3.47 p compute
+204f3 3.47 b direct_call
+204f4 3.47 p compute
+204f5 3.47 p compute
+204f6 3.47 p ureg_to_dm_indirect
+204f7 3.47 p ureg_to_dm_indirect
+204f8 3.47 p ureg_to_dm_indirect
+204f9 3.47 p ureg_to_dm_indirect
+204fa 3.47 p dm_to_ureg_indirect
+204fb 3.47 p compute_dm_to_dreg_immmod
+204fc 3.47 p ureg_to_dm_indirect
+204fd 3.47 p ureg_to_dm_indirect
+204fe 3.47 F rts
+204ff 3.47 F ureg_to_dm_indirect
+20501 5.75 b relative_jump
+20502 5.75 p compute_ureg_dmpm_premod
+20503 7.91 p imm_to_ureg
+20504 7.91 p imm_to_ureg
+20505 7.91 p imm_to_ureg
+20506 7.91 b do_until_counter_imm
+20507 94.95 p compute
+20508 7.91 p compute
+20509 7.91 p dm_to_ureg_direct
+2050a 7.91 p compute_ureg_to_ureg
+2050b 7.91 b do_until_counter_imm
+2050c 94.95 p compute_ureg_dmpm_postmod
+2050d 94.95 p compute_ureg_dmpm_postmod
+2050e 7.91 p ureg_to_pm_direct
+2050f 7.91 p ureg_to_pm_direct
+20510 7.91 b rts
+20511 9.51 b relative_jump
+20512 9.51 p compute_ureg_dmpm_premod
+20513 9.51 p imm_to_ureg
+20514 9.51 p imm_to_ureg
+20515 9.51 p imm_to_ureg
+20516 9.51 b do_until_counter_imm
+20517 114.07 p compute
+20518 9.51 p compute
+20519 9.51 p dm_to_ureg_direct
+2051a 9.51 p compute_ureg_to_ureg
+2051b 9.51 b do_until_counter_imm
+2051c 114.07 p compute_ureg_dmpm_postmod
+2051d 114.07 p compute_ureg_dmpm_postmod
+2051e 9.51 p ureg_to_dm_indirect
+2051f 9.51 p ureg_to_dm_indirect
+20520 9.51 b rts
+20521 3.12 b relative_jump
+20522 3.12 p compute_ureg_dmpm_premod
+20523 3.12 p imm_to_ureg
+20524 3.12 p imm_to_ureg
+20525 3.12 p imm_to_ureg
+20526 3.12 b do_until_counter_imm
+20527 37.42 p compute
+20528 3.12 p compute
+20529 3.12 p dm_to_ureg_direct
+2052a 3.12 p compute_ureg_to_ureg
+2052b 3.12 p imm_to_ureg
+2052c 3.12 b direct_call
+2052d 3.12 b do_until_counter_imm
+2052e 37.42 p compute_ureg_dmpm_postmod
+2052f 37.42 p compute_ureg_dmpm_postmod
+20530 3.12 p ureg_to_dm_indirect
+20531 3.12 p ureg_to_dm_indirect
+20532 3.12 b rts
+20533 25.56 b relative_jump
+20534 25.56 p compute_ureg_dmpm_premod
+20535 25.56 p imm_to_ureg
+20536 25.56 p imm_to_ureg
+20537 25.56 p imm_to_ureg
+20538 25.56 b do_until_counter_imm
+20539 306.75 p compute
+2053a 25.56 p compute
+2053b 25.56 p dm_to_ureg_direct
+2053c 25.56 p compute_ureg_to_ureg
+2053d 25.56 b direct_call
+2053e 25.56 b rts
+2054a 10.36 b relative_jump
+2054b 10.36 p compute_ureg_dmpm_premod
+2054c 10.36 p compute_ureg_to_ureg
+2054d 10.36 p compute_ureg_dmpm_postmod
+2054e 10.36 p nop
+2054f 10.36 b relative_jump
+20550 10.36 p compute_ureg_dmpm_premod
+20551 10.36 b rts
+20552 0.82 b relative_jump
+20553 0.82 p compute_ureg_dmpm_premod
+20554 0.82 p compute_ureg_to_ureg
+20555 0.82 b relative_jump
+20556 0.82 p compute_ureg_dmpm_premod
+20557 0.82 p nop
+20558 0.82 p compute_ureg_dmpm_postmod
+20559 0.82 p ureg_to_dm_indirect
+2055a 0.82 p ureg_to_dm_indirect
+2055b 0.82 b rts
+2055c 3.98 b relative_jump
+2055d 3.98 p compute_ureg_dmpm_premod
+2055e 3.98 p imm_to_ureg
+2055f 3.98 p compute
+20560 3.98 p compute_ureg_to_ureg
+20561 3.98 p dm_to_ureg_direct
+20562 3.98 b do_until_counter_imm
+20563 47.74 p compute_ureg_dmpm_postmod
+20564 47.74 p compute_ureg_dmpm_postmod
+20565 3.98 p ureg_to_dm_indirect
+20566 3.98 p ureg_to_dm_indirect
+20567 3.98 b rts
+20568 0.69 b relative_jump
+20569 0.69 p compute_ureg_dmpm_premod
+2056a 0.69 p imm_to_ureg
+2056b 0.69 p compute
+2056c 0.69 p compute_ureg_to_ureg
+2056d 0.69 p dm_to_ureg_direct
+2056e 0.69 b do_until_counter_imm
+2056f 8.23 p compute_ureg_dmpm_postmod
+20570 8.23 p compute_ureg_dmpm_postmod
+20571 0.69 p ureg_to_dm_indirect
+20572 0.69 p ureg_to_dm_indirect
+20573 0.69 b rts
+20575 60.57 b relative_jump
+20576 60.57 p compute_ureg_dmpm_premod
+20577 60.57 b relative_jump
+20578 60.57 p compute_ureg_dmpm_premod
+20579 60.57 p compute
+2057a 60.57 b relative_jump
+2057b 60.57 p compute_ureg_dmpm_premod
+2057c 60.57 b rts
+2057d 1.50 b relative_jump
+2057e 1.50 p compute_ureg_dmpm_premod
+2057f 1.50 b relative_jump
+20580 1.50 p compute_ureg_dmpm_premod
+20581 1.50 p compute
+20582 1.50 b relative_jump
+20583 1.50 p compute_ureg_dmpm_premod
+20584 1.50 b rts
+20585 0.00 b relative_jump
+20586 0.00 p compute_ureg_dmpm_premod
+20587 0.00 b relative_jump
+20588 0.00 p compute_ureg_dmpm_premod
+20589 0.00 p compute
+2058a 0.00 b relative_jump
+2058b 0.00 p compute_ureg_dmpm_premod
+2058c 0.00 b rts
+2058d 1.82 b relative_jump
+2058e 1.82 p compute_ureg_dmpm_premod
+2058f 1.82 b relative_jump
+20590 1.82 p compute_ureg_dmpm_premod
+20591 1.82 b direct_call
+20592 1.82 b relative_jump
+20593 1.82 p compute_ureg_dmpm_premod
+20594 1.82 b rts
+20595 51.91 p compute_ureg_to_ureg
+20596 51.91 p compute_ureg_dmpm_premod
+20597 51.91 p compute
+20598 51.91 p compute
+20599 51.91 p compute
+2059a 51.91 b rts
+2059b 51.91 p compute
+2059c 51.91 p compute
+2059d 4.54 b relative_jump
+2059e 4.54 p compute_ureg_dmpm_premod
+2059f 4.54 p compute
+205a0 4.54 b relative_jump
+205a1 4.54 p compute_ureg_dmpm_premod
+205a2 4.54 b rts
+205a3 4.18 b relative_jump
+205a4 4.18 p compute_ureg_dmpm_premod
+205a5 4.18 p compute
+205a6 4.18 b relative_jump
+205a7 4.18 p compute_ureg_dmpm_premod
+205a8 4.18 b rts
+205af 0.12 b relative_jump
+205b0 0.12 p compute_ureg_dmpm_premod
+205b1 0.12 b direct_call
+205b2 0.12 b relative_jump
+205b3 0.12 p compute_ureg_dmpm_premod
+205b4 0.12 b rts
+205d5 8.89 b relative_jump
+205d6 8.89 p compute_ureg_dmpm_premod
+205d7 8.89 b direct_call
+205d8 8.89 b relative_jump
+205d9 8.89 p compute_ureg_dmpm_premod
+205da 8.89 b rts
+205db 6.86 b relative_jump
+205dc 6.86 p compute_ureg_dmpm_premod
+205dd 6.86 b direct_call
+205de 6.86 b relative_jump
+205df 6.86 p compute_ureg_dmpm_premod
+205e0 6.86 b rts
+205e1 0.12 b relative_jump
+205e2 0.12 p compute_ureg_dmpm_premod
+205e3 0.12 b direct_call
+205e4 0.12 p compute_ureg_to_ureg
+205e5 0.12 b direct_call
+205e6 0.12 b relative_jump
+205e7 0.12 p compute_ureg_dmpm_premod
+205e8 0.12 b rts
+205e9 7.65 b relative_jump
+205ea 7.65 p compute_ureg_dmpm_premod
+205eb 7.65 b direct_call
+205ec 7.65 b relative_jump
+205ed 7.65 p compute_ureg_dmpm_premod
+205ee 7.65 p compute
+205ef 7.65 b relative_jump
+205f0 7.65 p compute_ureg_dmpm_premod
+205f1 7.65 b rts
+205f2 5.29 b relative_jump
+205f3 5.29 p compute_ureg_dmpm_premod
+205f4 5.29 b direct_call
+205f5 5.29 b relative_jump
+205f6 5.29 p compute_ureg_dmpm_premod
+205f7 5.29 p compute
+205f8 5.29 b relative_jump
+205f9 5.29 p compute_ureg_dmpm_premod
+205fa 5.29 b rts
+205fb 0.17 b relative_jump
+205fc 0.17 p compute_ureg_dmpm_premod
+205fd 0.17 b direct_call
+205fe 0.17 b relative_jump
+205ff 0.17 p compute_ureg_dmpm_premod
+20600 0.17 b rts
+20601 12.04 b relative_jump
+20602 12.04 p compute_ureg_dmpm_premod
+20603 12.04 b relative_jump
+20604 12.04 p compute_ureg_dmpm_premod
+20605 12.04 b direct_call
+20606 12.04 b relative_jump
+20607 12.04 p compute_ureg_dmpm_premod
+20608 12.04 b rts
+2062f 106.56 b relative_jump
+20630 106.56 p compute_ureg_dmpm_premod
+20631 106.56 b relative_jump
+20632 106.56 p compute_ureg_dmpm_premod
+20633 106.56 b relative_jump
+20634 106.56 p compute_ureg_dmpm_premod
+20635 106.56 p dm_to_ureg_direct
+20636 106.56 b direct_call
+20637 106.56 b relative_jump
+20638 106.56 p compute_ureg_dmpm_premod
+20639 106.56 b relative_jump
+2063a 106.56 p compute_ureg_dmpm_premod
+2063b 106.56 b relative_jump
+2063c 106.56 p compute_ureg_dmpm_premod
+2063d 106.56 b rts
+20651 1.64 b relative_jump
+20652 1.64 p compute_ureg_dmpm_premod
+20653 1.64 b relative_jump
+20654 1.64 p compute_ureg_dmpm_premod
+20655 1.64 b relative_jump
+20656 1.64 p compute_ureg_dmpm_premod
+20657 1.64 b relative_jump
+20658 1.64 p compute_ureg_dmpm_premod
+20659 1.64 p compute
+2065a 1.64 p compute
+2065b 1.64 p compute
+2065c 1.64 b relative_jump
+2065d 1.64 p compute_ureg_dmpm_premod
+2065e 1.64 b rts
+2065f 9.91 b relative_jump
+20660 9.91 p compute_ureg_dmpm_premod
+20661 9.91 b relative_jump
+20662 9.91 p compute_ureg_dmpm_premod
+20663 9.91 b relative_jump
+20664 9.91 p compute_ureg_dmpm_premod
+20665 9.91 b relative_jump
+20666 9.91 p compute_ureg_dmpm_premod
+20667 9.91 p compute
+20668 9.91 p compute
+20669 9.91 p compute
+2066a 9.91 p compute
+2066b 9.91 p compute
+2066c 9.91 b direct_call
+2066d 9.91 b relative_jump
+2066e 9.91 p compute_ureg_dmpm_premod
+2066f 9.91 b rts
+20670 0.17 b relative_jump
+20671 0.17 p compute_ureg_dmpm_premod
+20672 0.17 b relative_jump
+20673 0.17 p compute_ureg_dmpm_premod
+20674 0.17 b relative_jump
+20675 0.17 p compute_ureg_dmpm_premod
+20676 0.17 b relative_jump
+20677 0.17 p compute_ureg_dmpm_premod
+20678 0.17 b relative_jump
+20679 0.17 p compute_ureg_dmpm_premod
+2067a 0.17 b relative_jump
+2067b 0.17 p compute_ureg_dmpm_premod
+2067c 0.17 p compute
+2067d 0.17 p compute
+2067e 0.17 p compute
+2067f 0.17 p compute
+20680 0.17 p compute
+20681 0.17 p compute
+20682 0.17 p compute
+20683 0.17 p compute
+20684 0.17 b direct_call
+20685 0.17 b relative_jump
+20686 0.17 p compute_ureg_dmpm_premod
+20687 0.17 b rts
+20688 12.38 b relative_jump
+20689 12.38 p compute_ureg_dmpm_premod
+2068a 12.38 b relative_jump
+2068b 12.38 p compute_ureg_dmpm_premod
+2068c 12.38 b direct_call
+2068d 12.38 b relative_jump
+2068e 12.38 p compute_ureg_dmpm_premod
+2068f 12.38 b rts
+2069a 4.71 b relative_jump
+2069b 4.71 p compute_ureg_dmpm_premod
+2069c 4.71 b relative_jump
+2069d 4.71 p compute_ureg_dmpm_premod
+2069e 4.71 b relative_jump
+2069f 4.71 p compute_ureg_dmpm_premod
+206a0 4.71 b relative_jump
+206a1 4.71 p compute_ureg_dmpm_premod
+206a2 4.71 p compute
+206a3 4.71 p compute
+206a4 4.71 b direct_call
+206a5 4.71 b relative_jump
+206a6 4.71 p compute_ureg_dmpm_premod
+206a7 4.71 b rts
+206a8 0.75 b relative_jump
+206a9 0.75 p compute_ureg_dmpm_premod
+206aa 0.75 b relative_jump
+206ab 0.75 p compute_ureg_dmpm_premod
+206ac 0.75 b relative_jump
+206ad 0.75 p compute_ureg_dmpm_premod
+206ae 0.75 b direct_call
+206af 0.75 p compute
+206b0 0.75 p compute
+206b1 0.75 p compute
+206b2 0.75 b relative_jump
+206b3 0.75 p compute_ureg_dmpm_premod
+206b4 0.75 b relative_jump
+206b5 0.75 p compute_ureg_dmpm_premod
+206b6 0.75 b relative_jump
+206b7 0.75 p compute_ureg_dmpm_premod
+206b8 0.75 b rts
+206b9 0.87 b relative_jump
+206ba 0.87 p compute_ureg_dmpm_premod
+206bb 0.87 b relative_jump
+206bc 0.87 p compute_ureg_dmpm_premod
+206bd 0.87 b direct_call
+206be 0.87 p compute
+206bf 0.87 p compute
+206c0 0.87 b relative_jump
+206c1 0.87 p compute_ureg_dmpm_premod
+206c2 0.87 b relative_jump
+206c3 0.87 p compute_ureg_dmpm_premod
+206c4 0.87 b rts
+206c5 2.40 b relative_jump
+206c6 2.40 p compute_ureg_dmpm_premod
+206c7 2.40 b direct_call
+206c8 2.40 b relative_jump
+206c9 2.40 p compute_ureg_dmpm_premod
+206ca 2.40 b relative_jump
+206cb 2.40 p compute_ureg_dmpm_premod
+206cc 2.40 p compute
+206cd 2.40 p compute
+206ce 2.40 p compute
+206cf 2.40 p compute
+206d0 2.40 p compute
+206d1 2.40 b relative_jump
+206d2 2.40 p compute_ureg_dmpm_premod
+206d3 2.40 b relative_jump
+206d4 2.40 p compute_ureg_dmpm_premod
+206d5 2.40 b rts
+206d6 0.01 b relative_jump
+206d7 0.01 p compute_ureg_dmpm_premod
+206d8 0.01 b relative_jump
+206d9 0.01 p compute_ureg_dmpm_premod
+206da 0.01 b relative_jump
+206db 0.01 p compute_ureg_dmpm_premod
+206dc 0.01 b relative_jump
+206dd 0.01 p compute_ureg_dmpm_premod
+206de 0.01 b relative_jump
+206df 0.01 p compute_ureg_dmpm_premod
+206e0 0.01 b relative_jump
+206e1 0.01 p compute_ureg_dmpm_premod
+206e2 0.01 p compute
+206e3 0.01 p compute
+206e4 0.01 p compute
+206e5 0.01 b relative_jump
+206e6 0.01 p compute_ureg_dmpm_premod
+206e7 0.01 b relative_jump
+206e8 0.01 p compute_ureg_dmpm_premod
+206e9 0.01 b relative_jump
+206ea 0.01 p compute_ureg_dmpm_premod
+206eb 0.01 b rts
+20702 0.81 b relative_jump
+20703 0.81 p compute_ureg_dmpm_premod
+20704 0.81 b relative_jump
+20705 0.81 p compute_ureg_dmpm_premod
+20706 0.81 b relative_jump
+20707 0.81 p compute_ureg_dmpm_premod
+20708 0.81 b relative_jump
+20709 0.81 p compute_ureg_dmpm_premod
+2070a 0.81 p compute
+2070b 0.81 p compute
+2070c 0.81 p compute
+2070d 0.81 b relative_jump
+2070e 0.81 p compute_ureg_dmpm_premod
+2070f 0.81 b relative_jump
+20710 0.81 p compute_ureg_dmpm_premod
+20711 0.81 b relative_jump
+20712 0.81 p compute_ureg_dmpm_premod
+20713 0.81 b rts
+20715 4.04 p dm_to_ureg_direct
+20716 4.04 b relative_jump
+20717 4.04 p compute_ureg_dmpm_premod
+20718 4.04 p dm_to_ureg_indirect
+20719 4.04 p dm_to_ureg_indirect
+2071a 4.04 p dm_to_ureg_indirect
+2071b 4.04 b relative_jump
+2071c 4.04 p compute_ureg_dmpm_premod
+2071d 4.04 p compute
+2071e 4.04 p compute
+2071f 4.04 b relative_jump
+20720 4.04 p compute_ureg_dmpm_premod
+20721 4.04 p compute_dm_to_dreg_immmod
+20722 4.04 p compute_dm_to_dreg_immmod
+20723 4.04 p compute_dm_to_dreg_immmod
+20724 4.04 p compute_dm_to_dreg_immmod
+20725 4.04 p compute_dm_to_dreg_immmod
+20726 4.04 p compute_dm_to_dreg_immmod
+20727 4.04 p compute_dm_to_dreg_immmod
+20728 4.04 p compute_dm_to_dreg_immmod
+20729 4.04 p compute_dm_to_dreg_immmod
+2072a 4.04 p compute
+2072b 4.04 p compute
+2072c 4.04 b relative_jump
+2072d 4.04 p compute_ureg_dmpm_premod
+2072e 4.04 b relative_jump
+2072f 4.04 p compute_ureg_dmpm_premod
+20730 4.04 b relative_jump
+20731 4.04 p compute_ureg_dmpm_premod
+20732 4.04 b rts
+20733 1.61 b relative_jump
+20734 1.61 p compute_ureg_dmpm_premod
+20735 1.61 p imm_to_ureg
+20736 1.61 p compute
+20737 1.61 p ureg_to_dm_direct
+20738 1.61 p imm_to_ureg
+20739 1.61 p imm_to_dmpm
+2073a 1.61 p imm_to_dmpm
+2073b 1.61 p imm_to_dmpm
+2073c 1.61 p imm_to_dmpm
+2073d 1.61 p imm_to_dmpm
+2073e 1.61 p imm_to_dmpm
+2073f 1.61 p ureg_to_dm_indirect
+20740 1.61 p ureg_to_dm_indirect
+20741 6.09 p dm_to_ureg_direct
+20742 6.09 p compute_ureg_dmpm_postmod
+20743 6.09 p nop
+20744 6.09 b relative_jump
+20745 6.09 p compute_ureg_dmpm_premod
+20746 6.09 p compute_ureg_to_ureg
+20747 6.09 p dm_to_ureg_indirect
+20748 6.09 b indirect_jump
+20749 1.61 b rts
+2074a 0.82 p dm_to_ureg_direct
+2074b 0.82 p imm_to_ureg
+2074c 0.82 p compute
+2074d 0.82 p ureg_to_dm_direct
+2074e 0.82 p dm_to_ureg_direct
+2074f 0.82 b do_until_counter_imm
+20750 9.86 p compute_ureg_dmpm_postmod
+20751 9.86 p compute_ureg_dmpm_postmod
+20752 0.82 p ureg_to_dm_indirect
+20753 0.82 p ureg_to_dm_indirect
+20754 0.82 p imm_to_ureg
+20755 0.82 b do_until_counter_imm
+20756 9.86 p compute_ureg_dmpm_postmod
+20757 9.86 p compute_ureg_dmpm_postmod
+20758 0.82 p ureg_to_dm_indirect
+20759 0.82 p ureg_to_dm_indirect
+2075a 0.82 p imm_to_ureg
+2075b 0.82 b do_until_counter_imm
+2075c 9.86 p compute_ureg_dmpm_postmod
+2075d 9.86 p compute_ureg_dmpm_postmod
+2075e 0.82 p ureg_to_dm_indirect
+2075f 0.82 p ureg_to_dm_indirect
+20760 0.82 b direct_jump
+20761 0.82 p dm_to_ureg_direct
+20762 0.82 p imm_to_ureg
+20763 0.82 p compute
+20764 0.82 p ureg_to_dm_direct
+20765 0.82 p imm_to_ureg
+20766 0.82 b do_until_counter_imm
+20767 24.64 p compute_ureg_dmpm_postmod
+20768 24.64 p compute_ureg_dmpm_postmod
+20769 0.82 p ureg_to_dm_indirect
+2076a 0.82 p ureg_to_dm_indirect
+2076b 0.82 b direct_jump
+2076c 0.82 p dm_to_ureg_direct
+2076d 0.82 p imm_to_ureg
+2076e 0.82 p compute
+2076f 0.82 p ureg_to_dm_direct
+20770 0.82 p imm_to_ureg
+20771 0.82 b do_until_counter_imm
+20772 1.64 p compute_ureg_dmpm_postmod
+20773 1.64 p compute_ureg_dmpm_postmod
+20774 0.82 p ureg_to_dm_indirect
+20775 0.82 p ureg_to_dm_indirect
+20776 0.82 b direct_jump
+20777 1.01 p dm_to_ureg_direct
+20778 1.01 p imm_to_ureg
+20779 1.01 p compute
+2077a 1.01 p ureg_to_dm_direct
+2077b 1.01 p imm_to_ureg
+2077c 1.01 b do_until_counter_imm
+2077d 3.02 p compute_ureg_dmpm_postmod
+2077e 3.02 p compute_ureg_dmpm_postmod
+2077f 1.01 p ureg_to_dm_indirect
+20780 1.01 p ureg_to_dm_indirect
+20781 1.01 b direct_jump
+20782 1.01 p dm_to_ureg_direct
+20783 1.01 p imm_to_ureg
+20784 1.01 p compute
+20785 1.01 p ureg_to_dm_direct
+20786 1.01 p ureg_to_dm_direct
+20787 1.01 p dm_to_ureg_indirect
+20788 1.01 p ureg_to_dm_direct
+20789 1.01 p dm_to_ureg_indirect
+2078a 1.01 p ureg_to_dm_direct
+2078b 1.01 p dm_to_ureg_indirect
+2078c 1.01 p ureg_to_dm_direct
+2078d 1.01 p ureg_to_dm_indirect
+2078e 1.01 p ureg_to_dm_indirect
+2078f 1.01 p dm_to_ureg_direct
+20790 1.01 p ureg_to_dm_direct
+20791 1.01 p dm_to_ureg_direct
+20792 1.01 p ureg_to_dm_direct
+20793 1.01 p dm_to_ureg_direct
+20794 1.01 p ureg_to_dm_direct
+20795 1.01 p ureg_to_dm_indirect
+20796 1.01 p ureg_to_dm_indirect
+20797 1.01 p dm_to_ureg_indirect
+20798 1.01 p dm_to_ureg_indirect
+20799 1.01 b direct_call
+2079a 1.01 p dm_to_ureg_indirect
+2079b 1.01 p imm_to_ureg
+2079c 1.01 p ureg_to_dm_direct
+2079d 1.01 p ureg_to_dm_direct
+2079e 1.01 p ureg_to_dm_direct
+2079f 1.01 p ureg_to_dm_indirect
+207a0 1.01 p ureg_to_dm_indirect
+207a1 1.01 p dm_to_ureg_indirect
+207a2 1.01 p dm_to_ureg_indirect
+207a3 1.01 b direct_call
+207a4 1.01 p dm_to_ureg_indirect
+207a5 1.01 p imm_to_ureg
+207a6 1.01 p ureg_to_dm_direct
+207a7 1.01 p ureg_to_dm_direct
+207a8 1.01 p ureg_to_dm_direct
+207a9 1.01 p ureg_to_dm_indirect
+207aa 1.01 p ureg_to_dm_indirect
+207ab 1.01 p dm_to_ureg_direct
+207ac 1.01 p dm_to_ureg_direct
+207ad 1.01 p dm_to_ureg_direct
+207ae 1.01 p dm_to_ureg_direct
+207af 1.01 p compute
+207b0 1.01 p dm_to_ureg_direct
+207b1 1.01 p compute
+207b2 1.01 p dm_to_ureg_direct
+207b3 1.01 p compute
+207b4 1.01 p dm_to_ureg_direct
+207b5 1.01 p compute
+207b6 1.01 p dm_to_ureg_direct
+207b7 1.01 p compute
+207b8 1.01 b direct_jump
+207b9 1.01 p dm_to_ureg_direct
+207ba 1.01 p compute
+207bb 1.01 p dm_to_ureg_direct
+207bc 1.01 p compute
+207bd 1.01 p dm_to_ureg_direct
+207be 1.01 p compute
+207bf 1.01 b direct_call
+207c0 1.01 p dm_to_ureg_direct
+207c1 1.01 p compute
+207c2 1.01 p compute
+207c3 1.01 p compute
+207c4 1.01 p compute
+207c5 1.01 p ureg_to_dm_indirect
+207c6 1.01 p ureg_to_dm_indirect
+207c7 1.01 p ureg_to_dm_indirect
+207c8 1.01 p ureg_to_dm_direct
+207c9 1.01 p ureg_to_dm_direct
+207ca 1.01 p ureg_to_dm_direct
+207cb 1.01 p ureg_to_dm_indirect
+207cc 1.01 p ureg_to_dm_indirect
+207cd 1.01 p compute
+207ce 1.01 b direct_call
+207cf 1.01 p imm_to_ureg
+207d0 1.01 p compute
+207d1 1.01 p compute
+207d2 1.01 p ureg_to_dm_direct
+207d3 1.01 p compute
+207d4 1.01 p ureg_to_dm_direct
+207d5 1.01 p compute
+207d6 1.01 p imm_to_ureg
+207d7 1.01 p compute
+207d8 1.01 p ureg_to_dm_direct
+207d9 1.01 p compute
+207da 1.01 p compute
+207db 1.01 p ureg_to_dm_direct
+207dc 1.01 p compute
+207dd 1.01 p ureg_to_dm_direct
+207de 1.01 p imm_to_ureg
+207df 1.01 p ureg_to_dm_direct
+207e0 1.01 p ureg_to_dm_indirect
+207e1 1.01 p ureg_to_dm_indirect
+207e2 1.01 p dm_to_ureg_direct
+207e3 1.01 b direct_call
+207e4 1.01 p imm_to_ureg
+207e5 1.01 p imm_to_ureg
+207e6 1.01 b do_until_counter_imm
+207e7 12.09 p compute_ureg_dmpm_postmod
+207e8 12.09 p nop
+207e9 12.09 p nop
+207ea 12.09 b relative_jump
+207eb 12.09 p compute_ureg_dmpm_premod
+207ec 12.09 p nop
+207ed 12.09 p nop
+207ee 12.09 p dm_to_ureg_direct
+207ef 1.01 p dm_to_ureg_indirect
+207f0 1.01 p dm_to_ureg_indirect
+207f1 1.01 p compute_dm_to_dreg_immmod
+207f2 1.01 p compute_dm_to_dreg_immmod
+207f3 1.01 p compute
+207f4 1.01 p dm_to_ureg_direct
+207f5 1.01 p compute
+207f6 1.01 p dm_to_ureg_direct
+207f7 1.01 p compute
+207f8 1.01 p dm_to_ureg_direct
+207f9 1.01 p compute
+207fa 1.01 p dm_to_ureg_direct
+207fb 1.01 p ureg_to_dm_indirect
+207fc 1.01 p dm_to_ureg_direct
+207fd 1.01 p compute
+207fe 1.01 p compute
+207ff 1.01 p ureg_to_dm_indirect
+20800 1.01 p dm_to_ureg_direct
+20801 1.01 p compute
+20802 1.01 p compute
+20803 1.01 p ureg_to_dm_indirect
+20804 1.01 p dm_to_ureg_direct
+20805 1.01 p compute
+20806 1.01 p compute
+20807 1.01 p ureg_to_dm_indirect
+20808 1.01 p ureg_to_dm_direct
+20809 1.01 p ureg_to_dm_indirect
+2080a 1.01 p ureg_to_dm_direct
+2080b 1.01 p ureg_to_dm_indirect
+2080c 1.01 p ureg_to_dm_direct
+2080d 1.01 b direct_jump
+2080e 1.01 p ureg_to_dm_indirect
+2080f 1.01 p ureg_to_dm_indirect
+20810 1.01 p dm_to_ureg_direct
+20811 1.01 p dm_to_ureg_direct
+20812 1.01 p dm_to_ureg_direct
+20813 1.01 p compute
+20814 1.01 p compute
+20815 1.01 p compute
+20816 1.01 p compute
+20817 1.01 p compute
+20818 1.01 p dm_to_ureg_direct
+20819 1.01 p compute
+2081a 1.01 b direct_jump
+2081b 0.06 p compute
+2081c 0.06 p compute
+2081d 0.06 p compute
+2081e 0.06 p compute
+2081f 0.06 b direct_jump
+20820 0.06 p compute
+20821 0.06 p compute
+20822 0.95 p imm_to_ureg
+20823 0.95 p dm_to_ureg_direct
+20824 0.95 p compute
+20825 0.95 b direct_jump
+20908 77.40 b relative_jump
+20909 77.40 p compute_ureg_dmpm_premod
+2090a 77.40 p imm_shift
+2090b 77.40 b relative_jump
+2090c 77.40 p compute_ureg_dmpm_premod
+2090d 77.40 p imm_to_ureg
+2090e 77.40 b relative_jump
+2090f 77.40 p compute_ureg_dmpm_premod
+20910 77.40 p imm_to_ureg
+20911 77.40 b relative_jump
+20912 77.40 p compute_ureg_dmpm_premod
+20913 77.40 p compute
+20914 77.40 b relative_jump
+20915 77.40 p compute_ureg_dmpm_premod
+20916 77.40 p compute_ureg_to_ureg
+20917 77.40 b relative_jump
+20918 77.40 p compute_ureg_dmpm_premod
+20919 77.40 p compute_ureg_dmpm_postmod
+2091a 77.40 p dm_to_ureg_direct
+2091b 77.40 b do_until_counter_imm
+2091c 928.85 p compute_ureg_dmpm_postmod
+2091d 928.85 p compute_ureg_dmpm_postmod
+2091e 77.40 b relative_jump
+2091f 77.40 p compute_ureg_dmpm_premod
+20920 77.40 b relative_jump
+20921 77.40 p compute_ureg_dmpm_premod
+20922 77.40 p imm_to_ureg
+20923 77.40 p compute_ureg_dmpm_postmod
+20924 77.40 p imm_shift
+20925 77.40 p compute_ureg_dmpm_postmod
+20926 77.40 p imm_to_ureg
+20927 77.40 p compute
+20928 77.40 p compute
+20929 77.40 b direct_jump
+2092a 21.56 p compute
+2092b 21.56 p compute
+2092c 77.40 p compute_ureg_dmpm_postmod
+2092d 77.40 b relative_jump
+2092e 77.40 p compute_ureg_dmpm_premod
+2092f 77.40 p compute
+20930 77.40 b relative_jump
+20931 77.40 p compute_ureg_dmpm_premod
+20932 77.40 p compute_ureg_dmpm_postmod
+20933 77.40 b rts
+20934 77.40 p imm_to_ureg
+20935 77.40 p compute_ureg_dmpm_postmod
+20982 1.29 b relative_jump
+20983 1.29 p compute_ureg_dmpm_premod
+20984 1.29 p ureg_to_dm_direct
+20985 1.29 b relative_jump
+20986 1.29 p compute_ureg_dmpm_premod
+20987 1.29 p ureg_to_dm_direct
+20988 1.29 b relative_jump
+20989 1.29 p compute_ureg_dmpm_premod
+2098a 1.29 p ureg_to_dm_direct
+2098b 1.29 b relative_jump
+2098c 1.29 p compute_ureg_dmpm_premod
+2098d 1.29 p ureg_to_dm_direct
+2098e 1.29 b relative_jump
+2098f 1.29 p compute_ureg_dmpm_premod
+20990 1.29 p ureg_to_dm_indirect
+20991 1.29 p imm_shift
+20992 1.29 p imm_to_ureg
+20993 1.29 p imm_to_ureg
+20994 1.29 p ureg_to_dm_indirect
+20995 1.29 p compute
+20996 1.29 b direct_jump
+20997 0.65 p imm_to_ureg
+20998 0.65 p imm_to_ureg
+20999 0.65 p ureg_to_dm_indirect
+2099a 0.65 p imm_to_ureg
+2099b 0.65 b do_until_counter_imm
+2099c 10.36 p imm_to_ureg
+2099d 10.36 p compute_ureg_dmpm_postmod
+2099e 1.29 p ureg_to_dm_direct
+2099f 1.29 p imm_to_ureg
+209a0 1.29 p imm_to_ureg
+209a1 1.29 b do_until_counter_imm
+209a2 23.30 p compute_ureg_dmpm_postmod
+209a3 1.29 p imm_to_ureg
+209a4 1.29 p imm_to_ureg
+209a5 1.29 b do_until_counter_imm
+209a6 5.18 p compute_ureg_dmpm_postmod
+209a7 1.29 p imm_to_ureg
+209a8 1.29 p ureg_to_dm_indirect
+209a9 1.29 p ureg_to_dm_indirect
+209aa 1.29 p ureg_to_dm_indirect
+209ab 41.43 p compute
+209ac 41.43 p compute
+209ad 41.43 p compute
+209ae 41.43 p compute_ureg_to_ureg
+209af 41.43 p compute_ureg_dmpm_premod
+209b0 41.43 p compute_ureg_dmpm_premod
+209b1 41.43 p compute_ureg_dmpm_premod
+209b2 41.43 p dm_to_ureg_indirect
+209b3 41.43 p compute_ureg_to_ureg
+209b4 41.43 p compute_ureg_dmpm_premod
+209b5 41.43 p compute
+209b6 41.43 b direct_jump
+209b7 38.84 p compute
+209b8 38.84 p dm_to_ureg_direct
+209b9 38.84 p compute
+209ba 38.84 b direct_jump
+209bb 3.25 p ureg_to_dm_direct
+209bc 38.84 p compute
+209bd 38.84 p dm_to_ureg_direct
+209be 38.84 p compute
+209bf 38.84 b direct_jump
+209c0 38.84 p dm_to_ureg_indirect
+209c1 38.84 p compute
+209c2 38.84 p ureg_to_dm_indirect
+209c3 38.84 p ureg_to_dm_indirect
+209c4 38.84 p ureg_to_dm_indirect
+209c5 38.84 p imm_to_ureg
+209c6 38.84 p imm_to_ureg
+209c7 38.84 p compute
+209c8 38.84 p compute
+209c9 38.84 b direct_jump
+209ca 6.52 p dm_to_ureg_direct
+209cb 6.52 p compute
+209cc 6.52 p ureg_to_dm_direct
+209cd 38.84 p imm_to_ureg
+209ce 38.84 p compute
+209cf 38.84 p compute
+209d0 38.84 b direct_jump
+209d4 38.84 p dm_to_ureg_direct
+209d5 38.84 p imm_to_ureg
+209d6 38.84 p compute
+209d7 38.84 p compute
+209d8 38.84 p compute
+209d9 38.84 b direct_jump
+209da 0.32 p dm_to_ureg_direct
+209db 0.32 p compute
+209dc 0.32 p ureg_to_dm_direct
+209dd 38.84 p dm_to_ureg_direct
+209de 38.84 p imm_to_ureg
+209df 38.84 p compute
+209e0 38.84 p compute
+209e1 38.84 p compute
+209e2 38.84 b direct_jump
+209e3 9.04 p dm_to_ureg_direct
+209e4 9.04 p compute
+209e5 9.04 p ureg_to_dm_direct
+209e6 38.84 p ureg_to_dm_indirect
+209e7 38.84 p ureg_to_dm_indirect
+209e8 38.84 p imm_to_ureg
+209e9 38.84 p dm_to_ureg_direct
+209ea 155.36 p compute_ureg_to_ureg
+209eb 155.36 p imm_shift
+209ec 155.36 p compute_ureg_to_ureg
+209ed 155.36 p compute
+209ee 155.36 p compute
+209ef 155.36 p imm_shift
+209f0 155.36 b direct_jump
+209f1 77.68 p compute
+209f2 77.68 p compute
+209f3 155.36 p imm_shift
+209f4 155.36 p compute
+209f5 155.36 p imm_shift
+209f6 155.36 b direct_jump
+209f7 85.40 p compute
+209f8 85.40 p compute
+209f9 85.40 b direct_jump
+209fa 0.02 b direct_jump
+209fb 0.00 p imm_to_ureg
+209fc 0.00 b direct_jump
+209fd 0.02 p dm_to_ureg_direct
+209fe 0.02 p compute
+209ff 0.02 p ureg_to_dm_direct
+20a00 0.02 p ureg_to_dm_indirect
+20a01 0.02 p ureg_to_dm_indirect
+20a02 0.02 p compute
+20a03 0.02 p imm_to_ureg
+20a04 0.02 p compute_ureg_to_ureg
+20a05 0.02 p compute_ureg_dmpm_premod
+20a06 0.02 p compute
+20a07 0.02 b direct_jump
+20a08 0.02 p compute_ureg_dmpm_premod
+20a09 0.02 b direct_jump
+20a0a 155.34 p imm_to_ureg
+20a0b 155.34 p compute_ureg_to_ureg
+20a0c 155.34 p compute_ureg_dmpm_premod
+20a0d 155.34 p compute
+20a0e 155.34 b direct_jump
+20a0f 26.38 p compute_ureg_dmpm_premod
+20a10 26.38 p ureg_to_dm_indirect
+20a11 26.38 p ureg_to_dm_indirect
+20a12 155.36 p compute
+20a13 155.36 p imm_to_ureg
+20a14 155.36 p compute
+20a15 155.36 b direct_jump
+20a16 41.43 p compute
+20a17 41.43 p imm_to_ureg
+20a18 41.43 p compute
+20a19 41.43 b direct_jump
+20a1a 1.29 p dm_to_ureg_direct
+20a1b 1.29 p dm_to_ureg_indirect
+20a1c 1.29 p compute
+20a1d 1.29 p compute
+20a1e 1.29 b direct_jump
+20a28 1.29 p imm_to_ureg
+20a29 1.29 p imm_to_ureg
+20a2a 1.29 p imm_to_ureg
+20a2b 1.29 p imm_to_ureg
+20a2c 1.29 p dm_to_ureg_direct
+20a2d 1.29 p compute
+20a2e 1.29 p imm_to_ureg
+20a2f 1.29 p imm_to_ureg
+20a30 1.29 p imm_to_ureg
+20a31 1.29 p imm_to_ureg
+20a32 5.18 p compute_ureg_dmpm_premod
+20a33 5.18 p compute
+20a34 5.18 b direct_jump
+20a35 5.18 p compute_ureg_dmpm_premod
+20a36 5.18 p imm_shift
+20a37 5.18 b direct_jump
+20a38 2.59 p compute_ureg_dmpm_premod
+20a39 5.18 p compute
+20a3a 5.18 p compute
+20a3b 5.18 p compute_ureg_to_ureg
+20a3c 5.18 p compute_ureg_dmpm_premod
+20a3d 5.18 p ureg_to_dm_indirect
+20a3e 5.18 p ureg_to_dm_indirect
+20a3f 5.18 p compute_ureg_dmpm_postmod
+20a40 5.18 p compute_ureg_dmpm_postmod
+20a41 5.18 p compute
+20a42 5.18 p compute
+20a43 5.18 b direct_jump
+20a44 1.29 p imm_to_ureg
+20a45 1.29 b do_until_counter_imm
+20a46 2.59 p compute_ureg_dmpm_premod
+20a47 2.59 p compute_ureg_dmpm_premod
+20a48 2.59 p imm_to_ureg
+20a49 2.59 p imm_shift
+20a4a 2.59 p compute_ureg_to_ureg
+20a4b 2.59 p imm_shift
+20a4c 2.59 p compute_ureg_to_ureg
+20a4d 2.59 p compute
+20a4e 2.59 b direct_jump
+20a4f 1.11 p compute_ureg_to_ureg
+20a50 1.11 b direct_jump
+20a51 1.48 p compute_ureg_to_ureg
+20a52 2.59 p compute_ureg_dmpm_premod
+20a53 2.59 p compute_ureg_dmpm_premod
+20a54 2.59 p compute_ureg_dmpm_postmod
+20a55 2.59 p ureg_to_dm_indirect
+20a56 2.59 p ureg_to_dm_indirect
+20a57 1.29 p dm_to_ureg_direct
+20a58 1.29 p dm_to_ureg_direct
+20a59 1.29 p dm_to_ureg_direct
+20a5a 1.29 p dm_to_ureg_direct
+20a5b 1.29 p compute
+20a5c 1.29 p compute
+20a5d 1.29 p compute
+20a5e 1.29 b direct_jump
+20a5f 0.56 p imm_to_ureg
+20a60 0.56 p imm_to_ureg
+20a61 0.56 b direct_jump
+20a62 0.74 p imm_to_ureg
+20a63 0.74 p imm_to_ureg
+20a64 1.29 p ureg_to_dm_direct
+20a65 1.29 p ureg_to_dm_direct
+20a66 1.29 p ureg_to_dm_direct
+20a67 1.29 p ureg_to_dm_direct
+20a68 1.29 p ureg_to_dm_indirect
+20a69 1.29 p ureg_to_dm_indirect
+20a6a 1.29 p imm_to_ureg
+20a6b 1.29 b do_until_counter_imm
+20a6c 23.30 p compute_ureg_dmpm_postmod
+20a6d 23.30 b relative_jump
+20a6e 23.30 p compute_ureg_dmpm_premod
+20a6f 23.30 p nop
+20a70 23.30 p nop
+20a71 1.29 p dm_to_ureg_direct
+20a72 1.29 b direct_call
+20a73 1.29 b relative_jump
+20a74 1.29 p compute_ureg_dmpm_premod
+20a75 1.29 p dm_to_ureg_direct
+20a76 1.29 b direct_call
+20a77 1.29 b relative_jump
+20a78 1.29 p compute_ureg_dmpm_premod
+20a79 1.29 p dm_to_ureg_direct
+20a7a 1.29 b direct_call
+20a7b 1.29 b relative_jump
+20a7c 1.29 p compute_ureg_dmpm_premod
+20a7d 1.29 p dm_to_ureg_direct
+20a7e 1.29 b direct_call
+20a7f 1.29 b relative_jump
+20a80 1.29 p compute_ureg_dmpm_premod
+20a81 1.29 b rts
+20a82 0.70 b relative_jump
+20a83 0.70 p compute_ureg_dmpm_premod
+20a84 0.70 p imm_to_ureg
+20a85 0.70 p imm_to_ureg
+20a86 0.70 p compute
+20a87 0.70 b direct_jump
+20a88 0.35 p imm_to_ureg
+20a89 0.35 p imm_to_ureg
+20a8a 0.70 b relative_jump
+20a8b 0.70 p compute_ureg_dmpm_premod
+20a8c 0.70 b relative_jump
+20a8d 0.70 p compute_ureg_dmpm_premod
+20a8e 0.70 b relative_jump
+20a8f 0.70 p compute_ureg_dmpm_premod
+20a90 0.70 b relative_jump
+20a91 0.70 p compute_ureg_dmpm_premod
+20a92 0.70 b relative_jump
+20a93 0.70 p compute_ureg_dmpm_premod
+20a94 0.70 p imm_to_ureg
+20a95 0.70 p imm_to_ureg
+20a96 0.70 p imm_to_ureg
+20a97 0.70 p imm_to_ureg
+20a98 0.70 p ureg_to_dm_indirect
+20a99 0.70 p ureg_to_dm_indirect
+20a9a 0.70 b do_until_counter_imm
+20a9b 11.26 p compute_ureg_dmpm_postmod
+20a9c 11.26 p compute
+20a9d 11.26 p compute
+20a9e 11.26 p compute
+20a9f 11.26 p compute_ureg_to_ureg
+20aa0 11.26 p compute_ureg_dmpm_premod
+20aa1 11.26 p compute_ureg_dmpm_premod
+20aa2 11.26 p compute_ureg_dmpm_premod
+20aa3 11.26 p compute
+20aa4 11.26 p compute
+20aa5 11.26 p compute
+20aa6 11.26 p compute
+20aa7 11.26 p compute
+20aa8 11.26 b direct_jump
+20aa9 10.98 p ureg_to_dm_indirect
+20aaa 10.98 p ureg_to_dm_indirect
+20aab 10.98 p ureg_to_dm_indirect
+20aac 10.98 p ureg_to_dm_indirect
+20aad 10.98 p ureg_to_dm_indirect
+20aae 10.98 p ureg_to_dm_indirect
+20aaf 10.98 p compute
+20ab0 10.98 p compute
+20ab1 10.98 p compute
+20ab2 10.98 b direct_call
+20ab3 10.98 p dm_to_ureg_indirect
+20ab4 10.98 p dm_to_ureg_indirect
+20ab5 10.98 p dm_to_ureg_indirect
+20ab6 10.98 p dm_to_ureg_indirect
+20ab7 10.98 b direct_jump
+20ab8 10.98 p imm_to_ureg
+20ab9 10.98 p compute
+20aba 0.28 p imm_shift
+20abb 0.28 p imm_shift
+20abc 0.28 p compute
+20abd 0.28 p compute_ureg_to_ureg
+20abe 11.26 p imm_shift
+20abf 11.26 b direct_jump
+20ac0 11.24 p compute
+20ac1 11.24 b direct_jump
+20ac2 11.24 p compute
+20ac3 11.24 b direct_jump
+20ac4 0.01 p compute
+20ac5 0.01 b direct_jump
+20ac6 0.00 p compute
+20ac7 11.26 p compute
+20ac8 0.70 b relative_jump
+20ac9 0.70 p compute_ureg_dmpm_premod
+20aca 0.70 b relative_jump
+20acb 0.70 p compute_ureg_dmpm_premod
+20acc 0.70 b rts
+20acd 20.56 b direct_call
+20ace 20.56 b direct_call
+20acf 20.56 b relative_jump
+20ad0 20.56 p compute_ureg_dmpm_premod
+20ad1 20.56 b relative_jump
+20ad2 20.56 p compute_ureg_dmpm_premod
+20ad3 20.56 b relative_jump
+20ad4 20.56 p compute_ureg_dmpm_premod
+20ad5 20.56 b relative_jump
+20ad6 20.56 p compute_ureg_dmpm_premod
+20ad7 20.56 p imm_shift
+20ad8 20.56 b direct_jump
+20ad9 6.90 b direct_call
+20ada 20.56 p imm_shift
+20adb 20.56 b direct_jump
+20adc 17.09 p imm_shift
+20add 17.09 b direct_jump
+20ade 15.85 b direct_call
+20adf 15.85 b direct_jump
+20ae0 3.47 b direct_call
+20ae1 20.56 b direct_jump
+20ae2 0.72 b relative_jump
+20ae3 0.72 p compute_ureg_dmpm_premod
+20ae4 0.72 p ureg_to_dm_indirect
+20ae5 0.72 p ureg_to_dm_indirect
+20ae6 0.72 p ureg_to_dm_indirect
+20ae7 0.72 b direct_call
+20ae8 0.72 p compute
+20ae9 0.72 p imm_to_ureg
+20aea 0.72 p compute
+20aeb 0.72 p imm_to_ureg
+20aec 0.72 p compute
+20aed 0.72 p compute
+20aee 0.72 p compute
+20aef 0.72 p compute
+20af0 0.72 p compute
+20af1 0.72 p compute
+20af2 0.72 p ureg_to_dm_indirect
+20af3 0.72 p ureg_to_dm_indirect
+20af4 0.72 p compute
+20af5 0.72 p dm_to_ureg_direct
+20af6 0.72 p compute
+20af7 0.72 p compute
+20af8 0.72 b relative_jump
+20af9 0.72 p compute_ureg_dmpm_premod
+20afa 0.72 p imm_shift
+20afb 0.72 p imm_shift
+20afc 0.72 p imm_shift
+20afd 0.72 p compute_ureg_to_ureg
+20afe 0.72 p compute
+20aff 0.72 p ureg_to_dm_indirect
+20b00 0.72 p ureg_to_dm_indirect
+20b01 0.72 p ureg_to_dm_indirect
+20b02 0.72 p ureg_to_dm_indirect
+20b03 0.72 p ureg_to_dm_indirect
+20b04 0.72 p ureg_to_dm_indirect
+20b05 0.72 b direct_call
+20b06 0.72 p dm_to_ureg_indirect
+20b07 0.72 b direct_call
+20b08 0.72 p compute_ureg_dmpm_premod
+20b09 0.72 p compute_ureg_dmpm_premod
+20b0a 0.72 p dm_to_ureg_indirect
+20b0b 0.72 b direct_call
+20b0c 0.72 p dm_to_ureg_indirect
+20b0d 0.72 b direct_call
+20b0e 0.72 p imm_to_ureg
+20b0f 0.72 b direct_call
+20b10 0.72 b direct_call
+20b11 0.72 b direct_call
+20b12 0.72 p dm_to_ureg_indirect
+20b13 0.72 b direct_call
+20b14 0.72 p imm_to_ureg
+20b15 0.72 p dm_to_ureg_direct
+20b16 0.72 p dm_to_ureg_indirect
+20b17 0.72 b direct_call
+20b18 0.72 p compute_ureg_dmpm_premod
+20b19 0.72 p compute_ureg_dmpm_premod
+20b1a 0.72 p dm_to_ureg_indirect
+20b1b 0.72 b direct_call
+20b1c 0.72 p dm_to_ureg_indirect
+20b1d 0.72 b direct_call
+20b1e 0.72 p imm_to_ureg
+20b1f 0.72 b direct_call
+20b20 0.72 b direct_call
+20b21 0.72 b direct_call
+20b22 0.72 b direct_call
+20b23 0.72 p dm_to_ureg_indirect
+20b24 0.72 b direct_call
+20b25 0.72 p compute_ureg_dmpm_premod
+20b26 0.72 p imm_to_ureg
+20b27 0.72 p compute_ureg_dmpm_premod
+20b28 0.72 b direct_call
+20b29 0.72 p dm_to_ureg_indirect
+20b2a 0.72 p imm_to_ureg
+20b2b 0.72 p compute
+20b2c 0.72 b direct_call
+20b2d 0.72 p dm_to_ureg_indirect
+20b2e 0.72 b direct_call
+20b2f 0.72 p imm_to_ureg
+20b30 0.72 b direct_call
+20b31 0.72 b direct_jump
+20b32 1.29 b relative_jump
+20b33 1.29 p compute_ureg_dmpm_premod
+20b34 1.29 b relative_jump
+20b35 1.29 p compute_ureg_dmpm_premod
+20b36 1.29 b relative_jump
+20b37 1.29 p compute_ureg_dmpm_premod
+20b38 1.29 p imm_to_ureg
+20b39 1.29 p compute
+20b3a 1.29 b direct_jump
+20b3b 0.65 p imm_to_ureg
+20b3c 1.29 p compute_ureg_to_ureg
+20b3d 1.29 p imm_to_ureg
+20b3e 1.29 p imm_to_ureg
+20b3f 1.29 p imm_to_ureg
+20b40 1.29 p dm_to_ureg_direct
+20b41 1.29 b do_until_counter_imm
+20b42 41.43 p compute_ureg_dmpm_postmod
+20b43 41.43 p compute_ureg_dmpm_postmod
+20b44 41.43 p compute_ureg_dmpm_postmod
+20b45 41.43 p compute
+20b46 41.43 p imm_shift
+20b47 41.43 p imm_shift
+20b48 41.43 p compute
+20b49 41.43 b direct_jump
+20b4a 41.42 p compute
+20b4b 41.42 b direct_jump
+20b4c 0.01 p compute
+20b4d 41.43 p nop
+20b4e 1.29 b relative_jump
+20b4f 1.29 p compute_ureg_dmpm_premod
+20b50 1.29 b rts
+20b57 5.18 p imm_to_ureg
+20b58 5.18 p imm_to_ureg
+20b59 5.18 p imm_to_ureg
+20b5a 5.18 p imm_to_ureg
+20b5b 165.72 p compute
+20b5c 165.72 b direct_jump
+20b5d 15.90 p compute_ureg_to_ureg
+20b5e 15.90 p compute_ureg_dmpm_premod
+20b5f 15.90 p compute
+20b60 165.72 p compute
+20b61 165.72 p compute
+20b62 165.72 b direct_jump
+20b63 5.18 b rts
+20b64 1.61 b relative_jump
+20b65 1.61 p compute_ureg_dmpm_premod
+20b66 1.61 p imm_to_ureg
+20b67 1.61 p compute
+20b68 1.61 p imm_to_ureg
+20b69 1.61 b direct_jump
+20b6a 0.80 p imm_to_ureg
+20b6b 1.61 p ureg_to_dm_direct
+20b6c 1.61 b rts
+20b6d 48.23 b relative_jump
+20b6e 48.23 p compute_ureg_dmpm_premod
+20b6f 48.23 b relative_jump
+20b70 48.23 p compute_ureg_dmpm_premod
+20b71 48.23 b relative_jump
+20b72 48.23 p compute_ureg_dmpm_premod
+20b73 48.23 p dm_to_ureg_direct
+20b74 48.23 b direct_call
+20b75 48.23 b relative_jump
+20b76 48.23 p compute_ureg_dmpm_premod
+20b77 48.23 p dm_to_ureg_direct
+20b78 48.23 p compute
+20b79 48.23 p imm_to_ureg
+20b7a 48.23 p compute
+20b7b 48.23 p compute_ureg_to_ureg
+20b7c 48.23 p compute_ureg_to_ureg
+20b7d 48.23 p compute_ureg_dmpm_postmod
+20b7e 48.23 p compute_ureg_dmpm_postmod
+20b7f 48.23 p nop
+20b80 48.23 p compute_ureg_dmpm_postmod
+20b81 48.23 p compute_ureg_dmpm_postmod
+20b82 48.23 p compute_ureg_dmpm_postmod
+20b83 48.23 p nop
+20b84 48.23 p compute_ureg_dmpm_postmod
+20b85 48.23 p compute_ureg_dmpm_postmod
+20b86 48.23 p compute_ureg_dmpm_postmod
+20b87 48.23 b rts
+20b88 48.23 p nop
+20b89 48.23 p compute_ureg_dmpm_postmod
+20b8a 0.65 b relative_jump
+20b8b 0.65 p compute_ureg_dmpm_premod
+20b8c 0.65 p ureg_to_dm_indirect
+20b8d 0.65 b relative_jump
+20b8e 0.65 p compute_ureg_dmpm_premod
+20b8f 0.65 p ureg_to_dm_indirect
+20b90 0.65 b relative_jump
+20b91 0.65 p compute_ureg_dmpm_premod
+20b92 0.65 p ureg_to_dm_direct
+20b93 0.65 b relative_jump
+20b94 0.65 p compute_ureg_dmpm_premod
+20b95 0.65 p ureg_to_dm_direct
+20b96 0.65 p imm_to_ureg
+20b97 0.65 p ureg_to_dm_indirect
+20b98 0.65 p imm_to_ureg
+20b99 0.65 p imm_to_ureg
+20b9a 0.65 b do_until_counter_imm
+20b9b 20.71 p compute_ureg_dmpm_postmod
+20b9c 20.71 p nop
+20b9d 0.65 p ureg_to_dm_indirect
+20b9e 0.65 p ureg_to_dm_indirect
+20b9f 1.94 p imm_to_ureg
+20ba0 1.94 p ureg_to_dm_indirect
+20ba1 1.94 p imm_to_ureg
+20ba2 1.94 p imm_to_ureg
+20ba3 1.94 b do_until_counter_imm
+20ba4 248.58 p compute_ureg_dmpm_postmod
+20ba5 1.94 p imm_to_ureg
+20ba6 1.94 p dm_to_ureg_indirect
+20ba7 1.94 p compute
+20ba8 1.94 p ureg_to_dm_indirect
+20ba9 1.94 p imm_to_ureg
+20baa 1.94 p ureg_to_dm_indirect
+20bab 1.94 p imm_to_ureg
+20bac 1.94 b do_until_counter_imm
+20bad 62.14 p ureg_to_dm_indirect
+20bae 62.14 p ureg_to_dm_indirect
+20baf 62.14 p dm_to_ureg_indirect
+20bb0 62.14 p compute_ureg_dmpm_postmod
+20bb1 62.14 p compute_ureg_to_ureg
+20bb2 62.14 p compute_ureg_dmpm_premod
+20bb3 62.14 p imm_to_ureg
+20bb4 62.14 p compute
+20bb5 62.14 p ureg_to_dm_indirect
+20bb6 62.14 p ureg_to_dm_indirect
+20bb7 62.14 p ureg_to_dm_indirect
+20bb8 62.14 p compute
+20bb9 62.14 b direct_jump
+20bba 28.32 p compute_ureg_to_ureg
+20bbb 28.32 p compute_ureg_to_ureg
+20bbc 28.32 p compute_ureg_to_ureg
+20bbd 62.14 p dm_to_ureg_indirect
+20bbe 62.14 p compute_ureg_dmpm_postmod
+20bbf 62.14 p compute_ureg_to_ureg
+20bc0 62.14 p ureg_to_dm_indirect
+20bc1 62.14 p ureg_to_dm_indirect
+20bc2 62.14 p ureg_to_dm_indirect
+20bc3 62.14 p compute
+20bc4 62.14 b direct_jump
+20bc5 58.26 p dm_to_ureg_indirect
+20bc6 58.26 p imm_shift
+20bc7 58.26 p ureg_to_dm_indirect
+20bc8 58.26 p ureg_to_dm_indirect
+20bc9 58.26 p ureg_to_dm_indirect
+20bca 58.26 p imm_shift
+20bcb 58.26 b direct_jump
+20bcc 0.35 p dm_to_ureg_direct
+20bcd 0.35 p imm_to_ureg
+20bce 0.35 p compute
+20bcf 0.35 b direct_jump
+20bd0 0.35 p dm_to_ureg_direct
+20bd1 0.35 p compute
+20bd2 58.26 p compute
+20bd3 58.26 p compute
+20bd4 58.26 p imm_to_ureg
+20bd5 58.26 p imm_to_ureg
+20bd6 58.26 p imm_to_ureg
+20bd7 58.26 p compute
+20bd8 58.26 p compute
+20bd9 58.26 p compute
+20bda 58.26 p compute
+20bdb 58.26 p imm_to_ureg
+20bdc 58.26 p compute
+20bdd 58.26 p dm_to_ureg_indirect
+20bde 58.26 p imm_to_ureg
+20bdf 58.26 p compute
+20be0 58.26 p compute_ureg_to_ureg
+20be1 58.26 p compute_ureg_dmpm_postmod
+20be2 58.26 p compute
+20be3 58.26 p compute_ureg_dmpm_postmod
+20be4 58.26 p ureg_to_dm_indirect
+20be5 58.26 p ureg_to_dm_indirect
+20be6 58.26 p compute
+20be7 58.26 p compute
+20be8 58.26 p compute
+20be9 58.26 p compute
+20bea 58.26 p imm_to_ureg
+20beb 58.26 p compute
+20bec 58.26 p dm_to_ureg_indirect
+20bed 58.26 p imm_to_ureg
+20bee 58.26 p compute
+20bef 58.26 p compute_ureg_to_ureg
+20bf0 58.26 p compute_ureg_dmpm_postmod
+20bf1 58.26 p compute
+20bf2 58.26 p compute_ureg_dmpm_postmod
+20bf3 58.26 p ureg_to_dm_indirect
+20bf4 58.26 p ureg_to_dm_indirect
+20bf5 62.14 p dm_to_ureg_indirect
+20bf6 62.14 p imm_shift
+20bf7 62.14 p ureg_to_dm_indirect
+20bf8 1.94 p imm_to_ureg
+20bf9 1.94 p imm_to_ureg
+20bfa 1.94 p imm_to_ureg
+20bfb 1.94 p imm_to_ureg
+20bfc 1.94 p compute_ureg_dmpm_postmod
+20bfd 1.94 b do_until_counter_imm
+20bfe 122.35 p compute
+20bff 122.35 p ureg_to_dm_indirect
+20c00 122.35 p ureg_to_dm_indirect
+20c01 122.35 p compute_ureg_dmpm_postmod
+20c02 122.35 p compute_ureg_dmpm_postmod
+20c03 1.94 p imm_to_ureg
+20c04 1.94 p imm_to_ureg
+20c05 1.94 p compute_ureg_dmpm_postmod
+20c06 1.94 b do_until_counter_imm
+20c07 122.35 p compute
+20c08 122.35 p ureg_to_dm_indirect
+20c09 122.35 p ureg_to_dm_indirect
+20c0a 122.35 p compute_ureg_dmpm_postmod
+20c0b 122.35 p compute_ureg_dmpm_postmod
+20c0c 1.94 p imm_to_ureg
+20c0d 1.94 p dm_to_ureg_indirect
+20c0e 1.94 p compute
+20c0f 1.94 p ureg_to_dm_indirect
+20c10 1.94 p imm_to_ureg
+20c11 1.94 p ureg_to_dm_indirect
+20c12 1.94 p imm_to_ureg
+20c13 1.94 p ureg_to_dm_indirect
+20c14 1.94 p ureg_to_dm_indirect
+20c15 1.94 p ureg_to_dm_indirect
+20c16 1.94 p imm_to_ureg
+20c17 1.94 p imm_to_ureg
+20c18 1.94 b do_until_counter_imm
+20c19 62.14 p dm_to_ureg_indirect
+20c1a 62.14 p compute_ureg_dmpm_postmod
+20c1b 62.14 p compute_ureg_dmpm_premod
+20c1c 62.14 p compute_ureg_dmpm_postmod
+20c1d 62.14 p compute_ureg_to_ureg
+20c1e 62.14 p ureg_to_dm_indirect
+20c1f 62.14 p compute
+20c20 62.14 b direct_jump
+20c21 26.31 p compute_ureg_to_ureg
+20c22 26.31 p compute_ureg_to_ureg
+20c23 26.31 p compute_ureg_to_ureg
+20c24 62.14 p dm_to_ureg_indirect
+20c25 62.14 p compute_ureg_dmpm_postmod
+20c26 62.14 p compute_ureg_to_ureg
+20c27 62.14 p ureg_to_dm_indirect
+20c28 62.14 p ureg_to_dm_indirect
+20c29 62.14 p ureg_to_dm_indirect
+20c2a 62.14 p compute
+20c2b 62.14 b direct_jump
+20c2c 58.26 p dm_to_ureg_indirect
+20c2d 58.26 p imm_shift
+20c2e 58.26 p ureg_to_dm_indirect
+20c2f 58.26 p imm_shift
+20c30 58.26 b direct_jump
+20c31 0.02 p dm_to_ureg_direct
+20c32 0.02 p imm_to_ureg
+20c33 0.02 p compute
+20c34 0.02 b direct_jump
+20c35 0.02 p dm_to_ureg_direct
+20c36 0.02 p compute
+20c37 58.26 p compute
+20c38 58.26 p compute
+20c39 58.26 p imm_to_ureg
+20c3a 58.26 p imm_to_ureg
+20c3b 58.26 p imm_to_ureg
+20c3c 58.26 p imm_to_ureg
+20c3d 58.26 p compute
+20c3e 58.26 p compute
+20c3f 58.26 b direct_jump
+20c40 58.25 p compute
+20c41 58.25 b direct_jump
+20c42 51.54 p compute
+20c43 51.54 p compute
+20c44 51.54 p imm_to_ureg
+20c45 51.54 p compute
+20c46 51.54 p imm_to_ureg
+20c47 51.54 p compute
+20c48 51.54 p compute_ureg_to_ureg
+20c49 51.54 p compute_ureg_dmpm_postmod
+20c4a 51.54 p ureg_to_dm_indirect
+20c4b 51.54 p ureg_to_dm_indirect
+20c4c 51.54 p ureg_to_dm_indirect
+20c4d 51.54 p compute
+20c4e 51.54 p compute
+20c4f 51.54 b direct_jump
+20c50 51.54 p compute
+20c51 51.54 b direct_jump
+20c52 49.56 p compute
+20c53 49.56 p compute
+20c54 49.56 p imm_to_ureg
+20c55 49.56 p compute
+20c56 49.56 p imm_to_ureg
+20c57 49.56 p compute
+20c58 49.56 p compute_ureg_to_ureg
+20c59 49.56 p compute_ureg_dmpm_postmod
+20c5a 49.56 p dm_to_ureg_indirect
+20c5b 49.56 p compute
+20c5c 49.56 p dm_to_ureg_indirect
+20c5d 58.26 p ureg_to_dm_indirect
+20c5e 58.26 p ureg_to_dm_indirect
+20c5f 58.26 p imm_to_ureg
+20c60 58.26 p compute
+20c61 58.26 p compute_ureg_to_ureg
+20c62 58.26 p compute_ureg_dmpm_postmod
+20c63 58.26 p compute
+20c64 58.26 p compute_ureg_dmpm_postmod
+20c65 62.14 p ureg_to_dm_indirect
+20c66 62.14 p ureg_to_dm_indirect
+20c67 62.14 p dm_to_ureg_indirect
+20c68 62.14 p compute
+20c69 62.14 p ureg_to_dm_indirect
+20c6a 62.14 p ureg_to_dm_indirect
+20c6b 62.14 p ureg_to_dm_indirect
+20c6c 1.94 p dm_to_ureg_indirect
+20c6d 1.94 p compute
+20c6e 1.94 p ureg_to_dm_indirect
+20c6f 1.94 p imm_to_ureg
+20c70 1.94 p compute
+20c71 1.94 b direct_jump
+20c72 0.65 p imm_to_ureg
+20c73 0.65 p imm_to_ureg
+20c74 0.65 b do_until_counter_imm
+20c75 10.36 p nop
+20c76 10.36 p compute_ureg_dmpm_postmod
+20c77 0.65 b rts
+20c78 8.70 p ureg_to_dm_indirect
+20c79 8.70 p ureg_to_dm_indirect
+20c7a 8.70 b direct_jump
+20c7b 8.70 p imm_to_ureg
+20c7c 8.70 p dm_to_ureg_indirect
+20c7d 0.63 b relative_jump
+20c7e 0.63 p compute_ureg_dmpm_premod
+20c7f 0.63 p ureg_to_dm_indirect
+20c80 0.63 b relative_jump
+20c81 0.63 p compute_ureg_dmpm_premod
+20c82 0.63 p ureg_to_dm_indirect
+20c83 0.63 b relative_jump
+20c84 0.63 p compute_ureg_dmpm_premod
+20c85 0.63 p ureg_to_dm_indirect
+20c86 0.63 b relative_jump
+20c87 0.63 p compute_ureg_dmpm_premod
+20c88 0.63 p ureg_to_dm_indirect
+20c89 0.63 b relative_jump
+20c8a 0.63 p compute_ureg_dmpm_premod
+20c8b 0.63 p ureg_to_dm_indirect
+20c8c 0.63 b relative_jump
+20c8d 0.63 p compute_ureg_dmpm_premod
+20c8e 0.63 p ureg_to_dm_direct
+20c8f 0.63 b relative_jump
+20c90 0.63 p compute_ureg_dmpm_premod
+20c91 0.63 p ureg_to_dm_direct
+20c92 0.63 p imm_to_ureg
+20c93 0.63 p ureg_to_dm_indirect
+20c94 0.63 p ureg_to_dm_indirect
+20c95 0.63 p ureg_to_dm_indirect
+20c96 0.63 p ureg_to_dm_indirect
+20c97 0.63 p imm_to_ureg
+20c98 0.63 p ureg_to_dm_indirect
+20c99 0.63 p ureg_to_dm_indirect
+20c9a 0.63 p ureg_to_dm_indirect
+20c9b 0.63 p imm_to_ureg
+20c9c 0.63 p imm_to_ureg
+20c9d 0.63 b do_until_counter_imm
+20c9e 60.02 p compute_ureg_dmpm_postmod
+20c9f 60.02 p compute_ureg_dmpm_postmod
+20ca0 0.63 p imm_to_ureg
+20ca1 0.63 p imm_to_ureg
+20ca2 0.63 b do_until_counter_imm
+20ca3 60.02 p compute_ureg_dmpm_postmod
+20ca4 60.02 p compute_ureg_dmpm_postmod
+20ca5 0.63 p imm_to_ureg
+20ca6 0.63 p ureg_to_dm_indirect
+20ca7 0.63 p imm_to_ureg
+20ca8 20.01 p ureg_to_dm_indirect
+20ca9 20.01 p ureg_to_dm_indirect
+20caa 20.01 p imm_to_ureg
+20cab 20.01 p dm_to_ureg_indirect
+20cac 20.01 p compute_ureg_dmpm_postmod
+20cad 20.01 p ureg_to_dm_indirect
+20cae 20.01 p ureg_to_dm_indirect
+20caf 20.01 p ureg_to_dm_indirect
+20cb0 20.01 p compute
+20cb1 20.01 b direct_jump
+20cb2 1.84 p imm_to_ureg
+20cb3 1.84 p compute_ureg_to_ureg
+20cb4 1.84 p compute_ureg_dmpm_premod
+20cb5 1.84 p compute
+20cb6 1.84 b direct_jump
+20cb7 0.59 p dm_to_ureg_indirect
+20cb8 0.59 p dm_to_ureg_indirect
+20cb9 0.59 p compute
+20cba 0.59 b direct_jump
+20cbb 0.01 p dm_to_ureg_direct
+20cbc 0.01 p imm_to_ureg
+20cbd 0.01 p compute
+20cbe 0.01 b direct_jump
+20cbf 0.01 p dm_to_ureg_direct
+20cc0 0.01 p compute
+20cc1 0.59 p ureg_to_dm_direct
+20cc2 0.59 p ureg_to_dm_indirect
+20cc3 0.59 p ureg_to_dm_indirect
+20cc4 0.59 p imm_to_ureg
+20cc5 0.59 p compute_ureg_dmpm_premod
+20cc6 0.59 p imm_to_ureg
+20cc7 0.59 p compute
+20cc8 0.59 p compute_ureg_to_ureg
+20cc9 0.59 p imm_to_ureg
+20cca 0.59 p compute_ureg_dmpm_postmod
+20ccb 0.59 p compute_ureg_dmpm_postmod
+20ccc 0.59 p compute_ureg_dmpm_postmod
+20ccd 0.59 p compute_ureg_dmpm_postmod
+20cce 0.59 p compute_ureg_dmpm_postmod
+20ccf 0.59 p compute_ureg_dmpm_postmod
+20cd0 0.59 p ureg_to_dm_indirect
+20cd1 0.59 p ureg_to_dm_indirect
+20cd2 0.59 p imm_to_ureg
+20cd3 0.59 p compute
+20cd4 0.59 p compute_ureg_to_ureg
+20cd5 0.59 p compute_ureg_dmpm_postmod
+20cd6 0.59 p compute_ureg_dmpm_postmod
+20cd7 0.59 p compute_ureg_dmpm_postmod
+20cd8 0.59 p compute_ureg_dmpm_postmod
+20cd9 0.59 p compute_ureg_dmpm_postmod
+20cda 0.59 p compute_ureg_dmpm_postmod
+20cdb 0.59 p ureg_to_dm_indirect
+20cdc 0.59 p ureg_to_dm_indirect
+20cdd 0.59 p dm_to_ureg_indirect
+20cde 0.59 p dm_to_ureg_indirect
+20cdf 0.59 p imm_to_ureg
+20ce0 0.59 p compute
+20ce1 0.59 b direct_jump
+20ce2 0.59 p dm_to_ureg_indirect
+20ce3 0.59 p ureg_to_dm_indirect
+20ce4 0.59 p ureg_to_dm_indirect
+20ce5 0.59 p ureg_to_dm_indirect
+20ce6 0.59 p dm_to_ureg_indirect
+20ce7 0.59 p dm_to_ureg_direct
+20ce8 0.59 p compute
+20ce9 0.59 b direct_jump
+20cea 0.58 p imm_to_ureg
+20ceb 0.58 p ureg_to_dm_indirect
+20cec 0.58 p dm_to_ureg_indirect
+20ced 0.58 p compute_ureg_to_ureg
+20cee 0.58 p imm_to_ureg
+20cef 18.62 p ureg_to_dm_indirect
+20cf0 18.62 p ureg_to_dm_indirect
+20cf1 18.62 p dm_to_ureg_direct
+20cf2 18.62 p compute
+20cf3 18.62 b direct_jump
+20cf4 17.97 p compute
+20cf5 17.97 b direct_jump
+20cf6 17.13 p dm_to_ureg_indirect
+20cf7 17.13 p imm_shift
+20cf8 17.13 p ureg_to_dm_indirect
+20cf9 17.13 p ureg_to_dm_indirect
+20cfa 17.13 p ureg_to_dm_indirect
+20cfb 17.13 p imm_to_ureg
+20cfc 17.13 p compute
+20cfd 17.13 b direct_jump
+20cfe 16.54 p compute
+20cff 16.54 b direct_jump
+20d00 1.50 p ureg_to_dm_indirect
+20d01 1.50 p ureg_to_dm_indirect
+20d02 1.50 p imm_to_ureg
+20d03 1.50 p compute_ureg_to_ureg
+20d04 1.50 p compute_ureg_dmpm_premod
+20d05 1.50 p compute
+20d06 1.50 b direct_jump
+20d07 1.50 p dm_to_ureg_indirect
+20d08 1.50 p compute
+20d09 1.50 p ureg_to_dm_indirect
+20d0a 1.50 p ureg_to_dm_indirect
+20d0b 1.50 p ureg_to_dm_indirect
+20d0c 1.50 p dm_to_ureg_indirect
+20d0d 1.50 p dm_to_ureg_indirect
+20d0e 1.50 p compute
+20d0f 1.50 b direct_jump
+20d10 0.42 p dm_to_ureg_direct
+20d11 0.42 p imm_to_ureg
+20d12 0.42 p compute
+20d13 0.42 b direct_jump
+20d14 0.42 p dm_to_ureg_direct
+20d15 0.42 p compute
+20d16 1.50 p ureg_to_dm_indirect
+20d17 1.50 p ureg_to_dm_indirect
+20d18 1.50 p ureg_to_dm_indirect
+20d19 1.50 p imm_to_ureg
+20d1a 1.50 p compute_ureg_dmpm_premod
+20d1b 1.50 p imm_to_ureg
+20d1c 1.50 p compute_ureg_dmpm_premod
+20d1d 1.50 p compute_ureg_dmpm_premod
+20d1e 1.50 p compute_ureg_dmpm_premod
+20d1f 1.50 p dm_to_ureg_direct
+20d20 1.50 p compute
+20d21 1.50 p dm_to_ureg_direct
+20d22 1.50 p compute
+20d23 1.50 p dm_to_ureg_direct
+20d24 1.50 p compute_dreg_to_dm_immmod
+20d25 1.50 p ureg_to_dm_indirect
+20d26 1.50 p ureg_to_dm_indirect
+20d27 1.50 p ureg_to_dm_direct
+20d28 1.50 p ureg_to_dm_direct
+20d29 1.50 p ureg_to_dm_direct
+20d2a 1.50 p ureg_to_dm_indirect
+20d2b 1.50 p ureg_to_dm_indirect
+20d2c 1.50 p dm_to_ureg_indirect
+20d2d 1.50 p dm_to_ureg_indirect
+20d2e 1.50 p compute
+20d2f 1.50 b direct_jump
+20d30 1.05 p compute
+20d31 1.05 p compute
+20d32 1.05 p compute
+20d33 1.05 p compute
+20d34 1.05 p compute
+20d35 1.50 p ureg_to_pm_direct
+20d36 1.50 p ureg_to_pm_direct
+20d37 1.50 p ureg_to_pm_direct
+20d38 1.50 p dm_to_ureg_direct
+20d39 1.50 p dm_to_ureg_indirect
+20d3a 1.50 p compute
+20d3b 1.50 p compute_ureg_to_ureg
+20d3c 1.50 p compute
+20d3d 1.50 p ureg_to_pm_direct
+20d3e 1.50 p ureg_to_pm_direct
+20d3f 1.50 p ureg_to_pm_direct
+20d40 1.50 p compute
+20d41 1.50 b direct_jump
+20d42 0.44 p dm_to_ureg_indirect
+20d43 0.44 p compute
+20d44 0.44 p ureg_to_dm_indirect
+20d45 0.44 p ureg_to_dm_indirect
+20d46 0.44 p ureg_to_dm_indirect
+20d47 0.44 p dm_to_ureg_indirect
+20d48 0.44 p imm_to_ureg
+20d49 0.44 p compute
+20d4a 0.44 b direct_jump
+20d4b 0.44 p imm_to_ureg
+20d4c 0.44 p compute
+20d4d 0.44 b direct_jump
+20d4e 0.44 b direct_jump
+20d7b 0.44 p dm_to_ureg_indirect
+20d7c 0.44 p dm_to_ureg_indirect
+20d7d 0.44 p compute
+20d7e 0.44 b direct_jump
+20d7f 0.20 p pm_to_ureg_direct
+20d80 0.20 p compute_ureg_to_ureg
+20d81 0.20 p compute_ureg_to_ureg
+20d82 0.20 b direct_call
+20d83 0.20 p compute_ureg_to_ureg
+20d84 0.20 p compute_ureg_to_ureg
+20d85 0.20 p dm_to_ureg_direct
+20d86 0.20 p dm_to_ureg_indirect
+20d87 0.20 p compute
+20d88 0.20 p compute
+20d89 0.20 p ureg_to_pm_direct
+20d8a 0.20 p ureg_to_pm_direct
+20d8b 0.20 p ureg_to_pm_direct
+20d8c 0.20 p compute_ureg_dmpm_premod
+20d8d 0.20 p dm_to_ureg_indirect
+20d8e 0.20 p dm_to_ureg_indirect
+20d8f 0.20 p compute
+20d90 0.20 b direct_jump
+20d91 0.09 p dm_to_ureg_indirect
+20d92 0.09 p dm_to_ureg_indirect
+20d93 0.09 p compute
+20d94 0.09 b direct_jump
+20d95 0.07 p imm_to_ureg
+20d96 0.20 p ureg_to_dm_indirect
+20d97 0.20 p ureg_to_dm_indirect
+20d98 0.20 p pm_to_ureg_direct
+20d99 0.20 p compute
+20d9a 0.20 p dm_to_ureg_indirect
+20d9b 0.20 p compute
+20d9c 0.20 b direct_jump
+20d9d 0.10 p ureg_to_dm_indirect
+20d9e 0.10 p ureg_to_dm_indirect
+20d9f 0.10 p ureg_to_dm_indirect
+20da0 0.44 b direct_jump
+20da1 1.06 p dm_to_ureg_indirect
+20da2 1.06 p compute
+20da3 1.06 p dm_to_ureg_indirect
+20da4 1.06 p compute
+20da5 1.06 p ureg_to_dm_indirect
+20da6 1.06 p ureg_to_dm_indirect
+20da7 1.06 p ureg_to_dm_indirect
+20da8 1.50 p dm_to_ureg_indirect
+20da9 1.50 p imm_shift
+20daa 1.50 p dm_to_ureg_indirect
+20dab 1.50 p ureg_to_dm_indirect
+20dac 1.50 p ureg_to_dm_indirect
+20dad 1.50 p ureg_to_dm_indirect
+20dae 1.50 p imm_to_ureg
+20daf 1.50 p compute
+20db0 1.50 b direct_jump
+20db1 1.50 p compute
+20db2 1.50 b direct_jump
+20db3 20.01 p ureg_to_dm_indirect
+20db4 20.01 p ureg_to_dm_indirect
+20db5 20.01 p dm_to_ureg_indirect
+20db6 20.01 p imm_to_ureg
+20db7 20.01 p compute
+20db8 20.01 p compute_ureg_to_ureg
+20db9 20.01 p dm_to_ureg_indirect
+20dba 20.01 p compute_ureg_dmpm_postmod
+20dbb 20.01 p compute
+20dbc 20.01 p ureg_to_dm_indirect
+20dbd 20.01 p dm_to_ureg_indirect
+20dbe 20.01 p imm_shift
+20dbf 20.01 p ureg_to_dm_indirect
+20dc0 20.01 p ureg_to_dm_indirect
+20dc1 20.01 p ureg_to_dm_indirect
+20dc2 20.01 p imm_to_ureg
+20dc3 20.01 p compute
+20dc4 20.01 b direct_jump
+20dc5 19.38 p compute
+20dc6 19.38 b direct_jump
+20dc7 0.63 b direct_call
+20dc8 0.63 p dm_to_ureg_indirect
+20dc9 0.63 b relative_jump
+20dca 0.63 p compute_ureg_dmpm_premod
+20dcb 0.63 p dm_to_ureg_indirect
+20dcc 0.63 b relative_jump
+20dcd 0.63 p compute_ureg_dmpm_premod
+20dce 0.63 p dm_to_ureg_indirect
+20dcf 0.63 b relative_jump
+20dd0 0.63 p compute_ureg_dmpm_premod
+20dd1 0.63 p dm_to_ureg_indirect
+20dd2 0.63 b relative_jump
+20dd3 0.63 p compute_ureg_dmpm_premod
+20dd4 0.63 b rts
+20dd5 0.45 p compute_ureg_dmpm_postmod
+20dd6 0.45 p compute_ureg_dmpm_postmod
+20dd7 0.45 p compute_ureg_dmpm_postmod
+20dd8 0.45 p compute_ureg_dmpm_postmod
+20dd9 0.45 p dm_to_ureg_direct
+20dda 0.45 p compute
+20ddb 0.45 p dm_to_ureg_direct
+20ddc 0.45 p compute
+20ddd 0.45 p dm_to_ureg_direct
+20dde 0.45 p compute_dreg_to_dm_immmod
+20ddf 0.45 p ureg_to_dm_indirect
+20de0 0.45 p ureg_to_dm_indirect
+20de1 0.45 p dm_to_ureg_direct
+20de2 0.45 p compute
+20de3 0.45 p dm_to_ureg_direct
+20de4 0.45 p compute
+20de5 0.45 p dm_to_ureg_direct
+20de6 0.45 p compute_dreg_to_dm_immmod
+20de7 0.45 p ureg_to_dm_indirect
+20de8 0.45 p ureg_to_dm_indirect
+20de9 0.45 p ureg_to_dm_indirect
+20dea 0.45 p ureg_to_dm_indirect
+20deb 0.45 b direct_call
+20dec 0.45 b direct_jump
+20ded 0.45 p imm_to_ureg
+20dee 0.45 p imm_to_ureg
+20def 0.45 b do_until_counter_imm
+20df0 4.04 p compute_ureg_dmpm_postmod
+20df1 4.04 p compute_ureg_dmpm_postmod
+20df2 0.45 p ureg_to_dm_indirect
+20df3 0.45 p ureg_to_dm_indirect
+20df4 0.45 p dm_to_ureg_indirect
+20df5 0.45 p dm_to_ureg_indirect
+20df6 0.45 p dm_to_ureg_indirect
+20df7 0.45 p dm_to_ureg_indirect
+20df8 0.45 p compute_dm_to_dreg_immmod
+20df9 0.45 p compute_dm_to_dreg_immmod
+20dfa 0.45 p compute
+20dfb 0.45 p compute
+20dfc 0.45 p compute
+20dfd 0.45 p compute
+20dfe 0.45 b direct_jump
+20dff 0.35 p compute
+20e00 0.35 p compute
+20e01 0.35 p compute
+20e02 0.35 p compute
+20e03 0.35 p compute_dreg_to_dm_immmod
+20e04 0.35 p compute_dreg_to_dm_immmod
+20e05 0.35 p ureg_to_dm_indirect
+20e06 0.35 p ureg_to_dm_indirect
+20e07 0.35 b direct_jump
+20e08 0.18 p compute_ureg_to_ureg
+20e09 0.18 p compute_ureg_to_ureg
+20e0a 0.18 b direct_call
+20e0b 0.18 p dm_to_ureg_indirect
+20e0c 0.18 p compute_dm_to_dreg_immmod
+20e0d 0.18 p compute_dm_to_dreg_immmod
+20e0e 0.18 p compute_dreg_to_dm_immmod
+20e0f 0.18 p dm_to_ureg_indirect
+20e10 0.18 p compute_dm_to_dreg_immmod
+20e11 0.18 p compute_dm_to_dreg_immmod
+20e12 0.18 p compute_dreg_to_dm_immmod
+20e13 0.18 p compute
+20e14 0.18 p compute
+20e15 0.18 p compute_dreg_to_dm_immmod
+20e16 0.18 p ureg_to_dm_indirect
+20e17 0.18 p ureg_to_dm_indirect
+20e18 0.18 b rts
+20e19 0.18 p compute
+20e1a 0.18 p compute
+20e1b 0.10 p dm_to_ureg_indirect
+20e1c 0.10 p compute_dm_to_dreg_immmod
+20e1d 0.10 p compute_dm_to_dreg_immmod
+20e1e 0.10 p compute
+20e1f 0.10 b rts
+20e20 0.10 p compute
+20e21 0.10 p compute
+20e22 0.17 p dm_to_ureg_indirect
+20e23 0.17 p compute_dm_to_dreg_immmod
+20e24 0.17 p compute_dm_to_dreg_immmod
+20e25 0.17 p compute
+20e26 0.17 b rts
+20e27 0.17 p compute
+20e28 0.17 p compute
+20e29 0.63 p imm_to_ureg
+20e2a 0.63 p imm_to_ureg
+20e2b 0.63 p dm_to_ureg_indirect
+20e2c 0.63 p dm_to_ureg_indirect
+20e2d 0.63 p imm_to_ureg
+20e2e 0.63 p imm_to_ureg
+20e2f 0.63 p imm_to_ureg
+20e30 0.63 p imm_to_ureg
+20e31 20.01 p compute_ureg_to_ureg
+20e32 20.01 p imm_to_ureg
+20e33 20.01 p compute_ureg_dmpm_premod
+20e34 20.01 p compute
+20e35 20.01 b direct_jump
+20e36 18.75 p imm_to_ureg
+20e37 18.75 p compute_ureg_dmpm_premod
+20e38 600.16 p compute
+20e39 600.16 b direct_jump
+20e3a 0.60 p compute_ureg_to_ureg
+20e3b 0.60 p imm_to_ureg
+20e3c 0.60 p compute_ureg_dmpm_premod
+20e3d 0.60 p compute
+20e3e 0.60 b direct_jump
+20e3f 0.60 p compute
+20e40 0.60 b direct_jump
+20e41 0.02 p compute
+20e42 0.02 b direct_jump
+20e43 0.02 p compute
+20e44 0.02 b direct_jump
+20e45 0.60 p compute
+20e46 0.60 b direct_jump
+20e47 0.22 p compute
+20e48 0.22 b direct_jump
+20e49 0.22 p compute
+20e4a 0.22 b direct_jump
+20e4b 0.60 p compute_ureg_to_ureg
+20e4c 0.60 p compute_ureg_dmpm_premod
+20e4d 0.60 p compute
+20e4e 0.60 p compute_ureg_dmpm_premod
+20e4f 600.16 p compute
+20e50 600.16 p imm_to_ureg
+20e51 600.16 p compute
+20e52 600.16 b direct_jump
+20e53 20.01 p compute
+20e54 20.01 p imm_to_ureg
+20e55 20.01 p compute
+20e56 20.01 b direct_jump
+20e57 0.63 b rts
+20e58 0.65 b relative_jump
+20e59 0.65 p compute_ureg_dmpm_premod
+20e5a 0.65 p compute
+20e5b 0.65 b relative_jump
+20e5c 0.65 p compute_ureg_dmpm_premod
+20e5d 0.65 p compute
+20e5e 0.65 p compute
+20e5f 0.65 b direct_call
+20e60 0.65 p compute
+20e61 0.65 p compute
+20e62 0.65 b relative_jump
+20e63 0.65 p compute_ureg_dmpm_premod
+20e64 0.65 b relative_jump
+20e65 0.65 p compute_ureg_dmpm_premod
+20e66 0.65 b relative_jump
+20e67 0.65 p compute_ureg_dmpm_premod
+20e68 0.65 b direct_call
+20e69 0.65 p imm_to_ureg
+20e6a 0.65 p imm_to_ureg
+20e6b 0.65 b direct_call
+20e6c 0.65 p imm_to_ureg
+20e6d 0.65 p imm_to_ureg
+20e6e 0.65 b direct_call
+20e6f 0.65 p imm_to_ureg
+20e70 0.65 p imm_to_ureg
+20e71 0.65 p imm_to_ureg
+20e72 0.65 p imm_to_ureg
+20e73 2.59 b do_until_counter_imm
+20e74 82.86 p compute_ureg_dmpm_postmod
+20e75 82.86 p compute_ureg_dmpm_premod
+20e76 82.86 p compute
+20e77 82.86 p compute_ureg_dmpm_postmod
+20e78 82.86 p compute
+20e79 82.86 p compute
+20e7a 82.86 p compute_ureg_dmpm_postmod
+20e7b 82.86 p compute
+20e7c 82.86 p compute_ureg_dmpm_postmod
+20e7d 82.86 p compute
+20e7e 82.86 p compute_ureg_dmpm_postmod
+20e7f 2.59 b rts
+20e80 0.60 b relative_jump
+20e81 0.60 p compute_ureg_dmpm_premod
+20e82 0.60 b relative_jump
+20e83 0.60 p compute_ureg_dmpm_premod
+20e84 0.60 p compute
+20e85 0.60 b relative_jump
+20e86 0.60 p compute_ureg_dmpm_premod
+20e87 0.60 p compute
+20e88 0.60 b relative_jump
+20e89 0.60 p compute_ureg_dmpm_premod
+20e8a 0.60 b direct_call
+20e8b 0.60 p compute
+20e8c 0.60 b relative_jump
+20e8d 0.60 p compute_ureg_dmpm_premod
+20e8e 0.60 b rts
+20e8f 30.66 b relative_jump
+20e90 30.66 p compute_ureg_dmpm_premod
+20e91 30.66 p imm_to_ureg
+20e92 30.66 p compute_ureg_dmpm_premod
+20e93 30.66 b direct_call
+20e94 30.66 p ureg_to_dm_indirect
+20e95 30.66 p compute_ureg_to_ureg
+20e96 30.66 p ureg_to_dm_indirect
+20e97 30.66 b relative_jump
+20e98 30.66 p compute_ureg_dmpm_premod
+20e99 30.66 p imm_to_ureg
+20e9a 30.66 p compute
+20e9b 30.66 p compute
+20e9c 30.66 p ureg_to_dm_indirect
+20e9d 30.66 b relative_jump
+20e9e 30.66 p compute_ureg_dmpm_premod
+20e9f 30.66 b relative_jump
+20ea0 30.66 p compute_ureg_dmpm_premod
+20ea1 30.66 p compute
+20ea2 30.66 p compute
+20ea3 30.66 p ureg_to_dm_indirect
+20ea4 30.66 p compute
+20ea5 30.66 p ureg_to_dm_indirect
+20ea6 30.66 p compute
+20ea7 30.66 b relative_jump
+20ea8 30.66 p compute_ureg_dmpm_premod
+20ea9 30.66 p ureg_to_dm_indirect
+20eaa 30.66 p ureg_to_dm_indirect
+20eab 30.66 b relative_jump
+20eac 30.66 p compute_ureg_dmpm_premod
+20ead 30.66 p compute
+20eae 30.66 p ureg_to_dm_indirect
+20eaf 30.66 p ureg_to_dm_indirect
+20eb0 30.66 p ureg_to_dm_indirect
+20eb1 30.66 p compute
+20eb2 30.66 p dm_to_ureg_indirect
+20eb3 30.66 p compute
+20eb4 30.66 p compute
+20eb5 30.66 p dm_to_ureg_indirect
+20eb6 30.66 p compute
+20eb7 30.66 p dm_to_ureg_indirect
+20eb8 30.66 p compute
+20eb9 30.66 p dm_to_ureg_indirect
+20eba 30.66 p compute
+20ebb 30.66 p dm_to_ureg_indirect
+20ebc 30.66 p compute
+20ebd 30.66 p compute
+20ebe 30.66 p compute
+20ebf 30.66 p dm_to_ureg_indirect
+20ec0 30.66 p compute
+20ec1 30.66 p dm_to_ureg_indirect
+20ec2 30.66 p compute
+20ec3 30.66 b relative_jump
+20ec4 30.66 p compute_ureg_dmpm_premod
+20ec5 30.66 b rts
+20ec7 0.58 b direct_call
+20ec8 0.58 p dm_to_ureg_direct
+20ec9 0.58 b relative_jump
+20eca 0.58 p compute_ureg_dmpm_premod
+20ecb 0.58 b direct_call
+20ecc 0.58 b relative_jump
+20ecd 0.58 p compute_ureg_dmpm_premod
+20ece 0.58 b direct_call
+20ecf 0.58 b relative_jump
+20ed0 0.58 p compute_ureg_dmpm_premod
+20ed1 0.58 b direct_call
+20ed2 0.58 b relative_jump
+20ed3 0.58 p compute_ureg_dmpm_premod
+20ed4 0.58 b direct_call
+20ed5 0.58 b relative_jump
+20ed6 0.58 p compute_ureg_dmpm_premod
+20ed7 0.58 b direct_call
+20ed8 0.58 b relative_jump
+20ed9 0.58 p compute_ureg_dmpm_premod
+20eda 0.58 b direct_call
+20edb 0.58 b relative_jump
+20edc 0.58 p compute_ureg_dmpm_premod
+20edd 0.58 b direct_call
+20ede 0.58 b relative_jump
+20edf 0.58 p compute_ureg_dmpm_premod
+20ee0 0.58 b direct_call
+20ee1 0.58 b relative_jump
+20ee2 0.58 p compute_ureg_dmpm_premod
+20ee3 0.58 b direct_call
+20ee4 0.58 b direct_jump
+20ef5 4.82 p dm_to_ureg_direct
+20ef6 4.82 b direct_call
+20ef7 4.82 p dm_to_ureg_indirect
+20ef8 4.82 p dm_to_ureg_indirect
+20ef9 4.82 b relative_jump
+20efa 4.82 p compute_ureg_dmpm_premod
+20efb 4.82 p dm_to_ureg_indirect
+20efc 4.82 b direct_call
+20efd 4.82 b relative_jump
+20efe 4.82 p compute_ureg_dmpm_premod
+20eff 4.82 F direct_call
+20f02 4.82 b relative_jump
+20f03 4.82 p compute_ureg_dmpm_premod
+20f04 4.82 b rts
+20f05 0.14 b direct_call
+20f06 0.14 p dm_to_ureg_direct
+20f07 0.14 b relative_jump
+20f08 0.14 p compute_ureg_dmpm_premod
+20f09 0.14 b direct_call
+20f0a 0.14 b relative_jump
+20f0b 0.14 p compute_ureg_dmpm_premod
+20f0c 0.14 b direct_call
+20f0d 0.14 b relative_jump
+20f0e 0.14 p compute_ureg_dmpm_premod
+20f0f 0.14 b direct_call
+20f10 0.14 b relative_jump
+20f11 0.14 p compute_ureg_dmpm_premod
+20f12 0.14 b direct_call
+20f13 0.14 b relative_jump
+20f14 0.14 p compute_ureg_dmpm_premod
+20f15 0.14 b direct_call
+20f16 0.14 b relative_jump
+20f17 0.14 p compute_ureg_dmpm_premod
+20f18 0.14 b direct_call
+20f19 0.14 b relative_jump
+20f1a 0.14 p compute_ureg_dmpm_premod
+20f1b 0.14 b direct_call
+20f1c 0.14 b relative_jump
+20f1d 0.14 p compute_ureg_dmpm_premod
+20f1e 0.14 b direct_call
+20f1f 0.14 b relative_jump
+20f20 0.14 p compute_ureg_dmpm_premod
+20f21 0.14 b direct_call
+20f22 0.14 p imm_to_ureg
+20f23 0.72 p dm_to_ureg_direct
+20f24 0.72 b direct_call
+20f25 0.72 p dm_to_ureg_indirect
+20f26 0.72 p dm_to_ureg_indirect
+20f27 0.72 p ureg_to_dm_indirect
+20f28 0.72 p dm_to_ureg_indirect
+20f29 0.72 b direct_call
+20f2a 0.72 p ureg_to_dm_indirect
+20f2b 0.72 b direct_call
+20f2c 0.72 p dm_to_ureg_indirect
+20f2d 0.72 p dm_to_ureg_indirect
+20f2e 0.72 p ureg_to_dm_indirect
+20f2f 0.72 p ureg_to_dm_indirect
+20f30 0.72 p ureg_to_dm_indirect
+20f31 0.72 p imm_to_ureg
+20f32 0.72 p imm_to_ureg
+20f33 0.72 p dm_to_ureg_indirect
+20f34 0.72 p compute
+20f35 0.72 p compute
+20f36 0.72 p compute
+20f37 0.72 p compute_ureg_to_ureg
+20f38 0.72 p compute
+20f39 0.72 p compute
+20f3a 0.72 p dm_to_ureg_indirect
+20f3b 0.72 p compute
+20f3c 0.72 p compute
+20f3d 0.72 p compute
+20f3e 0.72 p compute_ureg_to_ureg
+20f3f 0.72 p compute
+20f40 0.72 p compute
+20f41 0.72 p dm_to_ureg_indirect
+20f42 0.72 p compute
+20f43 0.72 p compute
+20f44 0.72 p compute
+20f45 0.72 p compute_ureg_to_ureg
+20f46 0.72 p compute
+20f47 0.72 p compute
+20f48 0.72 p compute
+20f49 0.72 p compute
+20f4a 0.72 p compute
+20f4b 0.72 p compute
+20f4c 0.72 p compute
+20f4d 0.72 b direct_jump
+20f4e 0.72 p dm_to_ureg_indirect
+20f4f 0.72 p dm_to_ureg_indirect
+20f50 0.72 p dm_to_ureg_indirect
+20f51 0.72 p imm_to_ureg
+20f52 0.72 p compute
+20f53 0.72 p compute
+20f54 0.72 p compute
+20f55 0.72 p compute
+20f56 0.72 p compute
+20f57 0.72 p compute
+20f58 0.72 p imm_shift
+20f59 0.72 p imm_shift
+20f5a 0.72 p imm_shift
+20f5b 0.72 p imm_shift
+20f5c 0.72 p imm_shift
+20f5d 0.72 p imm_shift
+20f5e 0.72 b relative_jump
+20f5f 0.72 p compute_ureg_dmpm_premod
+20f60 0.72 b relative_jump
+20f61 0.72 p compute_ureg_dmpm_premod
+20f62 0.72 b relative_jump
+20f63 0.72 p compute_ureg_dmpm_premod
+20f64 0.72 b rts
+20f65 1.61 p dm_to_ureg_direct
+20f66 1.61 p compute
+20f67 1.61 p compute
+20f68 1.61 p compute_dreg_to_dm_immmod
+20f69 1.61 p ureg_to_dm_indirect
+20f6a 1.61 p dm_to_ureg_direct
+20f6b 1.61 p compute
+20f6c 1.61 p compute
+20f6d 1.61 p compute_ureg_to_ureg
+20f6e 1.61 p compute
+20f6f 1.61 p compute
+20f70 1.61 p compute
+20f71 1.61 p compute_dreg_to_dm_immmod
+20f72 1.61 p compute
+20f73 1.61 p compute
+20f74 1.61 p compute_dreg_to_dm_immmod
+20f75 1.61 p compute
+20f76 1.61 p compute
+20f77 1.61 p compute
+20f78 1.61 p ureg_to_dm_indirect
+20f79 1.61 p compute
+20f7a 1.61 p ureg_to_dm_indirect
+20f7b 1.61 p compute
+20f7c 1.61 p compute
+20f7d 1.61 p compute
+20f7e 1.61 p compute_dreg_to_dm_immmod
+20f7f 1.61 p compute
+20f80 1.61 p ureg_to_dm_indirect
+20f81 1.61 p compute
+20f82 1.61 p ureg_to_dm_indirect
+20f83 1.61 b rts
+20f84 1.61 p ureg_to_dm_indirect
+20f85 1.61 p ureg_to_dm_indirect
+20f86 1.61 b direct_call
+20f87 1.61 p ureg_to_dm_indirect
+20f88 1.61 p ureg_to_dm_indirect
+20f89 1.61 p dm_to_ureg_direct
+20f8a 1.61 b relative_jump
+20f8b 1.61 p compute_ureg_dmpm_premod
+20f8c 1.61 p ureg_to_dm_indirect
+20f8d 1.61 b relative_jump
+20f8e 1.61 p compute_ureg_dmpm_premod
+20f8f 1.61 p ureg_to_dm_indirect
+20f90 1.61 b relative_jump
+20f91 1.61 p compute_ureg_dmpm_premod
+20f92 1.61 p ureg_to_dm_indirect
+20f93 1.61 p ureg_to_dm_indirect
+20f94 1.61 p ureg_to_dm_indirect
+20f95 1.61 b relative_jump
+20f96 1.61 p compute_ureg_dmpm_premod
+20f97 1.61 b direct_call
+20f98 1.61 p compute_ureg_to_ureg
+20f99 1.61 p compute_ureg_to_ureg
+20f9a 1.61 b relative_jump
+20f9b 1.61 p compute_ureg_dmpm_premod
+20f9c 1.61 b direct_call
+20f9d 1.61 p ureg_to_dm_direct
+20f9e 1.61 p ureg_to_dm_direct
+20f9f 1.61 b relative_jump
+20fa0 1.61 p compute_ureg_dmpm_premod
+20fa1 1.61 b direct_call
+20fa2 1.61 p ureg_to_dm_indirect
+20fa3 1.61 p ureg_to_dm_indirect
+20fa4 1.61 b direct_call
+20fa5 1.61 b relative_jump
+20fa6 1.61 p compute_ureg_dmpm_premod
+20fa7 1.61 b direct_call
+20fa8 1.61 b relative_jump
+20fa9 1.61 p compute_ureg_dmpm_premod
+20faa 1.61 b direct_call
+20fab 1.61 b relative_jump
+20fac 1.61 p compute_ureg_dmpm_premod
+20fad 1.61 b direct_jump
+20fae 0.16 b relative_jump
+20faf 0.16 p compute_ureg_dmpm_premod
+20fb0 0.16 p ureg_to_dm_indirect
+20fb1 0.16 b relative_jump
+20fb2 0.16 p compute_ureg_dmpm_premod
+20fb3 0.16 b relative_jump
+20fb4 0.16 p compute_ureg_dmpm_premod
+20fb5 0.16 p ureg_to_dm_indirect
+20fb6 0.16 b relative_jump
+20fb7 0.16 p compute_ureg_dmpm_premod
+20fb8 0.16 b relative_jump
+20fb9 0.16 p compute_ureg_dmpm_premod
+20fba 0.16 p ureg_to_dm_indirect
+20fbb 0.16 b relative_jump
+20fbc 0.16 p compute_ureg_dmpm_premod
+20fbd 0.16 p compute
+20fbe 0.16 b relative_jump
+20fbf 0.16 p compute_ureg_dmpm_premod
+20fc0 0.16 b direct_call
+20fc1 0.16 p ureg_to_dm_indirect
+20fc2 0.16 p ureg_to_dm_indirect
+20fc3 0.16 p ureg_to_dm_indirect
+20fc4 0.16 p ureg_to_dm_indirect
+20fc5 0.16 p dm_to_ureg_indirect
+20fc6 0.16 p compute_dm_to_dreg_immmod
+20fc7 0.16 p compute_dm_to_dreg_immmod
+20fc8 0.16 p compute
+20fc9 0.16 p compute
+20fca 0.16 p compute_dm_to_dreg_immmod
+20fcb 0.16 p compute
+20fcc 0.16 p compute_dm_to_dreg_immmod
+20fcd 0.16 p compute
+20fce 0.16 b relative_jump
+20fcf 0.16 p compute_ureg_dmpm_premod
+20fd0 0.16 p dm_to_ureg_indirect
+20fd1 0.16 b relative_jump
+20fd2 0.16 p compute_ureg_dmpm_premod
+20fd3 0.16 p compute_dm_to_dreg_immmod
+20fd4 0.16 p compute_dm_to_dreg_immmod
+20fd5 0.16 p compute
+20fd6 0.16 p compute
+20fd7 0.16 p compute
+20fd8 0.16 p compute
+20fd9 0.16 b relative_jump
+20fda 0.16 p compute_ureg_dmpm_premod
+20fdb 0.16 b rts
+20fdc 17.65 p imm_to_ureg
+20fdd 17.65 b relative_jump
+20fde 17.65 p compute_ureg_dmpm_premod
+20fdf 17.65 b relative_jump
+20fe0 17.65 p compute_ureg_dmpm_premod
+20fe1 17.65 p compute
+20fe2 17.65 p compute_ureg_to_ureg
+20fe3 17.65 p imm_to_ureg
+20fe4 17.65 b do_until_counter_imm
+20fe5 158.87 p compute_ureg_dmpm_postmod
+20fe6 158.87 p compute_ureg_dmpm_postmod
+20fe7 17.65 p ureg_to_dm_indirect
+20fe8 17.65 p ureg_to_dm_indirect
+20fe9 17.65 b direct_call
+20fea 17.65 p imm_to_ureg
+20feb 17.65 p dm_to_ureg_direct
+20fec 17.65 p dm_to_ureg_indirect
+20fed 17.65 p compute_dm_to_dreg_immmod
+20fee 17.65 p compute_dm_to_dreg_immmod
+20fef 17.65 p compute_dm_to_dreg_immmod
+20ff0 17.65 p compute_dreg_to_dm_immmod
+20ff1 17.65 p compute_dm_to_dreg_immmod
+20ff2 17.65 p compute_dm_to_dreg_immmod
+20ff3 17.65 p compute_dreg_to_dm_immmod
+20ff4 17.65 p compute_dm_to_dreg_immmod
+20ff5 17.65 p compute_dm_to_dreg_immmod
+20ff6 17.65 p compute_dreg_to_dm_immmod
+20ff7 17.65 p compute_dm_to_dreg_immmod
+20ff8 17.65 p compute_dm_to_dreg_immmod
+20ff9 17.65 p compute_dreg_to_dm_immmod
+20ffa 17.65 p compute_dm_to_dreg_immmod
+20ffb 17.65 p compute_dm_to_dreg_immmod
+20ffc 17.65 p compute_dreg_to_dm_immmod
+20ffd 17.65 p compute_dm_to_dreg_immmod
+20ffe 17.65 p compute_dreg_to_dm_immmod
+20fff 17.65 p ureg_to_dm_indirect
+21000 17.65 p dm_to_ureg_indirect
+21001 17.65 p ureg_to_dm_indirect
+21002 17.65 p dm_to_ureg_indirect
+21003 17.65 p ureg_to_dm_indirect
+21004 17.65 p ureg_to_dm_indirect
+21005 17.65 p ureg_to_dm_indirect
+21006 17.65 p ureg_to_dm_indirect
+21007 17.65 b rts
+21008 17.65 p ureg_to_dm_indirect
+21009 17.65 p ureg_to_dm_indirect
+2100a 24.95 p dm_to_ureg_indirect
+2100b 24.95 p imm_to_ureg
+2100c 24.95 p compute
+2100d 24.95 b rts
+2100e 24.95 p dm_to_ureg_indirect
+2100f 24.95 p compute
+21010 6.43 b direct_call
+21011 6.43 p dm_to_ureg_direct
+21012 6.43 b relative_jump
+21013 6.43 p compute_ureg_dmpm_premod
+21014 6.43 b direct_call
+21015 6.43 b relative_jump
+21016 6.43 p compute_ureg_dmpm_premod
+21017 6.43 b direct_call
+21018 6.43 b relative_jump
+21019 6.43 p compute_ureg_dmpm_premod
+2101a 6.43 b direct_call
+2101b 6.43 b relative_jump
+2101c 6.43 p compute_ureg_dmpm_premod
+2101d 6.43 b direct_call
+2101e 6.43 b relative_jump
+2101f 6.43 p compute_ureg_dmpm_premod
+21020 6.43 b direct_call
+21021 6.43 b relative_jump
+21022 6.43 p compute_ureg_dmpm_premod
+21023 6.43 b direct_call
+21024 6.43 b relative_jump
+21025 6.43 p compute_ureg_dmpm_premod
+21026 6.43 p ureg_to_dm_indirect
+21027 6.43 b relative_jump
+21028 6.43 p compute_ureg_dmpm_premod
+21029 6.43 p ureg_to_dm_indirect
+2102a 6.43 b relative_jump
+2102b 6.43 p compute_ureg_dmpm_premod
+2102c 6.43 p ureg_to_dm_indirect
+2102d 6.43 b relative_jump
+2102e 6.43 p compute_ureg_dmpm_premod
+2102f 6.43 p ureg_to_dm_indirect
+21030 6.43 b relative_jump
+21031 6.43 p compute_ureg_dmpm_premod
+21032 6.43 p ureg_to_dm_indirect
+21033 6.43 b relative_jump
+21034 6.43 p compute_ureg_dmpm_premod
+21035 6.43 p ureg_to_dm_indirect
+21036 6.43 b relative_jump
+21037 6.43 p compute_ureg_dmpm_premod
+21038 6.43 p ureg_to_dm_indirect
+21039 6.43 b relative_jump
+2103a 6.43 p compute_ureg_dmpm_premod
+2103b 6.43 p ureg_to_dm_indirect
+2103c 6.43 p ureg_to_dm_indirect
+2103d 6.43 p ureg_to_dm_indirect
+2103e 6.43 p dm_to_ureg_indirect
+2103f 6.43 p compute_dm_to_dreg_immmod
+21040 6.43 p compute_dm_to_dreg_immmod
+21041 6.43 p compute_dreg_to_dm_immmod
+21042 6.43 p ureg_to_dm_indirect
+21043 6.43 p ureg_to_dm_indirect
+21044 6.43 p ureg_to_dm_indirect
+21045 6.43 p ureg_to_dm_indirect
+21046 6.43 p dm_to_ureg_indirect
+21047 6.43 p compute_dm_to_dreg_immmod
+21048 6.43 p compute_dm_to_dreg_immmod
+21049 6.43 p compute_dm_to_dreg_immmod
+2104a 6.43 p compute_dm_to_dreg_immmod
+2104b 6.43 p compute_dm_to_dreg_immmod
+2104c 6.43 p compute_dreg_to_dm_immmod
+2104d 6.43 p compute
+2104e 6.43 p compute
+2104f 6.43 p compute_dm_to_dreg_immmod
+21050 6.43 p compute_dm_to_dreg_immmod
+21051 6.43 p compute_dm_to_dreg_immmod
+21052 6.43 p ureg_to_dm_indirect
+21053 6.43 p ureg_to_dm_indirect
+21054 6.43 p ureg_to_dm_indirect
+21055 6.43 p compute
+21056 6.43 p compute
+21057 6.43 p compute
+21058 6.43 p compute_dm_to_dreg_immmod
+21059 6.43 p compute_dm_to_dreg_immmod
+2105a 6.43 p compute_dreg_to_dm_immmod
+2105b 6.43 p compute
+2105c 6.43 p compute
+2105d 6.43 p compute
+2105e 6.43 b direct_call
+2105f 6.43 p ureg_to_dm_indirect
+21060 6.43 p compute
+21061 6.43 p ureg_to_dm_indirect
+21062 6.43 p ureg_to_dm_indirect
+21063 6.43 b direct_call
+21064 6.43 p ureg_to_dm_indirect
+21065 6.43 p dm_to_ureg_indirect
+21066 6.43 p ureg_to_dm_indirect
+21067 6.43 p ureg_to_dm_indirect
+21068 6.43 p ureg_to_dm_indirect
+21069 6.43 p dm_to_ureg_indirect
+2106a 6.43 p compute
+2106b 6.43 p ureg_to_dm_indirect
+2106c 6.43 p ureg_to_dm_indirect
+2106d 6.43 p ureg_to_dm_indirect
+2106e 6.43 b direct_call
+2106f 6.43 p compute_ureg_dmpm_premod
+21070 6.43 p dm_to_ureg_indirect
+21071 6.43 p ureg_to_dm_indirect
+21072 6.43 p ureg_to_dm_indirect
+21073 6.43 p ureg_to_dm_indirect
+21074 6.43 p dm_to_ureg_direct
+21075 6.43 p dm_to_ureg_indirect
+21076 6.43 p dm_to_ureg_indirect
+21077 6.43 p dm_to_ureg_indirect
+21078 6.43 p compute
+21079 6.43 p compute_dreg_to_dm_immmod
+2107a 6.43 p ureg_to_dm_indirect
+2107b 6.43 p ureg_to_dm_indirect
+2107c 6.43 p ureg_to_dm_indirect
+2107d 6.43 b direct_call
+2107e 6.43 b direct_call
+2107f 6.43 p dm_to_ureg_indirect
+21080 6.43 p dm_to_ureg_indirect
+21081 6.43 p dm_to_ureg_indirect
+21082 6.43 p compute
+21083 6.43 p compute_dreg_to_dm_immmod
+21084 6.43 p ureg_to_dm_indirect
+21085 6.43 p ureg_to_dm_indirect
+21086 6.43 b direct_call
+21087 6.43 p ureg_to_dm_indirect
+21088 6.43 p dm_to_ureg_direct
+21089 6.43 p ureg_to_dm_indirect
+2108a 6.43 p ureg_to_dm_indirect
+2108b 6.43 b direct_call
+2108c 6.43 p dm_to_ureg_indirect
+2108d 6.43 p dm_to_ureg_indirect
+2108e 6.43 p compute_dm_to_dreg_immmod
+2108f 6.43 p compute
+21090 6.43 b direct_jump
+21091 6.05 p dm_to_ureg_indirect
+21092 6.05 p compute_dm_to_dreg_immmod
+21093 6.05 p compute_dm_to_dreg_immmod
+21094 6.05 p compute_dreg_to_dm_immmod
+21095 6.05 p ureg_to_dm_indirect
+21096 6.05 p ureg_to_dm_indirect
+21097 6.05 p ureg_to_dm_indirect
+21098 6.05 p ureg_to_dm_indirect
+21099 6.05 p ureg_to_dm_indirect
+2109a 6.05 p ureg_to_dm_indirect
+2109b 6.05 p dm_to_ureg_indirect
+2109c 6.05 p dm_to_ureg_indirect
+2109d 6.05 p compute_dm_to_dreg_immmod
+2109e 6.05 p compute_dm_to_dreg_immmod
+2109f 6.05 p dm_to_ureg_indirect
+210a0 6.05 p compute_ureg_dmpm_premod
+210a1 6.05 b direct_call
+210a2 6.05 p compute
+210a3 6.05 p compute_ureg_to_ureg
+210a4 6.05 p ureg_to_dm_indirect
+210a5 6.05 p ureg_to_dm_indirect
+210a6 6.05 p ureg_to_dm_indirect
+210a7 6.05 b direct_call
+210a8 6.05 p compute_ureg_dmpm_premod
+210a9 6.05 p compute
+210aa 6.05 p dm_to_ureg_indirect
+210ab 6.05 p imm_to_ureg
+210ac 6.05 p compute
+210ad 6.05 p compute
+210ae 6.05 p ureg_to_dm_indirect
+210af 6.05 p ureg_to_dm_indirect
+210b0 6.05 p ureg_to_dm_indirect
+210b1 6.05 b direct_call
+210b2 6.05 b direct_call
+210b3 6.05 p imm_to_ureg
+210b4 6.05 p dm_to_ureg_indirect
+210b5 6.05 p compute
+210b6 6.05 p compute_ureg_to_ureg
+210b7 6.05 p dm_to_ureg_direct
+210b8 6.05 b do_until_counter_imm
+210b9 72.61 p compute_ureg_dmpm_postmod
+210ba 72.61 p compute_ureg_dmpm_postmod
+210bb 6.05 p ureg_to_dm_indirect
+210bc 6.05 p ureg_to_dm_indirect
+210bd 6.05 p ureg_to_dm_indirect
+210be 6.05 p ureg_to_dm_indirect
+210bf 6.05 p dm_to_ureg_indirect
+210c0 6.05 p dm_to_ureg_indirect
+210c1 6.05 p compute_dm_to_dreg_immmod
+210c2 6.05 p compute_dm_to_dreg_immmod
+210c3 6.05 p dm_to_ureg_indirect
+210c4 6.05 p compute_ureg_dmpm_premod
+210c5 6.05 b direct_call
+210c6 6.05 p compute
+210c7 6.05 p compute_ureg_to_ureg
+210c8 6.05 p compute
+210c9 6.05 p compute_ureg_dmpm_premod
+210ca 6.05 b direct_call
+210cb 6.05 p ureg_to_dm_indirect
+210cc 6.05 p compute
+210cd 6.05 p ureg_to_dm_indirect
+210ce 6.05 p ureg_to_dm_indirect
+210cf 6.05 p dm_to_ureg_indirect
+210d0 6.05 p imm_to_ureg
+210d1 6.05 p compute
+210d2 6.05 p compute
+210d3 6.05 b direct_call
+210d4 6.05 p ureg_to_dm_indirect
+210d5 6.05 p dm_to_ureg_direct
+210d6 6.05 p ureg_to_dm_indirect
+210d7 6.05 p ureg_to_dm_indirect
+210d8 6.05 b direct_call
+210d9 6.05 p imm_to_ureg
+210da 6.05 p dm_to_ureg_indirect
+210db 6.05 p compute
+210dc 6.05 p compute_ureg_to_ureg
+210dd 6.05 p dm_to_ureg_direct
+210de 6.05 b do_until_counter_imm
+210df 72.61 p compute_ureg_dmpm_postmod
+210e0 72.61 p compute_ureg_dmpm_postmod
+210e1 6.05 p ureg_to_dm_indirect
+210e2 6.05 p ureg_to_dm_indirect
+210e3 6.05 p imm_to_ureg
+210e4 6.05 b relative_jump
+210e5 6.05 p compute_ureg_dmpm_premod
+210e6 6.05 b rts
+210e7 0.38 p imm_to_ureg
+210e8 0.38 p dm_to_ureg_indirect
+210e9 0.38 p compute
+210ea 0.38 p compute_ureg_to_ureg
+210eb 0.38 p dm_to_ureg_direct
+210ec 0.38 b do_until_counter_imm
+210ed 4.50 p compute_ureg_dmpm_postmod
+210ee 4.50 p compute_ureg_dmpm_postmod
+210ef 0.38 p ureg_to_dm_indirect
+210f0 0.38 p ureg_to_dm_indirect
+210f1 0.38 p imm_to_ureg
+210f2 0.38 p dm_to_ureg_indirect
+210f3 0.38 p compute
+210f4 0.38 p compute_ureg_to_ureg
+210f5 0.38 p dm_to_ureg_direct
+210f6 0.38 b do_until_counter_imm
+210f7 4.50 p compute_ureg_dmpm_postmod
+210f8 4.50 p compute_ureg_dmpm_postmod
+210f9 0.38 p ureg_to_dm_indirect
+210fa 0.38 p ureg_to_dm_indirect
+210fb 0.38 p imm_to_ureg
+210fc 0.38 b relative_jump
+210fd 0.38 p compute_ureg_dmpm_premod
+210fe 0.38 b rts
+# transfers a frame: goto 9010.7, dispatch in a chunk 72.9, chunk change 4621.0, entry 674.7 (table lost 0); lines: > from to kind (g goto, d dispatch, c chunk change, e entry) executions a frame
+> 20344 20343 g 1125.78
+> 20147 20130 g 1054.32
+> 2091d 2091c g 851.44
+> 20e39 20e4f g 599.56
+> 20e52 20e38 g 581.40
+> 204ab 204aa g 522.96
+> 204b3 204b2 g 522.96
+> entry 20147 e 443.58
+> 20483 20482 g 282.95
+> 20539 20539 g 281.18
+> 20ba4 20ba4 g 246.63
+> 20b62 20b5b g 160.54
+> 20b5c 20b60 g 149.82
+> 20fe6 20fe5 g 141.22
+> 20a0e 20a12 g 128.96
+> 20bff 20c00 c 122.35
+> 20c02 20bfe c 120.40
+> 20c0b 20c07 g 120.40
+> 20a15 209ea c 116.52
+> 2035c 20147 c 111.14
+> 20146 2034e c 110.42
+> 2015a 20637 c 106.56
+> 20636 2014c c 106.56
+> 20146 2062f c 106.56
+> 201cb 201c1 g 104.79
+> 20517 20517 g 104.56
+> 2051d 2051c g 104.56
+> entry 2037a e 96.07
+> 20146 2033a c 88.25
+> 2034a 20147 c 88.25
+> 20196 20294 c 87.09
+> 2029c 20197 c 87.09
+> 2050d 2050c g 87.04
+> 20507 20507 g 87.04
+> 209f9 20a0a c 85.37
+> 20e7e 20e74 g 80.27
+> 20386 2015b c 79.06
+> 2016d 20387 c 79.06
+> 209f0 209f3 g 77.68
+> 20146 20908 c 77.40
+> 201ff 20200 c 76.69
+> 20387 20147 c 72.63
+> 20146 20380 c 72.63
+> 209f6 20a0a c 69.96
+> 210ba 210b9 g 66.56
+> 210e0 210df g 66.56
+> 20399 20196 c 62.44
+> 201a8 2039a c 62.44
+> 20146 20575 c 60.57
+> 20c6b 20c19 g 60.20
+> 20bf7 20bad g 60.20
+> entry 20405 e 59.74
+> 2029c 201aa c 59.42
+> 201a9 20294 c 59.42
+> 20ca4 20ca3 g 59.39
+> 20c9f 20c9e g 59.39
+> 2029c 20184 c 59.07
+> 20183 20294 c 59.07
+> 20c30 20c37 g 58.24
+> 2039a 20147 c 58.12
+> 20146 20396 c 58.12
+> 20bcb 20bd2 g 57.91
+> 20929 2092c g 55.84
+> 20200 201f6 c 51.12
+> 20b74 2014c c 48.23
+> 2015a 20b75 c 48.23
+> 20b89 20147 c 48.23
+> 20146 20b6d c 48.23
+> 204b0 201bc c 47.54
+> 201da 204b1 c 47.54
+> 20564 20563 g 43.77
+> 20b4b 20b4d g 41.42
+> 20a19 209ab c 40.13
+> 20b4d 20b42 g 40.13
+> 209d0 209d4 g 38.84
+> 209d9 209dd g 38.52
+> 20497 20496 g 38.16
+> 20c20 20c24 g 35.83
+> 209ba 209bc g 35.59
+> 20269 20267 g 35.15
+> 20146 2039b c 34.77
+> 2039f 20147 c 34.77
+> 2039e 201a9 c 34.77
+> 201bb 2039f c 34.77
+> 20394 20183 c 34.42
+> 20195 20395 c 34.42
+> 2052f 2052e g 34.30
+> 20527 20527 g 34.30
+> 20bb9 20bbd g 33.83
+> 20395 20147 c 33.70
+> 20146 20391 c 33.70
+> 209c9 209cd g 32.32
+> 203e9 203e8 g 31.95
+> 2029d 202a4 g 31.39
+> 202fb 2029e d 31.26
+> 20146 20e8f c 30.66
+> 2059c 20e96 c 30.66
+> 20e95 20595 c 30.66
+> 20146 20402 c 29.87
+> 209e2 209e6 g 29.80
+> 204b6 20147 c 26.99
+> 20146 2049b c 26.99
+> 20146 20473 c 25.72
+> 20448 20445 g 25.72
+> 20486 20147 c 25.72
+> 2053e 20147 c 25.56
+> 2020f 2053e c 25.56
+> 2053d 201f2 c 25.56
+> 204a2 204a4 g 24.81
+> 20768 20767 g 23.82
+> 209a2 209a2 g 22.01
+> entry 20a6c e 22.01
+> 20ae1 20533 c 20.56
+> 2034a 20ace c 20.56
+> 204b6 20acf c 20.56
+> 20acd 2033a c 20.56
+> 20146 20acd c 20.56
+> 20ace 2049b c 20.56
+> 20b9c 20b9b g 20.07
+> 20dc6 20ca8 c 19.38
+> 20e56 20e31 g 19.38
+> 20cb1 20db3 c 18.16
+> 20fe9 20294 c 17.65
+> 20146 20fdc c 17.65
+> 20fff 21000 c 17.65
+> 21009 20147 c 17.65
+> 2029c 20fea c 17.65
+> 202c6 202d0 g 16.97
+> 20cff 20cef g 16.54
+> 2027e 204e1 c 15.85
+> 204ed 20adf c 15.85
+> 20adf 20ae1 g 15.85
+> 20ade 204db c 15.85
+> 204e0 2026e c 15.85
+> 202d1 202de g 15.49
+> 20ad8 20ada g 13.65
+> 20182 20390 c 13.61
+> 2038f 2016e c 13.61
+> 2047a 2047c g 12.86
+> entry 2045d e 12.86
+> 20146 20688 c 12.38
+> 20328 20281 c 12.38
+> 2068c 20325 c 12.38
+> 20367 20364 g 12.32
+> 202a3 20606 c 12.04
+> 20605 2029d c 12.04
+> 20146 20601 c 12.04
+> 20390 20147 c 11.44
+> 20146 20388 c 11.44
+> 20ac3 20ac7 g 11.24
+> entry 207e7 e 11.08
+> 20ab9 20abe g 10.98
+> 20293 20ab3 c 10.98
+> 20ab2 20281 c 10.98
+> 2036e 20147 c 10.88
+> 20146 20360 c 10.88
+> 20ac7 20a9b g 10.55
+> 20146 2054a c 10.36
+> 2066c 20281 c 9.91
+> 20146 2065f c 9.91
+> 2099d 2099c g 9.71
+> 20c76 20c75 g 9.71
+> 204d6 204c9 g 9.71
+> 20293 2068d c 9.52
+> 20146 20511 c 9.51
+> 20520 20147 c 9.51
+> 20751 20750 g 9.03
+> 2075d 2075c g 9.03
+> 20757 20756 g 9.03
+> 203b3 203b0 g 9.02
+> 2029c 205d8 c 8.89
+> 205d7 20294 c 8.89
+> 20146 205d5 c 8.89
+> 20146 20378 c 8.73
+> 20c7c 20c5d g 8.70
+> 20293 2066d c 8.66
+> 203a9 20183 c 8.04
+> 20146 203a0 c 8.04
+> 203a6 20196 c 8.04
+> 201a8 203a7 c 8.04
+> 203a3 201a9 c 8.04
+> 201bb 203a4 c 8.04
+> 20195 203aa c 8.04
+> 205eb 20294 c 7.65
+> 20146 205e9 c 7.65
+> 2029c 205ec c 7.65
+> 20570 2056f g 7.55
+> 203bb 203bb g 7.38
+> 2016d 20ada c 6.90
+> 20ad9 2015b c 6.90
+> 20146 205db c 6.86
+> 2029c 205de c 6.86
+> 205dd 20294 c 6.86
+> 20c41 20c78 g 6.71
+> 203fe 203fb g 6.47
+> 21070 20595 c 6.43
+> 201a8 2101e c 6.43
+> 201bb 21015 c 6.43
+> 201a8 2108c c 6.43
+> 2100f 2107e d 6.43
+> 2107d 2100a g 6.43
+> 2108b 20197 c 6.43
+> 20146 21010 c 6.43
+> 2101a 20183 c 6.43
+> 2100f 21089 d 6.43
+> 21023 201a9 c 6.43
+> 21017 20196 c 6.43
+> 2107e 201aa c 6.43
+> 21014 201a9 c 6.43
+> 20195 2101b c 6.43
+> 21065 2026e c 6.43
+> 2027e 21066 c 6.43
+> 21088 2100a g 6.43
+> 201bb 2107f c 6.43
+> 21020 20183 c 6.43
+> 2059c 21071 c 6.43
+> 2101d 20196 c 6.43
+> 20195 21021 c 6.43
+> 21060 20281 c 6.43
+> 201a8 21018 c 6.43
+> 21010 20380 c 6.43
+> 201bb 21024 c 6.43
+> 20293 21061 c 6.43
+> 20387 21011 c 6.43
+> 210a3 20595 c 6.05
+> 20293 210cd c 6.05
+> 210cc 20281 c 6.05
+> 210c7 20595 c 6.05
+> 2059c 210a4 c 6.05
+> 210a9 20281 c 6.05
+> 201bb 210b3 c 6.05
+> 210b1 2100a g 6.05
+> 20293 210aa c 6.05
+> 210d8 201aa c 6.05
+> 2100f 210d6 d 6.05
+> 210d5 2100a g 6.05
+> 210b2 201aa c 6.05
+> 2059c 210c8 c 6.05
+> 201bb 210d9 c 6.05
+> 2100f 210b2 d 6.05
+> entry 20133 e 5.76
+> 20510 20147 c 5.75
+> 20146 20501 c 5.75
+> 20146 205f2 c 5.29
+> 2029c 205f5 c 5.29
+> 205f4 20294 c 5.29
+> entry 20b57 e 5.18
+> 20146 20533 c 5.01
+> 2030c 20281 c 4.99
+> 20293 2030d c 4.99
+> 2030d 2029d c 4.99
+> 202a3 20f02 c 4.82
+> entry 20305 e 4.82
+> 202a3 20efd c 4.82
+> entry 20eff e 4.82
+> 20146 20ef5 c 4.82
+> 20ef8 2029d c 4.82
+> 20eff 2029d d 4.82
+> 202a3 20ef9 c 4.82
+> 206a4 2029d c 4.71
+> 20146 2069a c 4.71
+> 202a3 206a5 c 4.71
+> 20146 2059d c 4.54
+> 20146 205a3 c 4.18
+> 210f8 210f7 g 4.12
+> 210ee 210ed g 4.12
+> 20146 20715 c 4.04
+> 20567 20147 c 3.98
+> 20146 2055c c 3.98
+> 20c2b 20c65 g 3.88
+> 209a6 209a6 g 3.88
+> 20a43 20a32 g 3.88
+> 20bc4 20bf5 g 3.88
+> 20df1 20df0 g 3.59
+> 20146 20487 c 3.47
+> 2049a 20147 c 3.47
+> 204f3 2026e c 3.47
+> 2027e 204f4 c 3.47
+> 204ff 20ae1 d 3.47
+> 20adb 20ae0 g 3.47
+> 20ae0 204ee c 3.47
+> 203ff 20400 c 3.23
+> 20401 20147 c 3.23
+> 20146 203f8 c 3.23
+> 20146 20443 c 3.22
+> 2044b 20147 c 3.22
+> 20146 203e4 c 3.19
+> 203ee 20147 c 3.19
+> 203e6 20210 c 3.19
+> 2026d 203e7 c 3.19
+> 2052c 201bd c 3.12
+> 20146 20521 c 3.12
+> 20532 20147 c 3.12
+> 201da 2052d c 3.12
+> 20282 2068d c 2.86
+> 2048e 20490 g 2.59
+> 209b6 20a16 c 2.59
+> 20a37 20a39 g 2.59
+> 206c7 20294 c 2.40
+> 20146 206c5 c 2.40
+> 2029c 206c8 c 2.40
+> 2077e 2077d g 2.01
+> 20c51 20c78 g 1.98
+> 202fe 202f7 g 1.82
+> 202b7 202fc g 1.82
+> 20591 20595 g 1.82
+> 20146 2058d c 1.82
+> 2059c 20592 d 1.82
+> 2032e 2026e c 1.76
+> 20146 203ef c 1.70
+> 203f7 20147 c 1.70
+> 20146 20651 c 1.64
+> entry 20416 e 1.64
+> entry 2040d e 1.64
+> 20146 20733 c 1.61
+> 20146 20b64 c 1.61
+> 20b6c 20147 c 1.61
+> 20146 2045b c 1.61
+> 201a8 20fa8 c 1.61
+> 20fad 201a9 c 1.61
+> 20f85 20fa5 d 1.61
+> 20fa4 20f65 g 1.61
+> 20fa1 20294 c 1.61
+> 20f9c 20294 c 1.61
+> 20f97 20294 c 1.61
+> 2034a 20f87 c 1.61
+> 20faa 20183 c 1.61
+> 2029c 20fa2 c 1.61
+> 20fa7 20196 c 1.61
+> 2029c 20f9d c 1.61
+> 20146 20f86 c 1.61
+> 2029c 20f98 c 1.61
+> 20195 20fab c 1.61
+> 201bb 20147 d 1.61
+> 20f86 2033a c 1.61
+> 20146 2057d c 1.50
+> 20db2 20cef c 1.50
+> 20cf5 20d00 c 1.50
+> 20a4e 20a51 g 1.48
+> 20a1e 20a28 g 1.29
+> 20c71 20b9f c 1.29
+> 20146 20982 c 1.29
+> 20146 20b32 c 1.29
+> 20b63 20a77 c 1.29
+> 20b63 20a7f c 1.29
+> 20a56 20a46 g 1.29
+> 20b63 20a73 c 1.29
+> 20b63 20a7b c 1.29
+> 20e35 20e53 g 1.25
+> 20cb6 20db3 c 1.25
+> 20282 2066d c 1.25
+> 20add 20ae1 g 1.24
+> 202e0 202f2 g 1.20
+> 20a50 20a52 g 1.11
+> 20d0f 20d16 g 1.08
+> 20d41 20da1 g 1.06
+> 202ad 20302 c 1.05
+> 201da 207e6 c 1.01
+> entry 20800 e 1.01
+> 20781 20741 g 1.01
+> 207a5 2014c c 1.01
+> 2080f 20741 c 1.01
+> 2079b 2014c c 1.01
+> 2027e 207d1 c 1.01
+> 207c1 20329 c 1.01
+> 2015a 207a6 c 1.01
+> 207e5 201bd c 1.01
+> 2015a 2079c c 1.01
+> 2027e 207c2 c 1.01
+> 207d0 2026e c 1.01
+> 207ba 20810 c 1.01
+> 2081a 20822 g 0.95
+> 20825 207bb c 0.95
+> 20303 202ff c 0.93
+> 202ff 202f9 d 0.93
+> 20146 206b9 c 0.87
+> 20332 2026e c 0.87
+> 2027e 206be c 0.87
+> 206bd 2032f c 0.87
+> 20146 20413 c 0.82
+> 20749 20147 c 0.82
+> 20760 20741 g 0.82
+> 20773 20772 g 0.82
+> entry 20761 e 0.82
+> 2076b 20741 g 0.82
+> entry 2076c e 0.82
+> entry 2074a e 0.82
+> entry 20777 e 0.82
+> 20776 20741 g 0.82
+> entry 20782 e 0.82
+> 20146 2040b c 0.82
+> 203c0 20147 c 0.82
+> 20146 203ae c 0.82
+> 201da 203b9 c 0.82
+> 203b8 201bc c 0.82
+> 2055b 20147 c 0.82
+> 20146 20552 c 0.82
+> 20146 20702 c 0.81
+> 20b69 20b6b g 0.80
+> 206ae 20329 c 0.75
+> 20146 206a8 c 0.75
+> 2027e 206af c 0.75
+> 20a5e 20a62 g 0.74
+> 20b2c 20393 c 0.72
+> 20b1d 20398 c 0.72
+> 2039a 20b08 c 0.72
+> 20b13 20398 c 0.72
+> 2036e 20b23 c 0.72
+> 20b30 20503 c 0.72
+> 2039a 20b25 c 0.72
+> 20b0b 2038e c 0.72
+> 2035c 20b11 c 0.72
+> 20b0f 20503 c 0.72
+> 2029c 20ae8 c 0.72
+> 20395 20b2d c 0.72
+> 2035c 20b21 c 0.72
+> 2039a 20b0e c 0.72
+> 20b07 20398 c 0.72
+> 20510 20b31 c 0.72
+> 20b11 2033a c 0.72
+> 20b1b 2038e c 0.72
+> 20b1f 20503 c 0.72
+> 20aff 20b00 c 0.72
+> 2039a 20b1e c 0.72
+> 2034a 20b12 c 0.72
+> 20b28 2038e c 0.72
+> 20ae7 20294 c 0.72
+> 20b22 20360 c 0.72
+> 20b31 2034e c 0.72
+> 2034a 20b22 c 0.72
+> 2039a 20b14 c 0.72
+> 20b10 2034e c 0.72
+> 20390 20b0c c 0.72
+> 20b21 2033a c 0.72
+> 20b2e 20398 c 0.72
+> 20b05 2033a c 0.72
+> 2016d 20b18 c 0.72
+> 20390 20b29 c 0.72
+> 20b0d 20398 c 0.72
+> 20b24 20398 c 0.72
+> 20390 20b1c c 0.72
+> 20146 20ae2 c 0.72
+> 20b17 2015b c 0.72
+> 20510 20b10 c 0.72
+> 20510 20b20 c 0.72
+> 2034a 20b06 c 0.72
+> 20b20 2034e c 0.72
+> 2039a 20b2f c 0.72
+> 20f26 202a4 c 0.72
+> 20f29 20312 c 0.72
+> 20f2d 202a4 c 0.72
+> 202fb 20f2e c 0.72
+> 2031a 202a4 c 0.72
+> 20293 2031a c 0.72
+> 20319 20281 c 0.72
+> 202fb 20f27 c 0.72
+> 202fb 20f2a c 0.72
+> 20146 20a82 c 0.70
+> 20146 20568 c 0.69
+> 20573 20147 c 0.69
+> 20cf3 20cf6 g 0.66
+> 20b3a 20b3c g 0.65
+> 20e7f 20147 c 0.65
+> 20146 20e58 c 0.65
+> 20c77 20147 c 0.65
+> 20996 2099e g 0.65
+> 20e5f 2026e c 0.65
+> 20e7f 20e6b d 0.65
+> 204d9 20147 c 0.65
+> 20e6a 20e73 g 0.65
+> 20e7f 20e6e d 0.65
+> 2027e 20e60 c 0.65
+> 20146 204b7 c 0.65
+> 20e6d 20e73 g 0.65
+> 20e7f 20e71 d 0.65
+> 20e70 20e73 g 0.65
+> 20146 20b8a c 0.65
+> 20e57 20dc8 c 0.63
+> 20dc4 20dc7 g 0.63
+> 20dc7 20e29 c 0.63
+> 20146 20c7d c 0.63
+> 2059c 20e8b c 0.60
+> 20e8a 20595 c 0.60
+> 20146 20e80 c 0.60
+> 20cba 20cc1 g 0.59
+> 20cfd 20db3 c 0.58
+> 20ee4 20f23 c 0.58
+> 201a8 20ecf c 0.58
+> 20ee0 20183 c 0.58
+> 20edd 20196 c 0.58
+> 20195 20edb c 0.58
+> 20ece 20196 c 0.58
+> 2036e 20ec8 c 0.58
+> 20195 20ecc c 0.58
+> 20195 20ee1 c 0.58
+> 20ec7 20360 c 0.58
+> 201a8 20ed8 c 0.58
+> 201bb 20ee4 c 0.58
+> 20146 20ec7 c 0.58
+> 201bb 20ed2 c 0.58
+> 20ed1 201a9 c 0.58
+> 20eda 20183 c 0.58
+> 20ee3 201a9 c 0.58
+> 201a8 20ede c 0.58
+> 201bb 20ed5 c 0.58
+> 20ed7 20196 c 0.58
+> 20ecb 20183 c 0.58
+> 20ed4 201a9 c 0.58
+> 20e40 20e45 g 0.58
+> 20a61 20a64 g 0.56
+> 20deb 20ded g 0.45
+> 20d2f 20dd5 g 0.45
+> 20dec 20d35 g 0.45
+> 20d4e 20d7b g 0.44
+> 20da0 20da8 g 0.44
+> 20e46 20e4b g 0.38
+> 21090 210e7 g 0.38
+> 20a87 20a8a g 0.35
+> 20dff 20e00 c 0.35
+> 20aa8 20aba g 0.28
+> 20d7e 20da0 g 0.24
+> 20293 20d83 c 0.20
+> 20d82 20281 c 0.20
+> 20748 20777 d 0.19
+> 20748 20782 d 0.19
+> entry 201c1 e 0.19
+> 20e1a 20dec c 0.18
+> 2059c 20e0b c 0.18
+> 20e0a 20595 c 0.18
+> 20e28 20dec c 0.17
+> 20e07 20e22 g 0.17
+> 20146 20670 c 0.17
+> 20293 20685 c 0.17
+> 20684 20281 c 0.17
+> 20600 20147 c 0.17
+> 205fd 20305 c 0.17
+> 20146 205fb c 0.17
+> 202a3 205fe c 0.17
+> entry 20600 e 0.17
+> 2029c 20fc3 c 0.16
+> 20fc2 20294 c 0.16
+> 20146 20fae c 0.16
+> 201bb 20f0a c 0.14
+> 2036e 20f06 c 0.14
+> 20f15 20196 c 0.14
+> 201a8 20f16 c 0.14
+> 20146 20f05 c 0.14
+> 20195 20f0d c 0.14
+> 20195 20f22 c 0.14
+> 20f0c 20183 c 0.14
+> 20f18 201a9 c 0.14
+> 20195 20f13 c 0.14
+> 20f21 20183 c 0.14
+> 201a8 20f1f c 0.14
+> 20f1e 20196 c 0.14
+> 20f09 201a9 c 0.14
+> 20f12 20183 c 0.14
+> 20f1b 201a9 c 0.14
+> 201bb 20f19 c 0.14
+> 20f0f 20196 c 0.14
+> 20f05 20360 c 0.14
+> 201a8 20f10 c 0.14
+> 201bb 20f1c c 0.14
+> 20304 2029e c 0.12
+> 205e5 20595 g 0.12
+> 2059c 205e6 d 0.12
+> 20146 205e1 c 0.12
+> 2029c 205e4 c 0.12
+> 205e3 20294 c 0.12
+> 2046c 2046b g 0.12
+> 205b1 20281 c 0.12
+> 20293 205b2 c 0.12
+> 20146 205af c 0.12
+> 20d90 20d96 g 0.11
+> 20e21 20dec c 0.10
+> 20dfe 20e1b c 0.10
+> 20d9c 20da0 g 0.10
+> 20821 207bb c 0.06
+> 209ff 20a00 c 0.02
+> 209fa 209fd g 0.02
+> 20126 20126 g 0.02
+> 20a09 20a12 g 0.02
+> 20d94 20d96 g 0.02
+> 20abf 20ac4 g 0.01
+> 20146 20463 c 0.01
+> 20ce9 20db3 c 0.01
+> 20ac5 20ac7 g 0.01
+> 20c3f 20c78 g 0.01
+> 20146 206d6 c 0.01
+> 20ce1 20ce3 g 0.01
+> 20b49 20b4c g 0.01
+> 20a07 20a12 g 0.00
+> 20f4d 20f51 g 0.00
+> 20314 2031b g 0.00
+> 20304 20f27 c 0.00
+> 209fc 20a03 c 0.00
+> 20146 20585 c 0.00
+> 2031c 20f2a c 0.00
+> 20304 20f2e c 0.00
+> 20007 20080 g 0.00
+> 20339 20147 c 0.00
+> entry 20396 e 0.00
+> 20146 20333 c 0.00
+> 200ff 20100 c 0.00
+> entry 20005 e 0.00
+> entry 2034e e 0.00
+> entry 2039a e 0.00

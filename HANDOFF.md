@@ -1,5 +1,42 @@
 # Handoff
 
+## SHARC: chunks by affinity from a committed profile (2026-10-31)
+
+m2sharcrecomp --layout PROFILE (--layout-cap, default 384): the chunks are
+cut by affinity instead of by address. PROFILE is a profiled build's SHARC
+dump (executions and transfers; its first line now carries the program's
+crc32 and the code mode; another program's profile is refused with a warning
+and the chunks go by address). Units (ranges reached only by falling through,
+split at the cap) are merged along their heaviest transfers (fall-throughs
+included, as executions minus the transfers in) while the chunk stays within
+the cap; executed groups go first-fit into chunks, the cold code by address.
+The emitter is generalised: each chunk is a list of instructions in emission
+order; "the next instruction follows in the text" replaces k + 1 < last
+(plain runs, delay slots kept in the run), "same chunk" replaces the range
+test (gotos to labels); run_generated switches on sharc_chunk_of[] (with a
+range check). Without --layout the code is the address layout as before.
+seeds/fvipers_sharc_layout.txt: the PC fight dump (fvipers_fight, 6,000
+frames, profiled exact build). recompile.py and build_vita.py pass it when
+the set has one (scripts/games.py sharc_layout_args; recompile.py
+--no-sharc-layout turns it off). To remake it: recompile.py --game GAME
+--sharc-profile, then M2_SHARC_DUMP=seeds/<set>_sharc_layout.txt m2run
+ROM_CACHE 6000 --inputs scripts/inputs/<set>_fight.txt.
+PC fight, a frame: chunk changes 4,621 -> 989, chunk calls 5,305 -> 1,664,
+dispatches 9,990 -> 4,646; plain instructions 4,228 -> 4,237 (delay slots no
+longer cut by a chunk boundary); 14 chunks (17). Time: within the PC's noise
+(fight check pinned to one core, ~-5 % at best; ~1 x86 instruction fewer a
+SHARC instruction). Not measured on the Vita yet.
+Checks: m2sharccheck_gen MATCH (fight 613,709,679, attract 459,076: same
+counts); m2native attract 596/596; fvipers_fight 6,000 frames, last screen
+2fcd2223eeb056c0; ctest 23/23; scripts 50/50.
+One function for all the hot code: not worth it (989 chunk changes a frame
+left, ~1 % at 100 cycles each; 1024-instruction chunks ran slower on the PC
+and take 133 s each for the Vita's compiler).
+Next: the Vita measurement of --layout + --fast; then the big levers (all
+estimates): HLE of fvipers' SHARC commands (needs a rules.md exception for
+hand-written game routines, the user's decision), a more aggressive --fast
+translation of hot routines (flags, host float), the SHARC on its own core.
+
 ## SHARC: fewer full steps, --fast for the Vita, transfer profile and layout study (2026-10-31)
 
 The SHARC work resumed (the user: optimise the Model 2B copro, Fighting Vipers

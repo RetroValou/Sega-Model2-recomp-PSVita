@@ -266,6 +266,17 @@ def gen_root(romset):
     return f"{recomp_dir(romset)}/gen"
 
 
+def sharc_layout(romset):
+    """Model 2B: the SHARC profile its chunks are cut by (m2sharcrecomp --layout), relative to the repository."""
+    return f"seeds/{romset}_sharc_layout.txt"
+
+
+def sharc_layout_args(romset, disabled=False):
+    """m2sharcrecomp's --layout option for the set, when its profile exists (and not disabled)."""
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", sharc_layout(romset))
+    return [] if disabled or not os.path.isfile(path) else ["--layout", os.path.abspath(path)]
+
+
 def pc_dir(romset):
     return f"{game_dir(game_of(romset))}/pc/{romset}"
 

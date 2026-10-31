@@ -158,8 +158,9 @@ size_t SharcProfileReport::format(char *out, size_t size, uint64_t frames, uint6
         if (const char *path = sharc_profile.dump_path) {
             std::string text;
             char line[320];
-            std::snprintf(line, sizeof line, "# %.0f frames, %.0f instructions a frame; address, executions a frame, "
-                                             "kind (p plain, b pinned branch, F full step), handler\n", f, instr / f);
+            std::snprintf(line, sizeof line, "# program crc32 %08x (code %s); %.0f frames, %.0f instructions a frame; address, executions a "
+                                             "frame, kind (p plain, b pinned branch, F full step), handler\n", unsigned(sharc_program_crc32),
+                          sharc_gen_mode, f, instr / f);
             text += line;
             for (uint32_t k = 0; k < sharc_gen_count; ++k) {
                 const uint32_t n = counts[k] - counts_[k];
