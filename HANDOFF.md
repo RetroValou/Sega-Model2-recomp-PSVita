@@ -1,5 +1,31 @@
 # Handoff
 
+## SHARC: routines' inclusive cost in the profile (HLE candidates) (2026-10-31)
+
+Profiled builds count each routine from call to return, callees included
+(SharcRoutines in sharc_profile.h; M2SHARC_STACK_PRE/POST around every
+*_call and rts the generator emits, comparing the PC stack's depth: do-until
+pushes it too, so only those handlers are probed). The dump gains a
+"# routines" section: = address, calls a frame, instructions a frame, share,
+instructions a call. PC fight (6,000 frames, 101.2 k instructions a frame),
+the command handlers the main loop calls (0x20146), callees included:
+
+| routine | calls/frame | share | instr/call | note |
+|---|---|---|---|---|
+| 20b8a | 0.65 | 9.9 % | 15,411 | |
+| 20982 | 1.29 | 7.0 % | 5,483 | |
+| 20acd | 20.6 | 6.0 % | 295 | calls 2049b |
+| 2049b | 47.5 | 5.9 % | 125 | 27/frame from the loop, 20.6 from 20acd |
+| 20c7d | 0.63 | 5.2 % | 8,334 | calls 20e29 (3.8 %) |
+| 20908 | 77.4 | 4.9 % | 65 | |
+| 21010 | 6.4 | 4.1 % | 638 | |
+
+The main loop itself (0x20130-0x20147: read a command, call its handler)
+is ~25 %. Five handlers + the loop ~55-60 % of the instructions: the HLE
+candidates (the user wants HLE limited to 4-5 very hot functions, as a
+per-game patch on a standard pipeline, for the Vita). Checks: m2sharccheck_gen
+MATCH; fvipers_fight last screen 2fcd2223eeb056c0; routine table lost 0.
+
 ## SHARC: chunks by affinity from a committed profile (2026-10-31)
 
 m2sharcrecomp --layout PROFILE (--layout-cap, default 384): the chunks are

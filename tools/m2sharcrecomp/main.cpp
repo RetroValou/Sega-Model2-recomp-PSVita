@@ -751,8 +751,12 @@ int main(int argc, char **argv) {
                              "\t\t\tif (--m_core->curlcntr == 0) { POP_LOOP(); POP_PC(); }\n"
                              "\t\t\telse back = true;\n"
                              "\t\t}\n";
+                    const bool callret = h.find("_call") != std::string::npos || h == "sharcop_rts"; // the routines' probe
+                    const std::string to = has_j(h, prog[k]) ? "m_core->nfaddr" : "m_core->daddr";
+                    if (callret) o << "\t\tM2SHARC_STACK_PRE();\n";
                     o << "\t\t" << call << "\n"
                       << "\t\t++plain;\n";
+                    if (callret) o << "\t\tM2SHARC_STACK_POST(" << to << ", m_prof_base + done + plain);\n";
                     if (loop_end) {
                         const auto &tops = loop_tops.at(a);
                         const bool goto_top = tops.size() == 1 && in_chunk(*tops.begin(), c);
@@ -828,8 +832,13 @@ int main(int argc, char **argv) {
                     o << "\t\tM2SHARC_EV(full_steps);\n"
                       << "\t\tstep_fetch_gen(" << hx(prog[k]) << "ull);\n";
                     if (loop_ends.count(a)) o << "\t\tstep_loop_end();\n";
-                    o << "\t\t" << call << "\n"
-                      << "\t\tstep_after();\n";
+                    const std::string hf = handler(ops, prog[k]);
+                    const bool callret = hf.find("_call") != std::string::npos || hf == "sharcop_rts";
+                    if (callret) o << "\t\tM2SHARC_STACK_PRE();\n";
+                    o << "\t\t" << call << "\n";
+                    if (callret)
+                        o << "\t\tM2SHARC_STACK_POST(" << (has_j(hf, prog[k]) ? "m_core->nfaddr" : "m_core->daddr") << ", m_prof_base + done + 1);\n";
+                    o << "\t\tstep_after();\n";
                     if (waits.count(a)) o << "\t\tif (m_core->daddr == " << hx(a) << ") { ++done; return 1; } // polling its flags\n";
                     o << "\t\t++done;\n\t\tif (done >= m_budget) return 2;\n\t\tif (!step_pre()) return 1;\n";
                 }
@@ -889,7 +898,7 @@ int main(int argc, char **argv) {
              "\tuint64_t done = 0;\n"
              "\tm_budget = budget; // end_run() lowers it\n"
              "\tM2SHARC_EV(gen_calls);\n"
-             "\tM2SHARC_ENTRY();\n"
+             "\tM2SHARC_ENTRY(start);\n"
              "\t// Plain runs skip step_pre and the DMA cycle: not while a DMA or a delayed IOP write is pending.\n"
              "\tif ((m_core->dma_status & 0xc0) || m_iop_delay > 0)\n"
              "\t\tthrow SharcFatal(\"SHARC: a DMA or delayed IOP write while the recompiled program runs\");\n"

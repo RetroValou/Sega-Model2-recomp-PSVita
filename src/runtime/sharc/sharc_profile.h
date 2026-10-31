@@ -89,6 +89,39 @@ struct SharcEdges {
 };
 extern SharcEdges sharc_edges;
 
+// Routines' inclusive cost: at each call (an instruction named *_call that pushed the PC stack) the
+// target and the instruction count are pushed here; at each rts that popped it, the instructions
+// between call and return are added to the target's entry. The HLE candidates (scripts/sharc_hle.py).
+struct SharcRoutines {
+    static constexpr uint32_t kSize = 1u << 12, kDepth = 32;
+    uint32_t target[kSize]{}; // address + 1; 0: empty
+    uint64_t calls[kSize]{}, instructions[kSize]{};
+    uint32_t stack_target[kDepth]{};
+    uint64_t stack_start[kDepth]{};
+    uint32_t depth = 0;
+    uint64_t lost = 0; // a full table, a return without its call, a stack deeper than kDepth
+    void call(uint32_t to, uint64_t at) {
+        if (depth < kDepth) stack_target[depth] = to, stack_start[depth] = at;
+        ++depth;
+    }
+    void ret(uint64_t at) {
+        if (!depth) { ++lost; return; }
+        if (--depth >= kDepth) { ++lost; return; }
+        const uint32_t to = stack_target[depth];
+        uint32_t i = (to * 0x9e3779b1u) >> 20;
+        for (uint32_t probe = 0; probe < 64; ++probe, i = (i + 1) & (kSize - 1)) {
+            if (target[i] == to + 1 || !target[i]) {
+                target[i] = to + 1;
+                ++calls[i];
+                instructions[i] += at - stack_start[depth];
+                return;
+            }
+        }
+        ++lost;
+    }
+};
+extern SharcRoutines sharc_routines;
+
 // m2sharcrecomp: what each instruction of the program is (the generated
 // sharc_gen.cpp defines them; sharc_nogen.cpp none).
 enum SharcKind : uint8_t { SharcPlain, SharcPinned, SharcFull };
@@ -111,6 +144,7 @@ private:
     uint64_t instructions_ = 0;
     std::vector<uint32_t> counts_;
     std::vector<uint32_t> edge_counts_; // sharc_edges.count at start()
+    std::vector<uint64_t> routine_calls_, routine_instructions_; // sharc_routines at start()
     double clock_ns_ = -1; // one clock read, measured once
 };
 

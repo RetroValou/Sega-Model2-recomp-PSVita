@@ -39,12 +39,22 @@ inline void adsp21062_device::CHANGE_PC_DELAYED(uint32_t newpc)
 			m_prof_cross = false; \
 		} else m_prof_cross = true; \
 	} } while (0)
-#define M2SHARC_ENTRY() do { m_prof_last = ::rt::sharc::kSharcFromEntry; m_prof_cross = false; } while (0)
+#define M2SHARC_ENTRY(start) do { m_prof_last = ::rt::sharc::kSharcFromEntry; m_prof_cross = false; m_prof_base = (start); } while (0)
+// Around a call or an rts (routines' inclusive cost): PRE keeps the PC stack's depth, POST compares;
+// at: the instructions run so far (m_prof_base + done + plain), to: where a call went.
+#define M2SHARC_STACK_PRE() do { m_prof_sp = m_core->pcstkp; } while (0)
+#define M2SHARC_STACK_POST(to, at) do { \
+	if (m_profile) { \
+		if (m_core->pcstkp > m_prof_sp) ::rt::sharc::sharc_routines.call((to), (at)); \
+		else if (m_core->pcstkp < m_prof_sp) ::rt::sharc::sharc_routines.ret((at)); \
+	} } while (0)
 #else
 #define M2SHARC_COUNT(k) do {} while (0)
 #define M2SHARC_GOTO(k, to) do {} while (0)
 #define M2SHARC_DISPATCH(inside) do {} while (0)
-#define M2SHARC_ENTRY() do {} while (0)
+#define M2SHARC_ENTRY(start) do {} while (0)
+#define M2SHARC_STACK_PRE() do {} while (0)
+#define M2SHARC_STACK_POST(to, at) do {} while (0)
 #endif
 
 #if defined(__GNUC__)

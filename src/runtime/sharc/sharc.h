@@ -306,6 +306,8 @@ private:
     uint32_t *m_profile = nullptr;
     uint32_t m_prof_last = 0;  // M2_SHARC_PROFILE: the last instruction counted (M2SHARC_DISPATCH's from)
     bool m_prof_cross = false; // M2_SHARC_PROFILE: the last chunk left on a dispatch
+    uint32_t m_prof_sp = 0;    // M2_SHARC_PROFILE: the PC stack's depth before a call or rts
+    uint64_t m_prof_base = 0;  // M2_SHARC_PROFILE: m_instructions at run_generated's start
 
     // The recompiled program's handlers (m2sharcrecomp writes their definitions:
     // upstream's sharcop_* and COMPUTE, the opcode a template parameter).

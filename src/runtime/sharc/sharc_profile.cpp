@@ -44,6 +44,8 @@ void SharcProfileReport::start(uint64_t sharc_instructions, const uint32_t *coun
     instructions_ = sharc_instructions;
     if (counts && sharc_gen_count) counts_.assign(counts, counts + sharc_gen_count);
     edge_counts_.assign(sharc_edges.count, sharc_edges.count + SharcEdges::kSize);
+    routine_calls_.assign(sharc_routines.calls, sharc_routines.calls + SharcRoutines::kSize);
+    routine_instructions_.assign(sharc_routines.instructions, sharc_routines.instructions + SharcRoutines::kSize);
 }
 
 size_t SharcProfileReport::format(char *out, size_t size, uint64_t frames, uint64_t sharc_instructions, const uint32_t *counts,
@@ -190,6 +192,22 @@ size_t SharcProfileReport::format(char *out, size_t size, uint64_t frames, uint6
                 const uint32_t from = uint32_t(k >> 20) & 0xfffff, to = uint32_t(k) & 0xfffff;
                 if (from == kSharcFromEntry) std::snprintf(line, sizeof line, "> entry %05x %c %.2f\n", unsigned(0x20000 + to), kEdge[(k >> 40) & 3], double(n) / f);
                 else std::snprintf(line, sizeof line, "> %05x %05x %c %.2f\n", unsigned(0x20000 + from), unsigned(0x20000 + to), kEdge[(k >> 40) & 3], double(n) / f);
+                text += line;
+            }
+            // The routines, by inclusive instructions (SharcRoutines).
+            std::vector<std::pair<uint64_t, uint32_t>> routines; // instructions in the window, slot
+            for (uint32_t i = 0; i < SharcRoutines::kSize; ++i) {
+                const uint64_t in = sharc_routines.instructions[i] - (i < routine_instructions_.size() ? routine_instructions_[i] : 0);
+                if (sharc_routines.target[i] && in) routines.push_back({in, i});
+            }
+            std::sort(routines.rbegin(), routines.rend());
+            std::snprintf(line, sizeof line, "# routines (call to return, callees included; lost %.0f); lines: = address calls a frame "
+                                             "instructions a frame (share of all) instructions a call\n", double(sharc_routines.lost));
+            text += line;
+            for (const auto &[in, i] : routines) {
+                const double c = double(sharc_routines.calls[i] - (i < routine_calls_.size() ? routine_calls_[i] : 0));
+                std::snprintf(line, sizeof line, "= %05x %.2f %.1f %.2f%% %.1f\n", unsigned(sharc_routines.target[i] - 1), c / f, double(in) / f,
+                              ratio(double(in) * 100, instr), c > 0 ? double(in) / c : 0.0);
                 text += line;
             }
             if (FILE *file = std::fopen(path, "wb")) {
