@@ -1,5 +1,29 @@
 # Handoff
 
+## Vita measurement of the day's work; todo.md (2026-10-31)
+
+Vita (user, fvipers, --fast-inaccuracy --diagnostics, no profile counters;
+perf.log kept locally as build_fightingvipers/perf_full_hle.log, not
+committed), steady fight windows:
+
+| package | SHARC ms/frame | M instr/s | sound board ms/frame (DSP) | core 0 ms/frame | fps |
+|---|---|---|---|---|---|
+| command-loop HLE, DSP interpreted | 12.3-12.5 | 10.5 | 27.5 (16.4) | 27.5-27.8 | 35.7-36.3 |
+| + DSP recompiled, HLE 0x20908/0x20473/0x2049b | 12.2-12.3 | 10.6 | 10.2 (3.96) | 24.0 | 39.2-41.7 |
+
+- The DSP: 21.3 -> 5.2 us a sample (x4.1, as VF2's x4.2 on the PC); core 2
+  103 % -> 45 %; the main core's "sound sync" wait 2.1 -> 0.1 ms a frame.
+- The three copy HLEs: ~1 % of the SHARC's time (12.3-12.5 -> 12.2-12.3 ms)
+  although they stand for ~9 % of its instructions: copy loops were cheap
+  in the recompiled code already. The command loop's HLE was measured only
+  together with the layout and without the profile counters (19.2 profiled
+  -> 12.4 ms); its own share is not known.
+- Core 0, a fight frame: vblank handler 17.7 ms (SHARC 12.2 of it, the i960
+  the rest), polygon recording 4.5 (vertex writing 2.6), frame end 0.9:
+  24 ms against 17.4. Core 1 (geometry) 52 %, core 2 45 %.
+todo.md (new, committed): the next items, in order, with what is known.
+Today's work stops here (the owner's request).
+
 ## Fighting Vipers HLE: the table copies 0x20473 and 0x2049b (2026-10-31)
 
 Two more HLE routines, both from a "table slot": the first input word's low

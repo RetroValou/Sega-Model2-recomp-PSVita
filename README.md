@@ -74,12 +74,14 @@ Vita's processor cannot run them at the game's speed.
 
 * **Fighting Vipers (Model 2B) is a test, not a game to play on the Vita.**
   It is recompiled and runs on the PC (its SHARC program recompiled too,
-  identical to MAME), and a Vita package can be built, but in a fight the
-  Vita reaches about 26 frames per second against the arcade's 57.5: the
-  SHARC alone takes about 20 ms of a 17.4 ms frame on the main core, after
-  its recompiler was aligned on the TGP's. It is kept as a test of the
-  Model 2B board; `build_vita.py --game all` leaves it out
-  (`scripts/games.py`).
+  identical to MAME), and a Vita package can be built
+  (`build_vita.py --game fightingvipers --fast-inaccuracy`, which also runs
+  a few of its hottest SHARC routines natively, see `rules.md`
+  "Coprocessor HLE"). In a fight the Vita reaches about 40 frames per
+  second against the arcade's 57.5: the main core needs ~24 ms of a 17.4 ms
+  frame, the SHARC ~12 ms of it. It is kept as a test of the Model 2B
+  board; `build_vita.py --game all` leaves it out (`scripts/games.py`).
+  Work in progress: `todo.md`.
 * **Model 2C games are not supported.** Their coprocessor is not
   recompiled; they would be expected to hit the same wall as the 2B.
 * Model 2 and 2A games run close to or at full speed on the Vita, each with
