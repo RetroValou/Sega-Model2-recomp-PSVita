@@ -122,8 +122,11 @@ def vita_code(host, gen, build, mode, game, tgp_profile=False, i960_profile=Fals
                          on the Vita)
 
     TGP always m2tgprecomp --fast_inaccuracy: the game's unbudgeted calls counted once
-    per basic block, without the budget test; exact (the TGP has no interrupts). The
-    68000 code as the host generated it. tgp_profile: the TGP code with m2tgprecomp's
+    per basic block, without the budget test; exact (the TGP has no interrupts). Model
+    2B's SHARC: m2sharcrecomp --fast with --fast-inaccuracy (less pipeline, ASTAT
+    history and budget bookkeeping around the same handlers; the computed results
+    unchanged), the host's code as it is with --fast-gen. The 68000 code as the host
+    generated it. tgp_profile: the TGP code with m2tgprecomp's
     block counters (--profile); i960_profile: the i960 code with m2recomp's (--profile).
     inline_bus (--inline-bus; off by default, its gain on the Vita too small to
     measure): the i960 code with the set's board bus inlined (m2recomp --board,
@@ -159,20 +162,33 @@ def vita_code(host, gen, build, mode, game, tgp_profile=False, i960_profile=Fals
         i960_out = tmp / "i960_fast_gen"
     run([tgp_tool, cache / "tgp_program.bin", tmp / "tgp/tgp_gen.cpp", "--fast_inaccuracy",
          *(["--profile"] if tgp_profile else [])], os.environ)
+    sharc_tool, sharc_program = host_tool(host, "m2sharcrecomp"), cache / "sharc_program.bin"
+    fast_sharc = mode == "fast_inaccuracy" and sharc_program.is_file()
+    if fast_sharc:
+        if not sharc_tool or not Path(sharc_tool).is_file():
+            raise RuntimeError(f"missing m2sharcrecomp in {host}: run python3 scripts/recompile.py once first")
+        (tmp / "sharc").mkdir()
+        run([sharc_tool, sharc_program, tmp / "sharc/sharc_gen.cpp",
+             "--ops", ROOT / "src/runtime/sharc/sharcops_table.inc",
+             "--sharcops", ROOT / "src/runtime/sharc/sharcops.hxx",
+             "--compute", ROOT / "src/runtime/sharc/compute.hxx", "--fast"], os.environ)
     out = build / "gen_vita"
     sync(i960_out, out / game)
     sync(tmp / "tgp", out / f"{game}_tgp")
     sync(gen / f"{game}_snd", out / f"{game}_snd")
     if (gen / f"{game}_dsp").is_dir():  # the recompiled SCSP DSP program (optional)
         sync(gen / f"{game}_dsp", out / f"{game}_dsp")
-    if (gen / f"{game}_sharc").is_dir():  # Model 2B: the recompiled SHARC program
+    if fast_sharc:  # Model 2B: the recompiled SHARC program
+        sync(tmp / "sharc", out / f"{game}_sharc")
+    elif (gen / f"{game}_sharc").is_dir():
         sync(gen / f"{game}_sharc", out / f"{game}_sharc")
     shutil.rmtree(tmp, ignore_errors=True)
     for old in ("gen_fast", "gen_ram"):  # earlier versions of this script
         shutil.rmtree(build / old, ignore_errors=True)
     return out, {"fast_inaccuracy": "i960 --fast_inaccuracy + direct work-RAM accesses",
                  "fast_gen": "i960 fast_gen.py rewrite"}[mode] + \
-        (", bus inlined (--board " + SETS[game]["board"] + ")" if inline_bus else "") + ", TGP fast mode"
+        (", bus inlined (--board " + SETS[game]["board"] + ")" if inline_bus else "") + ", TGP fast mode" + \
+        (", SHARC --fast" if fast_sharc else "")
 
 
 LIVEAREA_FILES = ("icon0.png", "bg.png", "startup.png", "template.xml")

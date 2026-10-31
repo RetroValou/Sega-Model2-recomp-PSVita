@@ -278,6 +278,15 @@ int main(int argc, char **argv) {
     std::string ops_path = "src/runtime/sharc/sharcops_table.inc", sharcops_path = "src/runtime/sharc/sharcops.hxx",
                 compute_path = "src/runtime/sharc/compute.hxx";
     bool full_steps = false; // every instruction the interpreter's full step (no plain runs)
+    // --fast (build_vita.py --fast-inaccuracy): less bookkeeping around the same handlers. Pinned branches write
+    // only the pipeline registers their handler and the taken test read (pc, daddr; nfaddr when delayed) and no
+    // ASTAT history (kept before the ends of loops on an ASTAT condition); a counter loop looping back to its top
+    // in the chunk writes the pipeline only when it leaves; a branch taken forward inside the chunk skips the
+    // budget test (backward edges and every exit keep it). What the SHARC computes is unchanged; the run can
+    // overshoot need_output's word by a few instructions, and a jump into the three instructions before such a
+    // loop end can see another ASTAT history than the interpreter's.
+    bool fast = false;
+    std::string cfg_path; // --cfg FILE: each instruction's handler, fall-through and constant target (the layout's input)
     // Instructions a chunk (a function and a file). fvipers' fight, PC profile, chunk
     // calls a frame / dispatches per 1000 instructions: 256 4,116 / 109, 512 4,035 /
     // 107, 1024 2,300 / 76, 2048 1,279 / 58 (its hot code calls far away); yet the
@@ -286,7 +295,7 @@ int main(int argc, char **argv) {
     // (handlers forced inline) takes 133 s for a 1024 chunk, 183 s and 800 MB for 2048.
     uint32_t chunk = 256;
     if (argc < 3) {
-        std::fprintf(stderr, "usage: m2sharcrecomp SHARC_PROGRAM.bin OUT.cpp [--ops SHARCOPS_TABLE.inc]\n");
+        std::fprintf(stderr, "usage: m2sharcrecomp SHARC_PROGRAM.bin OUT.cpp [--ops SHARCOPS_TABLE.inc] [--fast] [--cfg FILE]\n");
         return 2;
     }
     for (int i = 3; i < argc; ++i) {
@@ -294,6 +303,8 @@ int main(int argc, char **argv) {
         else if (!std::strcmp(argv[i], "--sharcops") && i + 1 < argc) sharcops_path = argv[++i];
         else if (!std::strcmp(argv[i], "--compute") && i + 1 < argc) compute_path = argv[++i];
         else if (!std::strcmp(argv[i], "--full-steps")) full_steps = true;
+        else if (!std::strcmp(argv[i], "--fast")) fast = true;
+        else if (!std::strcmp(argv[i], "--cfg") && i + 1 < argc) cfg_path = argv[++i];
         else if (!std::strcmp(argv[i], "--chunk") && i + 1 < argc) chunk = uint32_t(std::strtoul(argv[++i], nullptr, 0));
         else {
             std::fprintf(stderr, "m2sharcrecomp: unknown option %s\n", argv[i]);
@@ -320,6 +331,13 @@ int main(int argc, char **argv) {
         // those of loops on a condition (the ASTAT history), the wait loops.
         std::set<uint32_t> loop_ends, cond_loop_ends, waits;
         std::map<uint32_t, std::set<uint32_t>> loop_tops; // by loop end: where its do-untils loop back to
+        // Loop ends on a condition that does not read ASTAT (DO_CONDITION_CODE: FLAG0-3 and their NOT, BM, NOT BM,
+        // LCE, FOREVER): step_loop_end's ASTAT juggling (the history from three instructions back, then astat_old)
+        // leaves ASTAT as it was and the test does not see it, so they run plain, as counter loop ends, with the
+        // test inline. An end shared with a counter loop or another condition stays a full step.
+        std::map<uint32_t, bool> flag_cond; // by loop end: every do-until ending there tests such a condition
+        const auto astat_free = [](unsigned cond) { return (cond >= 0x09 && cond <= 0x0c) || cond == 0x0e || cond == 0x0f ||
+                                                           (cond >= 0x19 && cond <= 0x1c) || cond == 0x1e || cond == 0x1f; };
         for (uint32_t k = 0; k < n; ++k) {
             const std::string h = handler(ops, prog[k]);
             if (h.rfind("sharcop_do_until", 0) != 0) continue;
@@ -327,8 +345,14 @@ int main(int argc, char **argv) {
             loop_ends.insert(end);
             loop_tops[end].insert(base + k + 1);
             if (h == "sharcop_do_until") cond_loop_ends.insert(end); // loop_type 0; the counter ones 1-3
+            const bool free = h == "sharcop_do_until" && astat_free(unsigned(prog[k] >> 33) & 0x1f); // op_get_cond
+            const auto it = flag_cond.find(end);
+            flag_cond[end] = free && (it == flag_cond.end() || it->second);
             if (end == base + k + 1 && k + 1 < n && handler(ops, prog[k + 1]) == "sharcop_nop") waits.insert(end);
         }
+        for (const auto &[end, free] : flag_cond) if (free) cond_loop_ends.erase(end);
+        std::set<uint32_t> flag_loop_ends; // the plain ones on a condition (ends of counter loops: loop_ends alone)
+        for (const auto &[end, free] : flag_cond) if (free) flag_loop_ends.insert(end);
 
         size_t handlers = 0;
         const std::string templates = templated_handlers(sharcops_path, handlers);
@@ -377,6 +401,14 @@ int main(int argc, char **argv) {
             "sharcop_dm_to_ureg_indirect", "sharcop_pm_to_ureg_direct", "sharcop_pm_to_ureg_indirect",
             "sharcop_ureg_to_dm_direct", "sharcop_ureg_to_dm_indirect", "sharcop_ureg_to_pm_direct",
             "sharcop_ureg_to_pm_indirect", "sharcop_imm_to_dmpm", "sharcop_imm_to_ureg", "sharcop_modify", "sharcop_nop"};
+        // sysreg_bitop on USTAT1, USTAT2, ASTAT or STKY (sreg 0, 1, 0xc, 0xe): SET_UREG only stores them (ASTAT's
+        // FLG outputs call m_flag_out_cb, empty here; STKY keeps its stack bits); MODE1 (latency), MODE2, IRPTL and
+        // IMASK (interrupts) stay full steps.
+        const auto plain_bitop = [&](const std::string &h, uint64_t op) {
+            if (h != "sharcop_sysreg_bitop") return false;
+            const unsigned sreg = unsigned(op >> 32) & 0xf, bop = unsigned(op >> 37) & 0x7;
+            return (sreg == 0x0 || sreg == 0x1 || sreg == 0xc || sreg == 0xe) && (bop <= 2 || bop == 4 || bop == 5);
+        };
         const auto writes_sysreg = [&](const std::string &h, uint64_t op) {
             unsigned ureg = 0;
             if (h == "sharcop_compute_ureg_dmpm_premod" || h == "sharcop_compute_ureg_dmpm_postmod" ||
@@ -429,10 +461,11 @@ int main(int argc, char **argv) {
         for (uint32_t k = 0; k < n; ++k) {
             const std::string h = handler(ops, prog[k]);
             if (pinned_op(h, prog[k]) && !loop_ends.count(base + k)) pinned[k] = true;
-            else if (!plain_names.count(h) || writes_sysreg(h, prog[k])) full[k] = true, why[k] |= 1;
+            else if ((!plain_names.count(h) && !plain_bitop(h, prog[k])) || writes_sysreg(h, prog[k])) full[k] = true, why[k] |= 1;
             if (cond_loop_ends.count(base + k)) full[k] = true, why[k] |= 4;
             if (cond_loop_ends.count(base + k))
                 for (uint32_t j = k >= 3 ? k - 3 : 0; j < k; ++j) astat_shift[j] = true;
+            if (flag_loop_ends.count(base + k)) astat_shift[k] = true; // as the full step's fetch did
         }
         // Delay slots, to a fixed point (a branch that cannot keep its slots in
         // the run becomes a full step, and its slots too).
@@ -472,6 +505,28 @@ int main(int argc, char **argv) {
         }
         uint32_t plain_count = 0;
         for (uint32_t k = 0; k < n; ++k) plain_count += !full[k];
+
+        if (!cfg_path.empty()) {
+            // Per instruction: address, handler, f (falls through to the next) or n (never: an
+            // unconditional jump or return, a call (its return comes back through the rts), rti), j
+            // when delayed (the two slots run first), its constant target or -, and the kind (p, b, F).
+            std::ostringstream c;
+            c << "# m2sharcrecomp --cfg: program crc32 " << hx(crc32(raw.data(), raw.size())) << ", " << n
+              << " instructions; address handler fall delayed target kind\n";
+            for (uint32_t k = 0; k < n; ++k) {
+                const std::string h = handler(ops, prog[k]);
+                const bool jump = h.find("_jump") != std::string::npos || h == "sharcop_rts";
+                const bool call = h.find("_call") != std::string::npos;
+                const bool always = (unsigned(prog[k] >> 33) & 0x1f) == 0x1f; // op_get_cond: TRUE
+                const bool falls = !(call || h == "sharcop_rti" || (jump && always));
+                const uint32_t t = target_of(h, base + k, prog[k]);
+                char line[160];
+                std::snprintf(line, sizeof line, "%05x %s %c %c %s %c\n", unsigned(base + k), h.substr(8).c_str(), falls ? 'f' : 'n',
+                              has_j(h, prog[k]) ? 'j' : '-', t ? hx(t).substr(2).c_str() : "-", full[k] ? 'F' : pinned[k] ? 'b' : 'p');
+                c << line;
+            }
+            write_file(cfg_path, c.str());
+        }
 
         for (const auto &e : std::filesystem::directory_iterator(dir))
             // (sharc_compact_* and sharc_mixed_*: an older generator's other versions)
@@ -513,6 +568,7 @@ int main(int argc, char **argv) {
                  "\tfor (;;) {\n"
                  "\t\tif (!plain_ready()) return 3;\n"
                  "\t\tM2SHARC_EV(dispatches);\n"
+                 "\t\tM2SHARC_DISPATCH(" << hx(base + first) << "u, " << hx(base + last) << "u);\n"
                  "\t\tpending = 0;\n"
                  "\t\tswitch (m_core->daddr) {\n";
             for (uint32_t k = first; k < last; ++k) o << "\t\tcase " << hx(base + k) << ": goto L_" << std::hex << base + k << std::dec << ";\n";
@@ -525,14 +581,24 @@ int main(int argc, char **argv) {
                   << "\t\tM2SHARC_COUNT(" << k << ");\n";
                 if (!full[k]) {
                     const std::string h = handler(ops, prog[k]);
-                    if (pinned[k]) // the pipeline as the fetch leaves it (a linear arrival: plain_ready), the full step's ASTAT history
+                    if (pinned[k] && fast) // what the handler (pc, daddr for the delay slots) and the taken test read
+                        o << "\t\tm_core->pc = " << hx(a) << "; m_core->daddr = " << hx(a + 1) << ";"
+                          << (has_j(h, prog[k]) ? " m_core->nfaddr = " + hx(a + 3) + ";" : std::string()) << "\n";
+                    else if (pinned[k]) // the pipeline as the fetch leaves it (a linear arrival: plain_ready), the full step's ASTAT history
                         o << "\t\tm_core->pc = " << hx(a) << "; m_core->daddr = " << hx(a + 1) << "; m_core->faddr = " << hx(a + 2)
                           << "; m_core->nfaddr = " << hx(a + 3) << ";\n";
-                    if (astat_shift[k] || pinned[k])
+                    if (astat_shift[k] || (pinned[k] && !fast))
                         o << "\t\tm_core->astat_old_old_old = m_core->astat_old_old; m_core->astat_old_old = m_core->astat_old; "
                              "m_core->astat_old = m_core->astat;\n";
                     const bool loop_end = loop_ends.count(a) != 0;
-                    if (loop_end) // step_loop_end, counter loops (cond_loop_ends are full); the pipeline as CHANGE_PC leaves it
+                    if (loop_end && flag_loop_ends.count(a)) // step_loop_end, a condition without ASTAT (flag_cond)
+                        o << "\t\t{\n"
+                             "\t\tbool back = false;\n"
+                             "\t\tif (!(m_core->stky & LSEM) && m_core->laddr.addr == " << hx(a) << ") {\n"
+                             "\t\t\tif (DO_CONDITION_CODE(m_core->laddr.code)) { POP_LOOP(); POP_PC(); }\n"
+                             "\t\t\telse back = true;\n"
+                             "\t\t}\n";
+                    else if (loop_end) // step_loop_end, counter loops (cond_loop_ends are full); the pipeline as CHANGE_PC leaves it
                         o << "\t\t{\n"
                              "\t\tbool back = false;\n"
                              "\t\tif (!(m_core->stky & LSEM) && m_core->laddr.addr == " << hx(a) << ") {\n"
@@ -542,27 +608,52 @@ int main(int argc, char **argv) {
                     o << "\t\t" << call << "\n"
                       << "\t\t++plain;\n";
                     if (loop_end) {
+                        const auto &tops = loop_tops.at(a);
+                        const bool goto_top = tops.size() == 1 && *tops.begin() - base >= first && *tops.begin() - base < last;
+                        const std::string pipe = "m_core->pc = top; m_core->daddr = top; m_core->faddr = top + 1; m_core->nfaddr = top + 2;";
                         o << "\t\tif (back) {\n"
                              "\t\t\tconst uint32_t top = TOP_PC();\n"
-                             "\t\t\tM2SHARC_EV(loop_backs);\n"
-                             "\t\t\tm_core->pc = top; m_core->daddr = top; m_core->faddr = top + 1; m_core->nfaddr = top + 2;\n"
-                             "\t\t\tdone += plain; plain = 0;\n"
-                             "\t\t\tif (done >= m_budget) return 2;\n";
-                        const auto &tops = loop_tops.at(a);
-                        if (tops.size() == 1 && *tops.begin() - base >= first && *tops.begin() - base < last)
-                            o << "\t\t\tif (m_core->daddr == " << hx(*tops.begin()) << ") goto L_" << std::hex << *tops.begin() << std::dec << ";\n";
-                        o << "\t\t\tcontinue;\n"
-                             "\t\t}\n"
-                             "\t\t}\n";
+                             "\t\t\tM2SHARC_EV(loop_backs);\n";
+                        if (fast && goto_top && !full[*tops.begin() - base]) { // the pipeline only where the loop leaves the chunk (a full step's fetch reads it)
+                            o << "\t\t\tdone += plain; plain = 0;\n";
+                            if (waits.count(a)) o << "\t\t\tif (top == " << hx(a) << ") { " << pipe << " return 1; }\n";
+                            o << "\t\t\tif (top == " << hx(*tops.begin()) << " && done < m_budget) { M2SHARC_GOTO(" << k << ", top); goto L_"
+                              << std::hex << *tops.begin() << std::dec << "; }\n"
+                              << "\t\t\t" << pipe << "\n"
+                                 "\t\t\tif (done >= m_budget) return 2;\n"
+                                 "\t\t\tcontinue;\n"
+                                 "\t\t}\n"
+                                 "\t\t}\n";
+                        } else {
+                            o << "\t\t\t" << pipe << "\n"
+                                 "\t\t\tdone += plain; plain = 0;\n";
+                            if (waits.count(a)) // a one-nop wait loop looping back: the SHARC polls its flags
+                                o << "\t\t\tif (top == " << hx(a) << ") return 1;\n";
+                            o << "\t\t\tif (done >= m_budget) return 2;\n";
+                            if (goto_top)
+                                o << "\t\t\tif (m_core->daddr == " << hx(*tops.begin()) << ") { M2SHARC_GOTO(" << k << ", m_core->daddr); goto L_"
+                                  << std::hex << *tops.begin() << std::dec << "; }\n";
+                            o << "\t\t\tcontinue;\n"
+                                 "\t\t}\n"
+                                 "\t\t}\n";
+                        }
                     }
                     // Where a pinned branch is taken: the count, budget and step_pre as at a
                     // run's end (CHANGE_PC wrote the pipeline), then the target.
                     const auto taken = [&](uint32_t target, const char *event) {
+                        const bool in_chunk = target >= base && target - base >= first && target - base < last;
+                        const std::string go = in_chunk ? "\t\t\tif (m_core->daddr == " + hx(target) + ") { M2SHARC_GOTO(" + std::to_string(k) +
+                                                              ", m_core->daddr); goto L_" + [&] {
+                            char b[16];
+                            std::snprintf(b, sizeof b, "%x", target);
+                            return std::string(b);
+                        }() + "; }\n" : std::string();
                         o << "\t\t\tM2SHARC_EV(" << event << ");\n"
-                             "\t\t\tdone += plain; plain = 0;\n"
-                             "\t\t\tif (done >= m_budget) return 2;\n";
-                        if (target >= base && target - base >= first && target - base < last)
-                            o << "\t\t\tif (m_core->daddr == " << hx(target) << ") goto L_" << std::hex << target << std::dec << ";\n";
+                             "\t\t\tdone += plain; plain = 0;\n";
+                        if (fast && in_chunk && target > a) // forward: no budget test (backward edges keep it)
+                            o << go << "\t\t\tif (done >= m_budget) return 2;\n";
+                        else
+                            o << "\t\t\tif (done >= m_budget) return 2;\n" << go;
                         o << "\t\t\tcontinue;\n"
                              "\t\t}\n";
                     };
@@ -621,7 +712,8 @@ int main(int argc, char **argv) {
         for (uint32_t k = 0; k < n; ++k) o << "    " << hx(prog[k]) << "ull,\n";
         o << "};\n} // namespace\n\n";
         // The profile's view of the program (sharc_profile.h): each instruction's handler and kind.
-        o << "#ifdef M2_SHARC_PROFILE\nconst uint32_t sharc_gen_count = " << n << ";\nconst char *const sharc_gen_names[" << n << "] = {\n";
+        o << "#ifdef M2_SHARC_PROFILE\nconst char *const sharc_gen_mode = \"" << (full_steps ? "full steps" : fast ? "--fast" : "exact")
+          << "\";\nconst uint32_t sharc_gen_count = " << n << ";\nconst char *const sharc_gen_names[" << n << "] = {\n";
         for (uint32_t k = 0; k < n; ++k) o << "    \"" << handler(ops, prog[k]).substr(8) << "\",\n"; // without "sharcop_"
         o << "};\nconst uint8_t sharc_gen_kinds[" << n << "] = {";
         for (uint32_t k = 0; k < n; ++k) o << (k % 32 ? "" : "\n    ") << (full[k] ? "SharcFull" : pinned[k] ? "SharcPinned" : "SharcPlain") << ",";
@@ -646,6 +738,7 @@ int main(int argc, char **argv) {
              "\tuint64_t done = 0;\n"
              "\tm_budget = budget; // end_run() lowers it\n"
              "\tM2SHARC_EV(gen_calls);\n"
+             "\tM2SHARC_ENTRY();\n"
              "\t// Plain runs skip step_pre and the DMA cycle: not while a DMA or a delayed IOP write is pending.\n"
              "\tif ((m_core->dma_status & 0xc0) || m_iop_delay > 0)\n"
              "\t\tthrow SharcFatal(\"SHARC: a DMA or delayed IOP write while the recompiled program runs\");\n"
@@ -672,8 +765,8 @@ int main(int argc, char **argv) {
              "\t\t\tthrow SharcFatal(emu_fatalerror::fmt(\"SHARC: no recompiled code at %05x\", m_core->daddr));\n"
              "\t}\n}\n\n} // namespace rt::sharc\n";
         write_file(out_path, o.str());
-        std::printf("m2sharcrecomp: %u instructions (%u plain), %zu loop ends, %zu wait loops, %zu handlers templated -> %s and %u chunks\n", n,
-                    plain_count, loop_ends.size(), waits.size(), handlers, argv[2], chunks);
+        std::printf("m2sharcrecomp: %u instructions (%u plain), %zu loop ends, %zu wait loops, %zu handlers templated -> %s and %u chunks%s\n", n,
+                    plain_count, loop_ends.size(), waits.size(), handlers, argv[2], chunks, fast ? " (--fast)" : "");
         return 0;
     } catch (const std::exception &e) {
         std::fprintf(stderr, "m2sharcrecomp: %s\n", e.what());

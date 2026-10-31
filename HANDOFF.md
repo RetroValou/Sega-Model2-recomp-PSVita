@@ -1,5 +1,77 @@
 # Handoff
 
+## SHARC: fewer full steps, --fast for the Vita, transfer profile and layout study (2026-10-31)
+
+The SHARC work resumed (the user: optimise the Model 2B copro, Fighting Vipers
+first, with a pipeline the other 2B/2C games can use).
+Dump of every executed instruction: SharcProfile::dump_path, set by m2run
+(M2_SHARC_DUMP=FILE) and by the Vita (ux0:data/<set>/sharc_hot.txt, rewritten
+at each perf.log report, one write; getenv does nothing on the Vita). The
+profile's first line now names the code: exact, --fast, full steps.
+m2sharcrecomp, exact (default build):
+- a loop end whose condition does not read ASTAT (FLAG0-3, their NOT, BM,
+  NOT BM, LCE, FOREVER) runs plain, its test inline (step_loop_end's ASTAT
+  juggling is a no-op for them); the one-nop wait loop still returns 1 when
+  it loops back;
+- sysreg_bitop on USTAT1/2, ASTAT, STKY runs plain (MODE1, MODE2, IRPTL,
+  IMASK stay full steps).
+fvipers' command loop (0x20130-0x20147, 1,054 commands a frame on the PC
+fight, 25 % of the instructions) had four full steps a command: two
+sysreg_bitop setting/clearing ASTAT FLG3, the FLAG0 wait loop (0x20133), the
+end of the do-FOREVER main loop (0x20147). Full steps per 1000 instructions
+41.9 -> 0.1, run ends 23.1 -> 2.3, dispatches 109 -> 99.
+m2sharcrecomp --fast (build_vita.py --fast-inaccuracy generates the Vita's
+SHARC code with it; the host's code stays exact): pinned branches write pc,
+daddr (nfaddr when delayed) and no ASTAT history unless before an ASTAT loop
+end; counter loops looping back in their chunk write the pipeline only when
+they leave; forward branches in a chunk skip the budget test. Same results:
+m2sharccheck_gen MATCH with it. PC, pinned to one core, fight check: 1.54 ->
+1.45 s (-6 %), 2.2 x86 instructions fewer a SHARC instruction.
+Checks (exact): m2sharccheck_gen MATCH, fight 613,709,679 and attract
+459,076 instructions (unchanged); m2native attract 596/596 screens;
+fvipers_fight 6,000 frames, last screen 2fcd2223eeb056c0, i960 291,664,897
+(also with the --fast code); ctest 23/23 (fvipers, daytona93); scripts 50/50.
+Vita (user, profiled diagnostics, fight, ~129.5 k SHARC instructions a frame):
+
+| build | SHARC ms/frame | cycles/instr | M instr/s | fps |
+|---|---|---|---|---|
+| 2026-10-19 entry (before the run-boundary change) | 22.5 | 75 | ~5.8 | 26.0-27.4 |
+| exact, fewer full steps | 19.7-20.0 | 68 | 6.51-6.54 | 29.7-29.9 |
+| + --fast | 19.1-19.3 | 65-66 | 6.74-6.82 | 30.2-30.8 |
+
+The first row predates 2026-10-19's lighter run boundaries (never measured on
+the Vita), so the 22.5 -> 19.8 ms mixes both changes; the before-package
+(build_fightingvipers/vita_diag_before) was not run. --fast: -3 % on the Vita
+(PC -6 %): the bookkeeping left is small; the cost is the handlers (compute
+21 %, post-modify loads 13 %, dm writes 9 %). A frame of the fight: 33.8 ms,
+vblank handler 26.7 of it, SHARC 19.8 (17.4 ms is full speed).
+Transfer profile (profiled builds; SharcEdges in sharc_profile.h, at the end
+of the dump): each non-fall-through transfer by (from, to, kind): goto in a
+chunk, dispatch in a chunk, chunk change, run_generated entry. PC fight, a
+frame: goto 9,011, dispatch in a chunk 73, chunk changes 4,621, entries 675;
+almost every dispatch is a chunk change (each counts two: the old chunk's
+default, the new chunk's switch). m2sharcrecomp --cfg FILE writes each
+instruction's handler, fall-through, delay, constant target and kind.
+scripts/sharc_layout.py CFG DUMP: units (ranges reached only by falling
+through), Pettis-Hansen merge along the heaviest transfers under a size cap;
+its model of today's layout gives 4,630 chunk changes (4,621 measured). By
+affinity: cap 256 -> 1,592 (34 %), 384 -> 916, 512 -> 818, 1024 -> 680. What
+stays at 256: the command loop's indirect call (0x20146) to its handlers and
+their rts back. Worth: ~3,000 chunk changes a frame; their Vita cost is not
+measured (50-100 cycles each would be 0.35-0.7 ms a frame).
+Next: the layout pass in m2sharcrecomp from a committed profile
+(profiles/<set>_sharc.txt, addresses and counts; CRC-checked, address
+layout without it), exact, so in the default build too; then idioms in
+--fast (FIFO block copies, flag-free compute) chosen by the profile; the
+SHARC on its own core (fast-inaccuracy) is the only lever near 2x: measure
+first how long the i960 works between pushing a command and reading its
+result. Shared 2B library across games (content hashes in the profile) is a
+hypothesis: only fvipers is here.
+What not to re-propose: removing nops (a plain nop costs one add; the costly
+ones were loop ends, now plain); one big chunk for the hot code (2026-10-19:
+1024-instruction chunks ran slower on the PC and take 133 s each for the
+Vita's compiler; the layout keeps chunks near 256-512).
+
 ## Dead or Alive: "no recompiled code at 0005f190"; seed_scan's check limit (2026-10-27)
 
 The user hit it on doaa. 0x5f190 is a function start (lda 0x50(sp),sp), the

@@ -304,6 +304,8 @@ private:
     bool m_gen_checked = false; // run_generated compared program memory with its program
     uint32_t m_gen_end = 0;     // the recompiled program's end (0x20000 up): writes there are fatal
     uint32_t *m_profile = nullptr;
+    uint32_t m_prof_last = 0;  // M2_SHARC_PROFILE: the last instruction counted (M2SHARC_DISPATCH's from)
+    bool m_prof_cross = false; // M2_SHARC_PROFILE: the last chunk left on a dispatch
 
     // The recompiled program's handlers (m2sharcrecomp writes their definitions:
     // upstream's sharcop_* and COMPUTE, the opcode a template parameter).

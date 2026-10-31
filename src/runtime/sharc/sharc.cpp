@@ -23,6 +23,7 @@ namespace rt::sharc {
 
 #ifdef M2_SHARC_PROFILE
 SharcProfile sharc_profile; // sharc_profile.h
+SharcEdges sharc_edges;
 #endif
 
 // ---- upstream sharc.cpp ----

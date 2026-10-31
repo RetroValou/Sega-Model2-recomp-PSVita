@@ -63,6 +63,7 @@ void Diagnostics::game_started(rt::GameLoop &game) {
 #ifdef M2_SHARC_PROFILE
     rt::sharc::sharc_profile.clock = ticks_us;
     rt::sharc::sharc_profile.ticks_per_second = 1000000u;
+    rt::sharc::sharc_profile.dump_path = "ux0:data/" M2_ROMSET "/sharc_hot.txt"; // every executed instruction, at each report
     sharc_report_.start(game.board().tgp().sharc_instructions(), game.board().tgp().sharc_counts());
 #endif
 #ifdef M2_I960_PROFILE

@@ -20,7 +20,11 @@
 //   - executions per instruction of the program (M2SHARC_COUNT in the
 //     generated code: a load, add and store an instruction), so the window's
 //     hottest instructions and handlers, and the share of plain, pinned and
-//     full instructions.
+//     full instructions;
+//   - with SharcProfile::dump_path, every executed instruction of the
+//     window (address, executions a frame, kind, handler) in a file, and
+//     every control transfer that is not a fall-through (SharcEdges: from,
+//     to, goto / dispatch / chunk change / entry, a frame).
 // Counters never change what the SHARC computes; they cost time (the counts
 // above all), so the report's times are a profiling build's.
 #pragma once
@@ -42,6 +46,10 @@ constexpr int kSharcSizeBuckets = 6;
 struct SharcProfile {
     uint64_t (*clock)() = nullptr; // host ticks (set by the frontend); null: no timing
     uint64_t ticks_per_second = 1000000;
+    // Every instruction executed in a report's window, by address, written to this file at each report
+    // (rewritten each time), to group the hot addresses into routines; null: none. m2run: M2_SHARC_DUMP=FILE;
+    // the Vita: ux0:data/<set>/sharc_hot.txt.
+    const char *dump_path = nullptr;
     // TgpBoard, by caller.
     uint64_t calls[kSharcCallers]{}, runs[kSharcCallers]{}, instructions[kSharcCallers]{}, ticks[kSharcCallers]{};
     // run_generated (sharc_gen.cpp) and the chunks.
@@ -56,9 +64,35 @@ struct SharcProfile {
 };
 extern SharcProfile sharc_profile;
 
+// The program's control transfers that are not a fall-through, by (from, to, kind): the
+// layout's data (which instructions should share a chunk). From and to are indexes in the
+// program (address - 0x20000); kind: a direct goto inside a chunk, a dispatch (the chunk's
+// switch) that stays in the chunk, a dispatch after a chunk change (run_generated's switch),
+// a run_generated call's first dispatch (from kSharcFromEntry). An open-addressing table, so
+// the Vita can keep it too (a full table counts the rest in `lost`).
+enum SharcEdgeKind : uint8_t { SharcEdgeGoto, SharcEdgeDispatch, SharcEdgeChunk, SharcEdgeEntry, kSharcEdgeKinds };
+constexpr uint32_t kSharcFromEntry = 0xfffff;
+struct SharcEdges {
+    static constexpr uint32_t kSize = 1u << 15;
+    uint64_t key[kSize]{}; // (kind << 40 | from << 20 | to) + 1; 0: empty
+    uint32_t count[kSize]{};
+    uint64_t lost = 0;
+    void add(uint32_t from, uint32_t to, SharcEdgeKind kind) {
+        const uint64_t k = ((uint64_t(kind) << 40) | (uint64_t(from & 0xfffff) << 20) | (to & 0xfffff)) + 1;
+        uint32_t i = uint32_t((k * 0x9e3779b97f4a7c15ull) >> 49); // 15 bits
+        for (uint32_t probe = 0; probe < 64; ++probe, i = (i + 1) & (kSize - 1)) {
+            if (key[i] == k) { ++count[i]; return; }
+            if (!key[i]) { key[i] = k; count[i] = 1; return; }
+        }
+        ++lost;
+    }
+};
+extern SharcEdges sharc_edges;
+
 // m2sharcrecomp: what each instruction of the program is (the generated
 // sharc_gen.cpp defines them; sharc_nogen.cpp none).
 enum SharcKind : uint8_t { SharcPlain, SharcPinned, SharcFull };
+extern const char *const sharc_gen_mode; // how m2sharcrecomp made it: "exact", "--fast", "full steps" (the report's first line)
 extern const uint32_t sharc_gen_count;
 extern const char *const sharc_gen_names[];
 extern const uint8_t sharc_gen_kinds[];
@@ -75,6 +109,7 @@ private:
     SharcProfile at_{};
     uint64_t instructions_ = 0;
     std::vector<uint32_t> counts_;
+    std::vector<uint32_t> edge_counts_; // sharc_edges.count at start()
     double clock_ns_ = -1; // one clock read, measured once
 };
 

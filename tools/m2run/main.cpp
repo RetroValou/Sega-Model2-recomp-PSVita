@@ -173,6 +173,7 @@ int main(int argc, char **argv) {
                                 std::chrono::steady_clock::now().time_since_epoch()).count());
         };
         rt::sharc::sharc_profile.ticks_per_second = 1000000000u;
+        rt::sharc::sharc_profile.dump_path = std::getenv("M2_SHARC_DUMP"); // every executed instruction, by address
         rt::sharc::SharcProfileReport sharc_report;
         sharc_report.start(game.board().tgp().sharc_instructions(), game.board().tgp().sharc_counts());
 #endif

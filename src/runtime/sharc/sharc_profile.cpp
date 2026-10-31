@@ -43,6 +43,7 @@ void SharcProfileReport::start(uint64_t sharc_instructions, const uint32_t *coun
     at_ = sharc_profile;
     instructions_ = sharc_instructions;
     if (counts && sharc_gen_count) counts_.assign(counts, counts + sharc_gen_count);
+    edge_counts_.assign(sharc_edges.count, sharc_edges.count + SharcEdges::kSize);
 }
 
 size_t SharcProfileReport::format(char *out, size_t size, uint64_t frames, uint64_t sharc_instructions, const uint32_t *counts,
@@ -54,8 +55,8 @@ size_t SharcProfileReport::format(char *out, size_t size, uint64_t frames, uint6
     const double tps = double(now.ticks_per_second ? now.ticks_per_second : 1);
     Out o{out, size};
 
-    o.add("SHARC profile (--sharc-profile; a profiling build: each instruction also counts itself), %.0f frames, "
-          "%.0f instructions a frame\n", f, instr / f);
+    o.add("SHARC profile (--sharc-profile; a profiling build: each instruction also counts itself; code %s), %.0f frames, "
+          "%.0f instructions a frame\n", sharc_gen_mode, f, instr / f);
 
     // By caller.
     static const char *const kCaller[kSharcCallers] = {"run to the wait (vblank, sync)", "need an output word (i960 FIFO read)",
@@ -152,6 +153,53 @@ size_t SharcProfileReport::format(char *out, size_t size, uint64_t frames, uint6
                   sharc_gen_names[k], ratio(hot[i].first * 100.0, total), hot[i].first / f);
         }
         o.add("    (p plain, b pinned branch, F full step)\n");
+        // Every executed instruction, by address: built in memory, then one write (the Vita's memory card is
+        // slow at many small writes).
+        if (const char *path = sharc_profile.dump_path) {
+            std::string text;
+            char line[320];
+            std::snprintf(line, sizeof line, "# %.0f frames, %.0f instructions a frame; address, executions a frame, "
+                                             "kind (p plain, b pinned branch, F full step), handler\n", f, instr / f);
+            text += line;
+            for (uint32_t k = 0; k < sharc_gen_count; ++k) {
+                const uint32_t n = counts[k] - counts_[k];
+                if (!n) continue;
+                std::snprintf(line, sizeof line, "%05x %.2f %c %s\n", unsigned(0x20000 + k), double(n) / f,
+                              kKind[sharc_gen_kinds[k] < 3 ? sharc_gen_kinds[k] : 2], sharc_gen_names[k]);
+                text += line;
+            }
+            // The transfers (SharcEdges), most frequent first.
+            static const char kEdge[kSharcEdgeKinds] = {'g', 'd', 'c', 'e'};
+            std::vector<std::pair<uint32_t, uint32_t>> edges; // executions in the window, slot
+            double by_kind[kSharcEdgeKinds] = {};
+            for (uint32_t i = 0; i < SharcEdges::kSize; ++i) {
+                const uint32_t n = sharc_edges.count[i] - (i < edge_counts_.size() ? edge_counts_[i] : 0);
+                if (!sharc_edges.key[i] || !n) continue;
+                edges.push_back({n, i});
+                by_kind[unsigned((sharc_edges.key[i] - 1) >> 40) & 3] += n;
+            }
+            std::sort(edges.rbegin(), edges.rend());
+            std::snprintf(line, sizeof line, "# transfers a frame: goto %.1f, dispatch in a chunk %.1f, chunk change %.1f, entry %.1f "
+                                             "(table lost %.0f); lines: > from to kind (g goto, d dispatch, c chunk change, "
+                                             "e entry) executions a frame\n", by_kind[0] / f, by_kind[1] / f, by_kind[2] / f,
+                          by_kind[3] / f, double(sharc_edges.lost));
+            text += line;
+            for (const auto &[n, i] : edges) {
+                const uint64_t k = sharc_edges.key[i] - 1;
+                const uint32_t from = uint32_t(k >> 20) & 0xfffff, to = uint32_t(k) & 0xfffff;
+                if (from == kSharcFromEntry) std::snprintf(line, sizeof line, "> entry %05x %c %.2f\n", unsigned(0x20000 + to), kEdge[(k >> 40) & 3], double(n) / f);
+                else std::snprintf(line, sizeof line, "> %05x %05x %c %.2f\n", unsigned(0x20000 + from), unsigned(0x20000 + to), kEdge[(k >> 40) & 3], double(n) / f);
+                text += line;
+            }
+            if (FILE *file = std::fopen(path, "wb")) {
+                const bool ok = std::fwrite(text.data(), 1, text.size(), file) == text.size();
+                std::fclose(file);
+                if (ok) o.add("  every executed instruction (%u) written to %s\n", unsigned(hot.size()), path);
+                else o.add("  cannot write %s\n", path);
+            } else {
+                o.add("  cannot create %s\n", path);
+            }
+        }
     }
     start(sharc_instructions, counts);
     return o.used;
