@@ -1,5 +1,29 @@
 # Handoff
 
+## Fighting Vipers HLE: the table copies 0x20473 and 0x2049b (2026-10-31)
+
+Two more HLE routines, both from a "table slot": the first input word's low
+byte picks 0x304e0 (1) or 0x30420, the second word is added
+(FVIPERS_HLE_TABLE_SLOT; stops at the second wait when the word is not
+there yet). 0x20473 (26 a frame): 12 words from the address in DM 0x3033f
+to the slot, then RTS. 0x2049b (48 a frame): 12 words of the slot to PM
+0x21f20 (I8/M9), R15 to PM 0x21f38, I7 = DM 0x3033f, I9 = 0x21f2c, then the
+CALL to 0x201bc (a float routine, left to the recompiled code); a second
+entry at 0x204b1 (where that call returns) copies 12 words PM I9 -> DM I7 and
+returns. Counter loops run natively with their stack effects replayed
+(FVIPERS_HLE_LOOP_BEGIN/END). The routines in seeds/fvipers_sharc_hle.txt:
+the command loop, 0x20908, 0x20473, 0x2049b (+ 0x204b1): ~33 % of the
+fight's SHARC instructions now run natively (~33.8 k of 101.2 k a frame).
+Checks: m2sharccheck_gen (--fast --hle) MATCH, fight 613,709,679 and attract
+459,076 instructions; fvipers_fight 6,000 frames, last screen
+2fcd2223eeb056c0; 1,246.8 HLE runs a frame, 5.7 declined. Vita: not
+measured yet.
+Not done, and why: 0x20982 (7 %) and 0x20b8a (9.9 %) are long branchy
+routines (collision tests, a 64-cell occupancy grid) with float compares;
+0x201bc, 0x2014c and the other float leaves are straight-line code the
+recompiled chunks already run with little overhead: an exact HLE would cost
+the same, a faster one would drop flags or MAME's float checks.
+
 ## Fighting Vipers HLE: command 0x20908 (a buffer RAM packet) (2026-10-31)
 
 Second HLE routine (seeds/fvipers_sharc_hle.txt, src/games/fvipers_sharc_hle.h):

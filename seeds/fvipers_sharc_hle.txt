@@ -4,3 +4,6 @@
 include games/fvipers_sharc_hle.h
 20130 command_loop
 20908 packet_20908
+20473 store_20473
+2049b load_2049b
+204b1 load_2049b_back

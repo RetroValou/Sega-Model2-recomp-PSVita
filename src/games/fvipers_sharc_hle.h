@@ -182,3 +182,124 @@ inline uint32_t adsp21062_device::run_hle<sharc_hle_packet_20908>(uint64_t &done
 	done += ran;
 	return POP_PC();
 }
+
+// A counter loop "LCNTR = n, DO end UNTIL LCE" run natively: its stack
+// effects as the program's (the do-until's pushes, the expiry's pops).
+#define FVIPERS_HLE_LOOP_BEGIN(n, top, end, type)          \
+	do {                                                   \
+		m_core->lcntr = (n);                               \
+		PUSH_PC();                                         \
+		PUSH_LOOP();                                       \
+		m_core->pcstk = (top);                             \
+		m_core->laddr.addr = (end);                        \
+		m_core->laddr.code = 0xf;                          \
+		m_core->laddr.loop_type = (type);                  \
+	} while (0)
+#define FVIPERS_HLE_LOOP_END()                             \
+	do {                                                   \
+		m_core->curlcntr = 0;                              \
+		POP_LOOP();                                        \
+		POP_PC();                                          \
+	} while (0)
+
+// The table offset two commands below start with: the first input word's
+// low byte picks the base (1: 0x304e0, else 0x30420), the second word is
+// added to it. R0, R1 and the flags as the program leaves them. Returns the
+// instructions run, or 0 with nothing done when the second word is not
+// there yet (only the first word read: *stop_at gets the wait's address).
+#define FVIPERS_HLE_TABLE_SLOT(entry, slot, ran)                                   \
+	do {                                                                           \
+		FVIPERS_HLE_IN(0);                                                         \
+		REG(1) = 0xff;                                                             \
+		compute_and(0, 0, 1);                                                      \
+		REG(1) = 1;                                                                \
+		compute_comp(0, 1);                                                        \
+		const bool equal_ = (m_core->astat & AZ) != 0;                             \
+		REG(0) = equal_ ? 0x304e0 : 0x30420;                                       \
+		(ran) = equal_ ? 9 : 8; /* entry .. the second wait */                     \
+		if (m_core->flag[0] != 0) { done += (ran); return (entry) + 9; }           \
+		FVIPERS_HLE_IN(1);                                                         \
+		compute_add(1, 0, 1);                                                      \
+		(slot) = REG(1);                                                           \
+		(ran) += 3;                                                                \
+	} while (0)
+
+// Command 0x20473 (26 a frame): 12 words from the address in DM 0x3033f to
+// the table slot (FVIPERS_HLE_TABLE_SLOT), then return.
+struct sharc_hle_store_20473;
+
+template <>
+inline uint32_t adsp21062_device::run_hle<sharc_hle_store_20473>(uint64_t &done)
+{
+	if (m_core->flag[0] != 0) return 0;
+	uint32_t ran, slot;
+	FVIPERS_HLE_TABLE_SLOT(0x20473u, slot, ran);
+	DM_REG_I(6) = slot;
+	DM_REG_I(7) = dm_read32_i(0x3033f);
+	FVIPERS_HLE_LOOP_BEGIN(12, 0x20482, 0x20483, 2);
+	for (int i = 0; i < 12; ++i) {
+		REG(0) = dm_read32_i(DM_REG_I(7));
+		DM_REG_I(7) += DM_REG_M(1);
+		UPDATE_CIRCULAR_BUFFER_DM(7);
+		FVIPERS_HLE_PUT(6, 1, REG(0));
+	}
+	FVIPERS_HLE_LOOP_END();
+	dm_write32_i(DM_REG_I(3) + 0x20, REG(15));
+	dm_write32_i(DM_REG_I(3) + 0x20, REG(15));
+	done += ran + 3 + 24 + 3; // I6 =, I7 =, the do; the loop; two stores and the RTS
+	return POP_PC();
+}
+
+// Command 0x2049b (48 a frame, 27 of them from the command loop, 21 from
+// 0x20acd): 12 words of the table slot (FVIPERS_HLE_TABLE_SLOT) to PM
+// 0x21f20 (I8, M9), R15 to PM 0x21f38, I7 = DM 0x3033f, I9 = 0x21f2c, then
+// it calls 0x201bc (left to the recompiled code); the second entry, 0x204b1
+// where that call returns, copies 12 words from PM I9 to DM I7 and returns.
+struct sharc_hle_load_2049b;
+
+template <>
+inline uint32_t adsp21062_device::run_hle<sharc_hle_load_2049b>(uint64_t &done)
+{
+	if (m_core->flag[0] != 0) return 0;
+	uint32_t ran, slot;
+	FVIPERS_HLE_TABLE_SLOT(0x2049bu, slot, ran);
+	DM_REG_I(6) = slot;
+	PM_REG_I(0) = 0x21f20;
+	FVIPERS_HLE_LOOP_BEGIN(12, 0x204aa, 0x204ab, 2);
+	for (int i = 0; i < 12; ++i) {
+		REG(0) = dm_read32_i(DM_REG_I(6));
+		DM_REG_I(6) += DM_REG_M(1);
+		UPDATE_CIRCULAR_BUFFER_DM(6);
+		pm_write32_i(PM_REG_I(0), REG(0));
+		PM_REG_I(0) += PM_REG_M(1);
+		UPDATE_CIRCULAR_BUFFER_PM(0);
+	}
+	FVIPERS_HLE_LOOP_END();
+	pm_write32_i(0x21f38, REG(15));
+	pm_write32_i(0x21f38, REG(15));
+	DM_REG_I(7) = dm_read32_i(0x3033f);
+	PM_REG_I(1) = 0x21f2c;
+	PUSH_PC(); // CALL 0x201bc, not delayed: returns to 0x204b1
+	m_core->pcstk = 0x204b1;
+	done += ran + 3 + 24 + 5; // I6 =, I8 =, the do; the loop; two stores, I7 =, I9 =, the CALL
+	return 0x201bc;
+}
+
+struct sharc_hle_load_2049b_back;
+
+template <>
+inline uint32_t adsp21062_device::run_hle<sharc_hle_load_2049b_back>(uint64_t &done)
+{
+	FVIPERS_HLE_LOOP_BEGIN(12, 0x204b2, 0x204b3, 2);
+	for (int i = 0; i < 12; ++i) {
+		REG(0) = pm_read32_i(PM_REG_I(1));
+		PM_REG_I(1) += PM_REG_M(1);
+		UPDATE_CIRCULAR_BUFFER_PM(1);
+		FVIPERS_HLE_PUT(7, 1, REG(0));
+	}
+	FVIPERS_HLE_LOOP_END();
+	dm_write32_i(DM_REG_I(3) + 0x20, REG(15));
+	dm_write32_i(DM_REG_I(3) + 0x20, REG(15));
+	done += 1 + 24 + 3; // the do; the loop; two stores and the RTS
+	return POP_PC();
+}
