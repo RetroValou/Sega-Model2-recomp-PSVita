@@ -636,7 +636,7 @@ int main(int argc, char **argv) {
         }
         for (uint32_t k = 0; k < n; ++k) if (full[k]) pinned[k] = false;
 
-        // The HLE routines' entries (--hle): a plain instruction, no loop end, no delay slot.
+        // The HLE routines' entries (--hle): a plain or pinned instruction, no loop end, no delay slot.
         std::map<uint32_t, std::string> hle; // index -> routine name
         std::string hle_include;
         if (!hle_path.empty()) {
@@ -654,8 +654,8 @@ int main(int argc, char **argv) {
                 if (k >= n || second.empty()) throw std::runtime_error(hle_path + ": bad line: " + line);
                 const bool slot = (k >= 1 && pinned[k - 1] && has_j(handler(ops, prog[k - 1]), prog[k - 1])) ||
                                   (k >= 2 && pinned[k - 2] && has_j(handler(ops, prog[k - 2]), prog[k - 2]));
-                if (full[k] || pinned[k] || loop_ends.count(base + k) || slot)
-                    throw std::runtime_error(hle_path + ": " + first + " is not a plain instruction outside loop ends and delay slots");
+                if (full[k] || loop_ends.count(base + k) || slot)
+                    throw std::runtime_error(hle_path + ": " + first + " is a full step, a loop end or a delay slot (not an HLE entry)");
                 hle[k] = second;
             }
             if (!hle.empty() && hle_include.empty()) throw std::runtime_error(hle_path + ": no include line");

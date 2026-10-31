@@ -1,5 +1,25 @@
 # Handoff
 
+## Fighting Vipers HLE: command 0x20908 (a buffer RAM packet) (2026-10-31)
+
+Second HLE routine (seeds/fvipers_sharc_hle.txt, src/games/fvipers_sharc_hle.h):
+the command at 0x20908, 77 calls a frame, ~67 instructions each (4.9 % of
+the fight's SHARC instructions): eight input words, a packet into buffer
+RAM at 0x1400000 + word/4 (two header words, 12 words copied from the
+address in DM 0x3033f by a counter loop whose stack effects are replayed:
+PUSH_PC/PUSH_LOOP, then curlcntr 0, POP_LOOP/POP_PC), two output words,
+RTS with its delay slots. Where the program busy-waits on FLAG0 (input
+empty) or FLAG1 (output), the routine stops at that instruction with the
+program's state and its count so far; the recompiled code polls on from
+there. HLE entries may now be pinned branches too (this one starts with
+"IF FLAG0_IN JUMP self"); still no full step, loop end or delay slot.
+Helpers FVIPERS_HLE_IN/OUT/PUT (input FIFO via I0/M0, output via I1/M0,
+DAG1 post-modify writes, circular buffers updated).
+Checks: m2sharccheck_gen (--fast --hle) MATCH, fight 613,709,679 and attract
+459,076 instructions (unchanged); fvipers_fight 6,000 frames, last screen
+2fcd2223eeb056c0; 1,126 HLE runs a frame (1,048.6 + 77.4), 5.7 declined.
+Vita: not measured yet.
+
 ## Fighting Vipers: its SCSP DSP program recompiled (2026-10-31)
 
 The Vita's sound core saturated in fights (user perf.log: sound board 27.5

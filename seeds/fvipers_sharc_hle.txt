@@ -3,3 +3,4 @@
 # then "ENTRY name": run_hle<sharc_hle_name> runs at that entry instead of the recompiled routine.
 include games/fvipers_sharc_hle.h
 20130 command_loop
+20908 packet_20908
