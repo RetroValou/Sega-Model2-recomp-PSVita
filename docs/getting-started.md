@@ -37,8 +37,8 @@ builds it. You run one command; it takes a while the first time.
 
 Open a terminal (PowerShell on Windows, Terminal on macOS) and run:
 
-    git clone https://github.com/alphanu1/daytona-arcade-recomp.git
-    cd daytona-arcade-recomp
+    git clone https://github.com/RetroValou/Sega-Model2-recomp-PSVita.git
+    cd Sega-Model2-recomp-PSVita
 
 Stay in this folder for every command below.
 
@@ -48,7 +48,7 @@ Make a folder called `roms` inside the project and copy your set into it,
 named **exactly** after the set: `daytona93.zip` for Deluxe '93,
 `daytona.zip` for Revision A (or `.7z`). Both can be there.
 
-    daytona-arcade-recomp/
+    Sega-Model2-recomp-PSVita/
         roms/
             daytona93.zip
             daytona.zip       (optional: Revision A, 1994)
@@ -231,11 +231,13 @@ anyway, with the reason. For one run only:
 
     build_daytona/pc/daytona93/daytona --rom roms/daytona93.zip --autostart
 
-## Dreamcast (in progress)
+## Dreamcast (unmaintained)
 
 A Dreamcast build of the game, from the `daytona` (Revision A) set only. It
 runs in the Flycast emulator, with sound; it is not yet tested on a
-console. Details: [platform/dreamcast_unmaintained/README.md](../platform/dreamcast_unmaintained/README.md).
+console. This port is no longer maintained in this repository (its folder is
+`platform/dreamcast_unmaintained/`): it is neither built nor tested here and
+may not follow the shared runtime's changes. Details: [platform/dreamcast_unmaintained/README.md](../platform/dreamcast_unmaintained/README.md).
 
 You need, besides the above: [DreamSDK](https://dreamsdk.org/) (R4, at
 `C:/DreamSDK`) on Windows, or a KallistiOS toolchain elsewhere, and

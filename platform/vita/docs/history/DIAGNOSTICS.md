@@ -1,5 +1,13 @@
 # DIAG02: direct native diagnostics
 
+> **Historical record** (the DIAG02 drop of 30 Sep 2026). The installer scripts and patches it names
+> (`apply_*.py`, `.patch`/ZIP drops) are not in this repository, and its paths predate
+> 15 Oct 2026: today a game builds into `build_<game>/vita/<game>.vpk`, or
+> `build_<game>/vita_diag/<game>_diag.vpk` with `build_vita.py --diagnostics`
+> (`daytona_vita.vpk` and `build/vita*` are gone). The current workflow is in
+> [../README.md](../../README.md).
+
+
 This revision addresses insufficient diagnostics, not the unmeasured performance
 bottleneck. A two-line log ending at `renderer: VITA gxm` does not establish
 whether a later call stalled, output failed, or the executable was different.

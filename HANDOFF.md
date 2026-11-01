@@ -1,5 +1,33 @@
 # Handoff
 
+## Documentation and tree cleanup (2026-11-01)
+
+A pass over the documentation and the tree (no behaviour change):
+- dead or wrong statements fixed after checking each against the code:
+  platform/vita/README.md (the eight packages and title IDs, GAME values,
+  --sharc-profile, the cores: SHARC on core 0, the priority sort on core 1),
+  HOW_TO_COMPILE_RELEASE.md (Fighting Vipers is a test package outside
+  --game all; the sort on core 1), docs/native-audio.md (vitaGL, the real
+  build_daytona paths), docs/adding-a-game.md (Model 2B is supported),
+  docs/getting-started.md (the repository's new URL, the Dreamcast port
+  unmaintained), platform/vita/docs/PERF_BREAKDOWN.md and GEO_ASYNC.md;
+  fast_paths.h and lockstep.h name scripts/fast_gen.py; the Vita CMake
+  option's text names M2_FAST_SHARC;
+- moves: the old Vita journals (DIAGNOSTICS.md, OPTIMIZATION.md,
+  PERFORMANCE.md, DIAG02-validation.txt) to platform/vita/docs/history/,
+  each with a note that its scripts and paths predate 15 Oct 2026;
+  README_fork.md to docs/upstream-README.md and docs/issues.md to
+  docs/upstream-issues.md (the upstream project's); the test scripts
+  (test_native_sound_rom.sh, test_native_sound_oracle.sh,
+  test_vita_sound_pipeline.sh, test_vita_renderer.py) from scripts/ to
+  tests/scripts/ (their repository root now two levels up). Older entries
+  below keep the old paths;
+- .gitignore: .claude/ and the SHARC dumps written by hand at the root
+  (sharc_hot.txt, sharc_report.txt).
+README.md keeps its AI warning (the owner's decision). Checks: PC build and
+ctest 23/23, Python tests 50/50, tests/scripts/test_vita_renderer.py (160
+screens, 640 raster frames) from its new place.
+
 ## SHARC HLE 0x20b8a and 0x20982, HLE limit 10, main-core probes, a command finishes in one hand-off, delayed colour tables (2026-11-01)
 
 rules.md "Coprocessor HLE": the owner raised the limit to ten routines a

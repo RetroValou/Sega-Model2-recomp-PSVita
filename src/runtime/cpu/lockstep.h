@@ -72,8 +72,8 @@ public:
     uint32_t pending = 0;
     uint64_t now() const { return count + pending; }
     void poke() { next_count = std::min(next_count, now() + 1); poked_ = true; ++epoch; }
-    // The Dreamcast's rewritten generated code (platform/dreamcast_unmaintained/scripts/
-    // fast_gen.py) counts down the instructions it may run before the next
+    // The rewritten generated code (scripts/fast_gen.py: the Dreamcast's, and the
+    // Vita's --fast-gen) counts down the instructions it may run before the next
     // event instead of calling boundary() before each one. check() is its
     // full boundary at `ip`: 0 to re-dispatch, else how many instructions,
     // this one included, until the next event. epoch moves whenever

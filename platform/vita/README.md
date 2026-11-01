@@ -3,8 +3,11 @@
 A native Vita application (VitaSDK, SDL2 for input and audio, vitaGL for the GPU),
 **not a PSP/Adrenaline build**. The i960, TGP and 68000 programs are recompiled on
 the host from your ROM set, as for the desktop build; nothing is interpreted on the
-Vita. One package per game: Daytona USA (`DAYT00093`), Sega Rally Championship
-(`SRAL00094`), Virtua Fighter 2 (`VFTR00095`), installable side by side.
+Vita. One package per game, installable side by side (`scripts/games.py`): Daytona
+USA (`DAYT00093`), Sega Rally Championship (`SRAL00094`), Virtua Fighter 2
+(`VFTR00095`), Virtua Cop (`VCOP00096`), Virtua Cop 2 (`VCOP00097`), Manx TT
+Superbike (`MANX00098`), Dead or Alive (`DOAL00100`); Fighting Vipers (`FVIP00099`,
+Model 2B) builds as a test only (see the top README's Limits).
 
 ## Source layout
 
@@ -44,7 +47,9 @@ python3 scripts/setup.py                 # host tools; recompiles the game if ro
 python3 scripts/build_vita.py --game GAME --fast-inaccuracy
 ```
 
-`GAME` is `daytona` (default), `segarally` or `virtuafighter2` (`scripts/games.py`).
+`GAME` is `daytona` (default), `segarally`, `virtuafighter2`, `virtuacop`,
+`virtuacop2`, `manxtt`, `deadoralive`, `fightingvipers` or `all` (every game whose ROM
+set is in `roms/`, Fighting Vipers left out; `scripts/games.py`).
 After changing the seeds or a recompiler, run `python3 scripts/recompile.py --game
 GAME` first. Everything a game makes stays in its folder:
 
@@ -62,7 +67,7 @@ build_<game>/vita_diag/      <game>_diag.vpk (--diagnostics: its own app, title 
 | `--fast-inaccuracy` | i960 lockstep checks per block and direct work-RAM accesses, TGP counted per block: the fastest (checked on every game) |
 | `--fast-gen` | `scripts/fast_gen.py`'s rewrite of the exact i960 code (Daytona only) |
 | `--diagnostics` | `vita-diag.log`, `perf.log` (per-core report, `system/core_profile.h`) and `gl.log` |
-| `--tgp-profile`, `--i960-profile` | their sections in `perf.log` (imply `--diagnostics`) |
+| `--tgp-profile`, `--i960-profile`, `--sharc-profile` | their sections in `perf.log` (imply `--diagnostics`; the SHARC's counts every instruction, so its build is slower) |
 | `--release` | link-time optimization, no logs; slow to build, only for a release package |
 | `--free-core` | threads unpinned, so the 4TH CORE option can move any of them |
 | `--link`, `--no-link` | link play in or out (default: in for Daytona only, `vita_link`) |
@@ -81,8 +86,9 @@ building an empty game if a generated source group is missing.
 ## Install and play
 
 Install the VPK with VitaShell and put your complete (MAME full merged) ZIP ROM set at
-`ux0:data/<set>/<set>.zip`: `daytona93`, `srallyc` (MAME's merged `srallycb.zip`
-works, renamed) or `vf2`. The importer checks every file's CRC; a renamed other set
+`ux0:data/<set>/<set>.zip` (the file name for each game is in the top README's ROM
+sets: `srallyc` can be MAME's merged `srallycb.zip` renamed, Manx TT and Dead or
+Alive read their parents' `manxtt.zip` and `doa.zip`). The importer checks every file's CRC; a renamed other set
 is refused. The Vita reads `.zip` only (no 7z decoder: its memory peaks); repack a
 `.7z` set as `.zip` with the same file names.
 
@@ -169,8 +175,8 @@ needs hardware validation.
 
 | core (default) | thread | work |
 |---|---|---|
-| 0 | main | input and menu; the i960 game code; the TGP (run by the i960, no thread of its own); at vblank start, a copy of the display list RAM (128 KiB) for the geometry thread; at vblank end, the System 24 tile update; the sound hand-off; then the GPU frame: polygon priority sort, materials, vertices, submission and swap |
-| 1 | geometry | the display list parse (the MAME geometrizer, unmodified) of the frame the main core just finished |
+| 0 | main | input and menu; the i960 game code; the TGP, or on Model 2B the SHARC (run by the i960, no thread of their own); at vblank start, a copy of the display list RAM (128 KiB) for the geometry thread; at vblank end, the System 24 tile update; the sound hand-off; then the GPU frame: materials, vertices, submission and swap |
+| 1 | geometry | the display list parse (the MAME geometrizer, unmodified) of the frame the main core just finished, then the polygons' priority depths (`render/polygon_order.h`) |
 | 2 | sound worker | the reference sound board of the frame just finished |
 | 2 | 2D worker | System 24 tile and palette uploads into the second texture set, layer rectangles |
 | any | SDL audio callbacks | mixing the queued samples (reference engine), or the whole native sound engine |
@@ -279,7 +285,7 @@ Measured on a Vita at CPU 444 MHz / GPU 166 MHz, pinned cores, `--fast-inaccurac
 | Core 2 (sound + 2D) | 78% on average, 87% at worst |
 | Sound | 8 short gaps in 3.5 minutes, playback speed 99-100% |
 
-More in [docs/PERFORMANCE.md](docs/PERFORMANCE.md), [docs/GEO_ASYNC.md](docs/GEO_ASYNC.md)
+More in [docs/history/PERFORMANCE.md](docs/history/PERFORMANCE.md), [docs/GEO_ASYNC.md](docs/GEO_ASYNC.md)
 and [docs/PERF_BREAKDOWN.md](docs/PERF_BREAKDOWN.md).
 
 ### vitaGL: pinned build and flags
@@ -348,7 +354,7 @@ rm -rf /tmp/vitasdk-nogl /tmp/daytona-clean      # the real SDK is untouched
 ## Tests
 
 Host tests (no ROM or SDK): configure the root build with `-DM2_VITA_TESTS=ON`, then
-`ctest -R vita`; `python3 scripts/test_vita_renderer.py` (the optimized rasterizer and
+`ctest -R vita`; `python3 tests/scripts/test_vita_renderer.py` (the optimized rasterizer and
 tile cache against their reference); `python3 -m unittest discover -s tests/scripts -p
 'test_*vita*.py'`. `build_vita.py --compile-check` builds the ARM objects without a
 ROM: it does not link game code, produce a VPK, or test anything on the console.

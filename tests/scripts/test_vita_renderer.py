@@ -2,7 +2,7 @@
 """ROM-free scalar-reference/optimized renderer comparisons; --bench is host only."""
 import argparse, os, re, shlex, subprocess
 from pathlib import Path
-ROOT=Path(__file__).resolve().parents[1]
+ROOT=Path(__file__).resolve().parents[2]
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--sanitize',action='store_true')

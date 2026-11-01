@@ -22,8 +22,10 @@ game builds goes in its folder, `build_<game>/`, and its Vita package is
 Define one `extern const rt::Game <set>_game = {...};` per set
 (`src/games/game.h` describes every field):
 
-- `board`: `Model2o` (original) or `Model2a` (2A-CRX). The 2B and 2C boards
-  are not built yet.
+- `board`: `Model2o` (original), `Model2a` (2A-CRX) or `Model2b` (2B-CRX: the
+  SHARC coprocessor, recompiled by `m2sharcrecomp`; `src/games/fvipers.cpp` is the
+  example, with its per-set SHARC data in `seeds/fvipers_sharc_*.txt`). The 2C
+  board is not supported.
 - `roms`: MAME's `ROM_START(<set>)` as `RomLoad` lines (file, CRC, region,
   offset, size). `ROM_LOAD32_WORD` pairs go to offsets 0 and 2. Load only the
   regions the runtime uses. `mirror_from`: main_data's `ROM_COPY` source, or

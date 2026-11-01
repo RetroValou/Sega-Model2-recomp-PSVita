@@ -4,7 +4,7 @@
 // wheel motor. Its program (EPR-16488A) is not run; its command handling is
 // modelled instead, as read from the program and checked in MAME 0.289 by
 // feeding the board commands and wheel positions and recording its motor
-// output (docs/issues.md, #9).
+// output (docs/upstream-issues.md, #9).
 //
 // The board reads the wheel's position itself and runs one effect at a time:
 // the last command sets it until the next. The motor runs only after an

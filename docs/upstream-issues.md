@@ -1,8 +1,12 @@
 # Open issues: assessment and plans
 
 The open GitHub issues, what the code shows about each, and what is planned.
-Reviewed on 2026-10-06 against `main` at `6817bff`. Nothing here is changed
-yet. Line numbers drift; the files and functions named are the reference.
+Reviewed on 2026-10-06 against `main` at `6817bff`; the Status column was
+updated as fixes landed. Line numbers drift; the files and functions named are
+the reference. These are the issues of the upstream repository
+([alphanu1/daytona-arcade-recomp](https://github.com/alphanu1/daytona-arcade-recomp)),
+about the desktop build (wheels, pacing, audio); this repository targets the
+Vita (README.md).
 
 | Issue | Summary | Status |
 | --- | --- | --- |

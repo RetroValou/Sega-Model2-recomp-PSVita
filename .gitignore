@@ -74,3 +74,9 @@ shadercache/
 .DS_Store
 __pycache__/
 *.pyc
+
+# Local assistant worktrees and settings
+.claude/
+# SHARC profile dumps written by hand (M2_SHARC_DUMP) at the repository root
+/sharc_hot.txt
+/sharc_report.txt

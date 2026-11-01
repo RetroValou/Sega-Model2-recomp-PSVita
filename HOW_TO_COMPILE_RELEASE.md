@@ -19,9 +19,9 @@
 
 ## Build
 
-Every game is built the same way, by its name in `scripts/games.py`
-(`daytona`, the default, or `segarally`), and everything it makes stays in its
-own folder, `build_<game>/`:
+Every game is built the same way, by its name in `scripts/games.py` (`GAME`
+in the table below; `daytona` is the default), and everything it makes stays in
+its own folder, `build_<game>/`:
 
 ```sh
 export VITASDK=/usr/local/vitasdk
@@ -44,8 +44,10 @@ Every game at once: `python3 scripts/build_vita.py --game all --fast-inaccuracy 
 builds, with the same options, each game whose ROM set is in `roms/` (recompiling
 it on the host first if needed: `recompile.py --recomp-only`), skips the others
 and a game the requested mode was not checked on, keeps going when one fails, and
-lists each game's package at the end. Fighting Vipers is not built yet: its Vita
-package waits for the SHARC (`scripts/games.py`, `"vita": False`).
+lists each game's package at the end. Fighting Vipers (Model 2B) is left out of
+`--game all` (`scripts/games.py`, `"vita": False`): its package builds on its own
+(`--game fightingvipers --fast-inaccuracy`) as a test of the board, not at full
+speed (README.md, Limits).
 
 Install the VPK with VitaShell and copy the ROM set to the place above. The games
 are separate apps: they install side by side.
@@ -86,8 +88,8 @@ Each frame (57.5 per second, like the arcade) is shared between the Vita's 3 cor
 
 | Core | Job |
 | --- | --- |
-| 0 | Runs the game (i960 + TGP) and reads the controls, then prepares the picture: sorts the polygons in the arcade's drawing order and sends them to the GPU through vitaGL. |
-| 1 | Turns the game's 3D models into screen polygons (position, clipping, lighting). |
+| 0 | Runs the game (i960 + TGP) and reads the controls, then prepares the picture: materials and vertices of the polygons, sent to the GPU through vitaGL. |
+| 1 | Turns the game's 3D models into screen polygons (position, clipping, lighting) and gives each its place in the arcade's drawing order. |
 | 2 | Plays the sound board (its 68000 program, music and sound-effect chips) and prepares the 2D layers (HUD, sky, text) as GPU textures. |
 | GPU | Draws the polygons and the 2D layers; colours come from the arcade palette, looked up by a shader. |
 

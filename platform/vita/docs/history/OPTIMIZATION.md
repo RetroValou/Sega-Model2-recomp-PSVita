@@ -1,5 +1,13 @@
 # OPT03: exact CPU-renderer optimizations for Vita
 
+> **Historical record** (the OPT03 drop; `M2_VITA_RENDER_OPT` and `--reference-renderer` still exist). The installer scripts and patches it names
+> (`apply_*.py`, `.patch`/ZIP drops) are not in this repository, and its paths predate
+> 15 Oct 2026: today a game builds into `build_<game>/vita/<game>.vpk`, or
+> `build_<game>/vita_diag/<game>_diag.vpk` with `build_vita.py --diagnostics`
+> (`daytona_vita.vpk` and `build/vita*` are gone). The current workflow is in
+> [../README.md](../../README.md).
+
+
 This update builds on DIAG02. It retains the 192 MiB startup heap, direct
 `vita-diag.log` output, the one-step presentation policy and the existing
 input, audio, ROM validation and save behavior. It does not supply generated

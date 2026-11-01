@@ -1,5 +1,13 @@
 # Vita performance diagnostics
 
+> **Historical record** (a log of the performance drops, newest first; the vita2d (GXM) and CPU renderers it mentions were removed on 16 Oct 2026; vitaGL is the only one). The installer scripts and patches it names
+> (`apply_*.py`, `.patch`/ZIP drops) are not in this repository, and its paths predate
+> 15 Oct 2026: today a game builds into `build_<game>/vita/<game>.vpk`, or
+> `build_<game>/vita_diag/<game>_diag.vpk` with `build_vita.py --diagnostics`
+> (`daytona_vita.vpk` and `build/vita*` are gone). The current workflow is in
+> [../README.md](../../README.md).
+
+
 ## Measured follow-up: leak, silent FM, indexed quads, cleaner perf.log
 
 From a console perf.log with fine-grained probes (not kept in the sources):

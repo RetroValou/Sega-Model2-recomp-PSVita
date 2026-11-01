@@ -10,7 +10,7 @@ on the main core:
 
 ```text
 core 0  main thread      input, i960 + TGP, buffer RAM snapshot, 2D video update,
-                         sound hand-off, GPU recording + submission (vitaGL / vita2d)
+                         sound hand-off, GPU recording + submission (vitaGL; vita2d then)
 core 1  geometry thread  display list parse (unmodified MAME geometrizer)
 core 2  sound worker     reference sound board (68000 + SCSP), pinned to core 2
 ```

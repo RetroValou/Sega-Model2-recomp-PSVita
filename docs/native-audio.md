@@ -2,7 +2,7 @@
 
 The shared C++ backend in `src/runtime/sound/native/native_sound_*` and
 `native_sample_mixer.*` is used by the desktop (Linux, macOS, Windows) and
-native GXM Vita frontends. It decodes the supplied Daytona93 music/command
+Vita (vitaGL) frontends. It decodes the supplied Daytona93 music/command
 data directly and mixes the original samples at 48 kHz. It does not construct
 or execute a `SoundBoard`, recompiled 68000, YM generator or MultiPCM device.
 The user-supplied, importer-verified ROM set is still required.
@@ -16,7 +16,7 @@ the default and can be selected again without replacing game data or saves.
   launcher, then reset/start the game. Alternatively:
 
   ```sh
-  build/daytona --rom /path/to/daytona93.zip --autostart --audio native
+  build_daytona/pc/daytona93/daytona --rom /path/to/daytona93.zip --autostart --audio native
   ```
 
   Use `--audio reference` to return to reference audio. The selection is saved.
@@ -89,13 +89,14 @@ cross-compilation do not validate Windows/macOS execution or Vita frame rate.
 After setup/import/recompilation of the user's ROM set:
 
 ```sh
-cmake --build build -j2
-ctest --test-dir build --output-on-failure
-bash scripts/test_native_sound_rom.sh build 6000
-bash scripts/test_native_sound_oracle.sh build 6000 build/rom_cache/daytona93 build/native-oracle-race race
-bash scripts/test_native_sound_oracle.sh build 6000 build/rom_cache/daytona93 build/native-oracle-attract attract
-bash scripts/test_vita_sound_pipeline.sh build 6000
-python3 scripts/test_vita_renderer.py --sanitize
+B=build_daytona/pc/daytona93 R=build_daytona/recomp/daytona93/rom_cache
+cmake --build $B --parallel 8
+ctest --test-dir $B --output-on-failure
+bash tests/scripts/test_native_sound_rom.sh $B 6000
+bash tests/scripts/test_native_sound_oracle.sh $B 6000 $R $B/native-oracle-race race
+bash tests/scripts/test_native_sound_oracle.sh $B 6000 $R $B/native-oracle-attract attract
+bash tests/scripts/test_vita_sound_pipeline.sh $B 6000
+python3 tests/scripts/test_vita_renderer.py --sanitize
 ```
 
 The native ROM test runs the real main board with `GameLoop(..., false)` and
@@ -113,5 +114,5 @@ wall time, not main-frame work. `native_frames`, `native_notes`, `native_voices`
 GPU23 disables routine logging by default and preserves the existing file;
 unexpected faults still append a record. Diagnostic-enabled builds replace
 `ux0:data/daytona93/vita-diag.log` on startup, so copy it before relaunching.
-See [Vita diagnostics](../platform/vita/docs/PERFORMANCE.md) for the build switch
+See [Vita diagnostics](../platform/vita/docs/history/PERFORMANCE.md) for the build switch
 and the GPU22 device-log findings.

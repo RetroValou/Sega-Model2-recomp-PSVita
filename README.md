@@ -79,8 +79,9 @@ Vita's processor cannot run them at the game's speed.
   a few of its hottest SHARC routines natively, see `rules.md`
   "Coprocessor HLE"). In a fight the Vita reaches about 38-42 frames per
   second (by the characters on screen) against the arcade's 57.5: the main
-  core needs ~24-26 ms of a 17.4 ms frame, the SHARC ~12 ms of it. It is kept as a test of the Model 2B
-  board; `build_vita.py --game all` leaves it out (`scripts/games.py`).
+  core needs ~24-26 ms of a 17.4 ms frame, the SHARC ~12 ms of it. It is
+  kept as a test of the Model 2B board; `build_vita.py --game all` leaves it
+  out (`scripts/games.py`).
   Work in progress: `todo.md`.
 * **Model 2C games are not supported.** Their coprocessor is not
   recompiled; they would be expected to hit the same wall as the 2B.
@@ -98,4 +99,4 @@ Vita's processor cannot run them at the game's speed.
   ARM); the frontend (input, audio, rendering, files) would be new, on the
   model of `platform/vita`.
 
-The original README is kept in [README_fork.md](README_fork.md).
+The original README is kept in [docs/upstream-README.md](docs/upstream-README.md).

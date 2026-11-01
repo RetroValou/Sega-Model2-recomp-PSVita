@@ -14,18 +14,18 @@ MAME-format `.zip` or `.7z`): `daytona93` (Daytona USA Deluxe '93) or
 
 | Platform | Status | Details |
 | --- | --- | --- |
-| Windows, macOS, Linux | The main build; setup below | [docs/getting-started.md](docs/getting-started.md) |
-| Android (unmaintained) | Worked (arm64), not maintained since 2026-10-16; with on-screen touch controls or a Bluetooth or USB controller; tested on a device | [platform/mobile_unmaintained](platform/mobile_unmaintained/README.md) |
-| iOS (unmaintained) | Worked on iPhone, not maintained since 2026-10-16; installed through Xcode or AltStore, with touch controls or a controller; tested on a device | [platform/mobile_unmaintained](platform/mobile_unmaintained/README.md) |
-| PS Vita | Works: a native Vita app (SDL2); with vitaGL about 57.3 frames/s (the arcade runs 57.52) at CPU 444 / GPU 166 MHz, no overclocking plugin; tested on a Vita | [platform/vita](platform/vita/README.md), release build: [HOW_TO_COMPILE_RELEASE.md](HOW_TO_COMPILE_RELEASE.md) |
-| Dreamcast (unmaintained) | Not maintained since 2026-10-16; ran in the Flycast emulator with sound and the controller, about 32 frames/s (the arcade runs 57.52); not yet on a console; in progress | [platform/dreamcast_unmaintained](platform/dreamcast_unmaintained/README.md) |
+| Windows, macOS, Linux | The main build; setup below | [docs/getting-started.md](getting-started.md) |
+| Android (unmaintained) | Worked (arm64), not maintained since 2026-10-16; with on-screen touch controls or a Bluetooth or USB controller; tested on a device | [platform/mobile_unmaintained](../platform/mobile_unmaintained/README.md) |
+| iOS (unmaintained) | Worked on iPhone, not maintained since 2026-10-16; installed through Xcode or AltStore, with touch controls or a controller; tested on a device | [platform/mobile_unmaintained](../platform/mobile_unmaintained/README.md) |
+| PS Vita | Works: a native Vita app (SDL2); with vitaGL about 57.3 frames/s (the arcade runs 57.52) at CPU 444 / GPU 166 MHz, no overclocking plugin; tested on a Vita | [platform/vita](../platform/vita/README.md), release build: [HOW_TO_COMPILE_RELEASE.md](../HOW_TO_COMPILE_RELEASE.md) |
+| Dreamcast (unmaintained) | Not maintained since 2026-10-16; ran in the Flycast emulator with sound and the controller, about 32 frames/s (the arcade runs 57.52); not yet on a console; in progress | [platform/dreamcast_unmaintained](../platform/dreamcast_unmaintained/README.md) |
 
 Every port starts from the desktop setup: the game code is generated on a
 desktop computer from your ROM set, then built for the other platform.
 
 ## Setup
 
-**New here? Follow [docs/getting-started.md](docs/getting-started.md)**: step
+**New here? Follow [docs/getting-started.md](getting-started.md)**: step
 by step for Windows, macOS and Linux, with fixes for the usual problems.
 
 In short:
@@ -58,7 +58,7 @@ downloaded libraries in `extern/` are kept.
 
 If setup fails, it says whether your ROM set was rejected (the line above
 names the file) or the build failed (the errors are just above). The
-[guide's troubleshooting](docs/getting-started.md#troubleshooting) covers
+[guide's troubleshooting](getting-started.md#troubleshooting) covers
 the usual ones. Every change is built and tested by GitHub Actions on
 Windows (Clang and MSVC), macOS and Linux (GCC and Clang), without a ROM set.
 
@@ -86,7 +86,7 @@ per basic block. It loses precision (interrupts come a few instructions later
 than in MAME, so MAME lockstep and trace comparisons need the default output)
 but runs faster, above all on the PS Vita (`scripts/build_vita.py
 --fast-inaccuracy` makes the Vita's own code that way, see
-[platform/vita/README.md](platform/vita/README.md)). Revision A is `build-daytona/daytona`, with its own
+[platform/vita/README.md](../platform/vita/README.md)). Revision A is `build-daytona/daytona`, with its own
 settings and saves. Its factory settings are a linked twin cabinet, which
 waits for a second cabinet: set a single cabinet once in test mode (F2).
 
@@ -170,9 +170,9 @@ and effects volumes are on the launcher's Audio tab.
 
 ## Licence
 
-This project's own code is under the [BSD-3-Clause licence](LICENSE): use,
+This project's own code is under the [BSD-3-Clause licence](../LICENSE): use,
 change and share it freely, in your own projects too, keeping the copyright
 notice (in the source, and in the documentation of builds you distribute).
 Code from other projects keeps its own licence and notices; see
-[THIRD_PARTY.md](THIRD_PARTY.md). The licence does not cover Daytona USA
+[THIRD_PARTY.md](../THIRD_PARTY.md). The licence does not cover Daytona USA
 itself: the ROMs and the code generated from them are never distributed.

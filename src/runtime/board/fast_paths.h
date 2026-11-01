@@ -5,8 +5,8 @@
 // the flags it uses (platform/vita/CMakeLists.txt). Desktop builds define
 // none: the reference.
 //
-// M2_FAST_GEN  runtime support of the i960 code rewritten by fast_gen.py
-//              (platform/dreamcast_unmaintained/scripts) and of m2recomp --fast_inaccuracy:
+// M2_FAST_GEN  runtime support of the i960 code rewritten by scripts/fast_gen.py
+//              (the Dreamcast's, the Vita's --fast-gen) and of m2recomp --fast_inaccuracy:
 //              Cpu::work_ram, gen::wram_*, Lockstep's pending/check/set_end/epoch.
 // M2_FAST_BUS  M2Board: the TGP's FIFO, function port, status and buffer RAM
 //              decoded before the page table; the last plain RAM/texture page

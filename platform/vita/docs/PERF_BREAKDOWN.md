@@ -182,7 +182,7 @@ read 0.0 ns).
 python3 scripts/build_vita.py --set daytona93 --fast-inaccuracy --tgp-profile --i960-profile
 ```
 
-The package is `build/vita-diag/daytona_vita.vpk` (title ID DAYT90093,
+The package is `build_daytona/vita_diag/daytona_diag.vpk` (title ID DAYT90093,
 "Daytona USA (diagnostics)", installed beside the release). Play a race;
 `ux0:data/daytona93/perf.log` gets one report per 5 s with the core table,
 then the i960 and TGP sections. On the PC: `scripts/recompile.py
