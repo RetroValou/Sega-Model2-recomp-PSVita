@@ -1,5 +1,49 @@
 # Handoff
 
+## SHARC: specialised registers and dead flags measured and dropped; Vita results of the hand-off change (2026-11-01)
+
+Vita, same match as the morning's (two different characters), fight windows
+(>= 1,700 polygons), diagnostics with the probes, against the probe package:
+
+| package | fps | core 0 ms | SHARC runs a frame (0-instruction stretches) | SHARC ms | ns a SHARC instr |
+|---|---|---|---|---|---|
+| probes (HLE 0x20b8a/0x20982) | 37.36 | 27.00 | 827 (~350) | 12.44 | 90.6 |
+| + a command finishes in one hand-off, delayed colours, the two steps below | 37.87 | 26.65 | 589 (113) | 12.54 | 90.2 |
+
+- The hand-off change works: -29 % SHARC runs, core 0 -0.35 ms (two probe
+  clock reads of ~0.7 us a run gone: in a non-diagnostic build the gain is
+  smaller, ~0.2 ms). Kept (committed with b99b88c).
+- Two generic m2sharcrecomp steps were built, checked and dropped (no gain):
+  1. specialised registers: MODE1, L0-L15 and the boot's DAG modifiers (M0-M5,
+     M8-M13) read as constants in the chunks, run_generated checking them at
+     each entry (the interpreter while they do not hold), found automatically
+     by probing every instruction's handler (exactly the hand-made list), each
+     instruction that may write one a full step followed by the check (142,
+     none run in the fight). PC: -1.6 x86 instructions a SHARC instruction;
+  2. dead flags: the 19 Oct liveness analysis restored (probes of MAME's
+     handlers, backward over fall-through, all live at loop ends, branches,
+     full steps, HLE entries): 4,174 of 6,760 written bits dead, 17-18 % of the
+     executed instructions; the chunk restores ASTAT's dead bits from before
+     the handler, so GCC drops their computation (an AND from ~16 ARM
+     instructions to 5, ASTAT neither loaded nor stored).
+  m2sharccheck_gen MATCH (fight 613,709,679, attract) with both, native fight
+  unchanged, ctest 23/23. On the Vita the SHARC's ns an instruction did not
+  move in any stretch length (90.6 -> 90.2): the A9 ran those flag ALU
+  operations in the shadow of the memory latencies; the cost of a SHARC
+  instruction is its chains of loads (core pointer, registers, ASTAT), not its
+  instruction count. A first form of step 2 (ASTAT in a TU-local variable)
+  gave nothing either: ~13 usable registers and one huge function per chunk,
+  GCC still loaded and stored it at every instruction.
+- Kept from the work: the chunks write FLAG0 directly (sharc_step.h; an
+  out-of-line set_flag_input call there cost the chunk its register state),
+  WordFifo::grow out of line and cold (push_back inlines), [[gnu::leaf]] on
+  data_space read/write, program_space::write_qword and dma_run_cycle (they
+  reach the board's Bus, which never calls back into a chunk).
+- Only HLE-like code (values in locals across whole loops) has beaten the
+  recompiled SHARC (27.6 ns an instruction against ~90-120). A generic way
+  there would be a real compiler of the SHARC program (registers allocated
+  over loops), not per-instruction rewrites.
+
 ## Documentation and tree cleanup (2026-11-01)
 
 A pass over the documentation and the tree (no behaviour change):
@@ -5094,8 +5138,12 @@ Also found:
   the Vita's instruction cache: 26 % slower on the console than the
   specialised code (3.22 against 2.37 M instructions/s, same session).
 - Applying SHARC flag liveness: ~1.1 dead flag writes an executed instruction.
-  (Measured at ~118 cycles a SHARC instruction; it is ~40-49 now: worth
-  re-measuring, todo.md.)
+  Re-measured on 1 Nov 2026 at ~40-49 cycles, applied to 17 % of the executed
+  instructions: no gain on the Vita either.
+- SHARC registers specialised as constants (MODE1, L, the boot's M) with a guard:
+  -1.6 x86 instructions a SHARC instruction on the PC, nothing on the Vita.
+- ASTAT in a translation-unit variable in the chunks: GCC still loads and
+  stores it at every instruction on the A9.
 - SHARC registers as locals in plain runs: GCC already forwards them (18 of
   3,899 loads re-read a stored value in the hot chunk); a few per cent.
 - Fastmem (MMU mirroring, SIGSEGV for faults) on the Vita: no user-mode

@@ -13,14 +13,12 @@ than the mirror match): 38.6 fps (target 57.5). The main core needs
 up to 66 % (this match's voices). The chain alone is over 17.4 ms: no split
 of the cores reaches full speed without shortening it (HANDOFF.md, 1 Nov).
 
-1. **Measure the package in build_fightingvipers/vita_hle** (a command
-   finishes in one hand-off; the probes; the delayed colour tables): SHARC
-   runs a frame (835 before), SHARC ms, fps, and the colours at fades and
-   hit flashes.
-2. **Re-measure SHARC flag liveness.** Set aside at ~118 cycles a SHARC
-   instruction, now ~40-49: the same ~1.1 dead flag writes an instruction
-   may be 5-10 %. The analysis is in git before 4f25d18 (probe_flags,
-   keep[]). Exact: m2sharccheck_gen MATCH is the check.
+1. **SHARC flag liveness and specialised registers: done, no gain** (HANDOFF.md,
+   1 Nov). A command finishing in one hand-off: done, -29 % hand-offs.
+2. **The SHARC's per-instruction cost is in its chains of loads**, not in
+   its instruction count. Only HLE-style code (values in locals across whole
+   loops) beat it; a generic route would compile the SHARC program with
+   registers allocated over loops. Large; to be weighed against more HLEs.
 3. **The SHARC's call/return dispatch.** ~4,800 switch dispatches and
    ~1,700 chunk changes a frame for small float routines (7-80
    instructions). First measure their cost on the Vita (two counters in the

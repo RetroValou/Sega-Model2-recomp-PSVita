@@ -274,12 +274,14 @@ private:
     struct program_space {
         adsp21062_device &d;
         uint64_t read_qword(uint32_t address);
-        void write_qword(uint32_t address, uint64_t data, uint64_t mem_mask = ~uint64_t(0));
+        [[gnu::leaf]] void write_qword(uint32_t address, uint64_t data, uint64_t mem_mask = ~uint64_t(0));
     };
     struct data_space {
         adsp21062_device &d;
-        uint32_t read_dword(uint32_t address);
-        void write_dword(uint32_t address, uint32_t data);
+        // leaf: they reach the board's Bus, which never calls back into the recompiled
+        // chunks (so a chunk keeps its own state, SHARC_ASTAT, in registers across them).
+        [[gnu::leaf]] uint32_t read_dword(uint32_t address);
+        [[gnu::leaf]] void write_dword(uint32_t address, uint32_t data);
     };
     // The data space's sign-extending short-word view (MODE1 SSE).
     struct short_view {
@@ -415,7 +417,7 @@ private:
 	void schedule_dma_op(int channel, uint32_t src, uint32_t dst, int src_modifier, int dst_modifier, int src_count, int dst_count, int pmode);
 	void dma_op(int channel);
 	void sharc_dma_exec(int channel);
-	void dma_run_cycle(int channel);
+	[[gnu::leaf]] void dma_run_cycle(int channel);
 	void add_systemreg_write_latency_effect(int sysreg, uint32_t data, uint32_t prev_data);
 	void systemreg_write_latency_effect();
 	uint32_t GET_UREG(int ureg);

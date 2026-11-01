@@ -20,7 +20,9 @@ public:
     }
 
 private:
-    void grow() {
+    // Rare (a FIFO past its size) and out of line, so push_back stays small enough to
+    // inline into the recompiled SHARC's board writes.
+    [[gnu::noinline, gnu::cold]] void grow() {
         std::vector<uint32_t> bigger(buf_.size() * 2);
         for (uint32_t i = head_; i != tail_; ++i) bigger[i - head_] = buf_[i & mask_];
         tail_ -= head_;
