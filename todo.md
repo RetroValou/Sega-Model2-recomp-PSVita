@@ -6,67 +6,68 @@ that apply are in `rules.md` (notably "Coprocessor HLE").
 
 ## Fighting Vipers on the Vita (Model 2B)
 
-State on 2026-10-31, fight on the Vita: ~40 fps (target 57.5). The main
-core needs ~24 ms per frame against 17.4 ms: the SHARC ~12.2 ms, the rest of
-the vblank handler (i960) ~5.5 ms, polygon recording ~4.5 ms. Core 1
-(geometry) is at 52 %, core 2 (sound) at 45 %.
+State on 2026-11-01, fight on the Vita (two different characters, heavier
+than the mirror match): 38.6 fps (target 57.5). The main core needs
+~25.8 ms a frame: the i960 + SHARC chain ~19.5 ms (SHARC 12.4, i960 code
+5.4, bus 1.6), polygon recording 4.6, frame end 0.9. Core 1 49 %, core 2
+up to 66 % (this match's voices). The chain alone is over 17.4 ms: no split
+of the cores reaches full speed without shortening it (HANDOFF.md, 1 Nov).
 
-1. **Measure whether the SHARC can run on another core.** Before writing
-   anything: in a fight, how long does the i960 work between pushing a
-   command and reading its result (TgpBoard::need_output)? If it reads
-   right after each command, running in parallel gains little. If it
-   pushes batches, the SHARC on core 1 or 2 (fast_inaccuracy only) is the
-   only lever close to x2. It needs a thread-safe FIFO between the i960 and
-   the SHARC, and a timing that differs from MAME's (accepted in
-   fast_inaccuracy).
-2. **Move or speed up polygon recording (4.5 ms on core 0).** Vertex
-   writing is 2.6 ms of it. Core 1 has room (52 %). See the Vita renderer
-   in `platform/vita/` and its HANDOFF.
-3. **Other HLE candidates, only where the gain is shown.** The three copy
-   HLEs gained only ~1 % on the Vita: straight copy loops were already
-   cheap in the recompiled code. The candidates left, from the profile's
-   routine table (`M2_SHARC_DUMP` on a profiled build):
-   - `0x20b8a` (9.9 % of the instructions, a 64-cell occupancy grid with
-     float compares) and `0x20982` (7 %, collision tests). Both are long
-     and branchy, so they only pay if done with host floats and without
-     the flags nobody reads.
-   - `0x20c7d` and `0x20e29` (5.2 %).
-   - The float leaf routines (`0x201bc`, `0x2014c`, …). An exact HLE costs
-     what the recompiled code costs; a faster one would drop flags (not
-     identical to MAME, checked by eye).
-   Stay within ~5 routines per game (rules.md). Check each with
-   `m2sharccheck_gen` on a `--fast --hle` build, then a Vita perf.log.
-4. **Measure the command loop's HLE on its own on the Vita.** Its gain was
-   only measured mixed with the layout and with the profile counters
-   removed. To measure it alone: build with and without its line in
-   `seeds/fvipers_sharc_hle.txt`, same scene.
-5. **Time per HLE routine in perf.log.** Today the profile only counts
-   runs. Add a clock probe per routine to see where the remaining 12 ms of
-   SHARC goes, without the per-instruction counters that slow the
-   profiled build.
+1. **Measure the package in build_fightingvipers/vita_hle** (a command
+   finishes in one hand-off; the probes; the delayed colour tables): SHARC
+   runs a frame (835 before), SHARC ms, fps, and the colours at fades and
+   hit flashes.
+2. **Re-measure SHARC flag liveness.** Set aside at ~118 cycles a SHARC
+   instruction, now ~40-49: the same ~1.1 dead flag writes an instruction
+   may be 5-10 %. The analysis is in git before 4f25d18 (probe_flags,
+   keep[]). Exact: m2sharccheck_gen MATCH is the check.
+3. **The SHARC's call/return dispatch.** ~4,800 switch dispatches and
+   ~1,700 chunk changes a frame for small float routines (7-80
+   instructions). First measure their cost on the Vita (two counters in the
+   SHARC profile); then direct returns to known call sites and callees
+   laid out with their callers (exact).
+4. **More HLE routines, only with a measured gain** (6 of 10 used: the
+   command loop, 0x20908, 0x20473, 0x2049b (two entries), 0x20b8a, 0x20982
+   (0x20b57 runs inside it)). What is left is flat: 0x20e29 3.75 %, then
+   routines under 2.3 % (PC profile with the HLEs).
+5. **Vertex writing on core 1 (on hold by the owner).** The plan: core 1
+   builds the batches and vertices of a list right after its parse, from
+   the colour tables of its frame; core 0 maps texture keys to GL textures
+   and issues the draw list; a second vertex arena; Model 2B (and 2C) only,
+   an option. Estimated -4 ms on core 0, core 1 to ~78 % at 46 fps.
+6. **Time per HLE routine in perf.log** and the per-caller split of the
+   hand-off probe (need_output against slices), if needed to choose.
 
 ## Model 2B pipeline (every 2B game)
 
-6. **Check that the SHARC command library is shared between 2B games.**
+7. **Check that the SHARC command library is shared between 2B games.**
    Needs a second Model 2B ROM set (Virtual-On, Sonic the Fighters, Last
    Bronx, Virtua Striker…): compare their SHARC programs and the command
    loop. If they match, put a hash of the routine's opcodes in the HLE
    seeds, so that an entry is only used where the code is the one it was
    written for, and reuse the routines.
-7. **Commit a SHARC disassembler tool.** HLE work used MAME's
+8. **Commit a SHARC disassembler tool.** HLE work used MAME's
    `sharc_dasm.cpp` (BSD-3) built locally with a small shim. A
    `tools/sharcdis` with its `THIRD_PARTY.md` record would make the
    pipeline reproducible.
-8. **`scripts/profile`-style helper for the SHARC.** One command to produce
+9. **`scripts/profile`-style helper for the SHARC.** One command to produce
    `seeds/<set>_sharc_layout.txt` (today: `recompile.py --sharc-profile`,
    then `M2_SHARC_DUMP=... m2run ... --inputs scripts/inputs/<set>_fight.txt`).
-9. **build_vita.py's summary line.** It says "SHARC --fast" without the
+10. **build_vita.py's summary line.** It says "SHARC --fast" without the
    layout or the number of HLE routines; m2sharcrecomp's own line has them.
+
+## Model 2 / 2A (the TGP)
+
+11. **TGP flags and block-local registers in m2tgprecomp.** Never applied:
+   the TGP's flags are computed for every operation though rarely read, and
+   its registers are fields that may alias its data RAM (every store forces
+   reloads). Estimated 1-2 ms a frame in Daytona's race (HANDOFF.md,
+   not measured); exact, checked against MAME.
 
 ## Measurement practice
 
-10. PC timings are noisy when another program uses the cores: use
+12. PC timings are noisy when another program uses the cores: use
     `taskset -c N` and `perf stat -e instructions` (as in HANDOFF), or
     measure on the Vita.
-11. Profiled Vita builds (`--sharc-profile`) are slower than the others (each
+13. Profiled Vita builds (`--sharc-profile`) are slower than the others (each
     instruction counts itself): compare like with like.

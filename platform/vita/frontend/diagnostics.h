@@ -19,6 +19,8 @@
 #include "system/async_log.h"
 #include "system/core_profile.h"
 #include "system/diagnostic_log.h"
+#include "frontend/sampler.h"
+#include "runtime/tgp/tgp_board.h"
 
 #include <psp2/kernel/processmgr.h>
 
@@ -143,6 +145,14 @@ private:
 #ifdef M2_I960_PROFILE
     // i960 profiling (build_vita.py --i960-profile): an i960 section in each perf.log report.
     rt::I960ProfileReport i960_report_;
+#endif
+#ifdef M2_SAMPLE_PROBE
+    // The main core by sampling, and the i960<->SHARC hand-offs (TgpBoard::handoff):
+    // two sections in each perf.log report (diagnostics builds).
+    Sampler sampler_;
+    rt::TgpBoard::HandoffStats handoff_prev_{};
+    uint64_t sample_window_start_ = 0;
+    size_t format_probes(char *out, size_t size, rt::GameLoop *game, double frames, uint64_t now);
 #endif
     // Per-loop geometry statistics; re-baselined when the board changes.
     const rt::Geo *geo_seen_ = nullptr;

@@ -224,7 +224,10 @@ SHARC_INLINE void adsp21062_device::board_write(uint32_t address, uint32_t data)
 	if (address >= 0xc00000 && address < 0x1400000) {
 		M2SHARC_EV(fifo_out);
 		m_direct.out->push_back(data);
-		if (*m_direct.stop_on_output) end_run(); // need_output: the word the i960 waits for
+		if (const uint8_t on = *m_direct.on_output) { // need_output: the word the i960 waits for
+			if (on == 1) end_run();
+			else set_flag_input(0, 1); // the command finishes, then waits: the next one is not started
+		}
 	} else if (address >= 0x1400000 && address < 0x1c00000) {
 		M2SHARC_EV(buffer_w);
 		m_direct.buffer[address & 0x7fff] = data;

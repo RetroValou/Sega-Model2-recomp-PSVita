@@ -6,6 +6,8 @@
 
 namespace rt::sharc {
 
+const bool sharc_gen_fast = false;
+
 #ifdef M2_SHARC_PROFILE
 const char *const sharc_gen_mode = "none";
 const uint32_t sharc_program_crc32 = 0;

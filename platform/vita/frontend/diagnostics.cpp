@@ -54,6 +54,13 @@ void Diagnostics::perf_note(const char *line, int length) {
 void Diagnostics::game_started(rt::GameLoop &game) {
     (void)game;
     if constexpr (kPerfLog) game.board().tgp().set_profile_clock(ticks_us); // the SHARC's time (Model 2B)
+#ifdef M2_SAMPLE_PROBE
+    rt::sample_probe.ip = game.i960_ip();
+    game.board().tgp().set_profile_i960_counter(game.instruction_counter());
+    handoff_prev_ = game.board().tgp().handoff();
+    sampler_.start(kGeoCore);
+    sample_window_start_ = ticks_us();
+#endif
 #ifdef M2_TGP_PROFILE
     rt::tgp_profile.clock = ticks_us;
     rt::tgp_profile.ticks_per_second = 1000000u;
@@ -413,6 +420,9 @@ void Diagnostics::perf_window(rt::GameLoop *game, const rt::Geo::Stats &geo_delt
         tgp_report_.start(game->board().tgp().tgp_instructions());
     }
 #endif
+#ifdef M2_SAMPLE_PROBE
+    if (game) size += format_probes(report + size, sizeof report - size, game, double(c.board_frames), loop_end);
+#endif
 #ifdef M2_SHARC_PROFILE
     if (game && game->board().tgp().has_sharc())
         size += sharc_report_.format(report + size, sizeof report - size, c.board_frames, game->board().tgp().sharc_instructions(),
@@ -423,5 +433,45 @@ void Diagnostics::perf_window(rt::GameLoop *game, const rt::Geo::Stats &geo_delt
     perf_log_pending_us_ = reported - loop_end;
     core_profile_.reset(reported);
 }
+
+#ifdef M2_SAMPLE_PROBE
+// The window's i960<->SHARC hand-offs (TgpBoard::handoff) and the sampler's
+// profile of the main core.
+size_t Diagnostics::format_probes(char *out, size_t size, rt::GameLoop *game, double frames, uint64_t now) {
+    size_t n = 0;
+    auto add = [&](const char *fmt, auto... args) {
+        if (n >= size) return;
+        const int k = std::snprintf(out + n, size - n, fmt, args...);
+        if (k > 0) n = std::min(size, n + size_t(k));
+    };
+    if (frames <= 0) frames = 1;
+    using T = rt::TgpBoard;
+    const T::HandoffStats &h = game->board().tgp().handoff();
+    if (game->board().tgp().has_sharc()) {
+        static const char *const kBin[T::kHandoffBins] = {"0", "1-63", "64-255", "256-1023", "1024-4095", "4096+"};
+        add("---- i960<->SHARC hand-offs (a frame; ns/instr by the length of each stretch) ----\n");
+        uint64_t calls = 0, gaps = 0;
+        for (int b = 0; b < T::kHandoffBins; ++b) calls += h.runs[b] - handoff_prev_.runs[b], gaps += h.gaps[b] - handoff_prev_.gaps[b];
+        add("  SHARC runs %.1f a frame; i960 stretches between them %.1f (%.1f over %llu us, not counted)\n",
+            double(calls) / frames, double(gaps) / frames, double(h.long_gaps - handoff_prev_.long_gaps) / frames,
+            static_cast<unsigned long long>(T::kHandoffMaxGapUs));
+        for (int b = 0; b < T::kHandoffBins; ++b) {
+            const double rn = double(h.runs[b] - handoff_prev_.runs[b]), ri = double(h.run_instr[b] - handoff_prev_.run_instr[b]);
+            const double rt_ = double(h.run_ticks[b] - handoff_prev_.run_ticks[b]);
+            const double gn = double(h.gaps[b] - handoff_prev_.gaps[b]), gi = double(h.gap_instr[b] - handoff_prev_.gap_instr[b]);
+            const double gt = double(h.gap_ticks[b] - handoff_prev_.gap_ticks[b]);
+            add("  %-9s instr | SHARC: %6.1f runs %7.2f ms %6.1f ns/instr %6.2f us/run | i960: %6.1f stretches %7.2f ms "
+                "%6.1f ns/instr %6.2f us/stretch\n",
+                kBin[b], rn / frames, rt_ / 1000.0 / frames, ri > 0 ? rt_ * 1000.0 / ri : 0.0, rn > 0 ? rt_ / rn : 0.0,
+                gn / frames, gt / 1000.0 / frames, gi > 0 ? gt * 1000.0 / gi : 0.0, gn > 0 ? gt / gn : 0.0);
+        }
+    }
+    handoff_prev_ = h;
+    const double window_ms = double(now - sample_window_start_) / 1000.0;
+    sample_window_start_ = now;
+    n += sampler_.format(out + n, size - n, frames, window_ms);
+    return n;
+}
+#endif
 
 } // namespace vita

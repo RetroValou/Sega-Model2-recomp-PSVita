@@ -7,3 +7,5 @@ include games/fvipers_sharc_hle.h
 20473 store_20473
 2049b load_2049b
 204b1 load_2049b_back
+20b8a grid_20b8a
+20982 contact_20982

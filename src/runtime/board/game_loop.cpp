@@ -1,6 +1,7 @@
 #include "runtime/board/game_loop.h"
 
 #include "runtime/cpu/i960_profile.h"
+#include "runtime/board/sample_probe.h"
 #include "runtime/sound/scsp_board.h"
 #include "runtime/sound/model1_board.h"
 
@@ -128,6 +129,7 @@ uint64_t GameLoop::SoundPacket::execute() {
 }
 
 void GameLoop::run_generated() {
+    M2_PROBE_SCOPE(ProbeI960);
 #ifdef M2_I960_PROFILE
     I960Profile &prof = i960_profile;
     const uint64_t start = prof.clock ? prof.clock() : 0;

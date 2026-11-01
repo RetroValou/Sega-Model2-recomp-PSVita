@@ -218,6 +218,12 @@ endif()
 if(DAYTONA_VITA_DIAGNOSTICS)
     target_compile_definitions(vita_runtime PUBLIC M2_SOUND_PROFILE=1)
 endif()
+# Main-core sampling probe (src/runtime/board/sample_probe.h, frontend/sampler.h),
+# diagnostics builds only: a store at each change of what the main core does (gen::run,
+# an i960 bus call, a SHARC run), read every ~100 us by a thread on the geometry core.
+if(DAYTONA_VITA_DIAGNOSTICS)
+    target_compile_definitions(vita_runtime PUBLIC M2_SAMPLE_PROBE=1)
+endif()
 # The bus inlined in the i960 code (src/runtime/cpu/i960_gen_support.h gen::BoardMem): with
 # build_vita.py --inline-bus, its fast modes' i960 code is generated with m2recomp --board
 # (the set's board, scripts/games.py). The host's own code (the default mode) runs on it

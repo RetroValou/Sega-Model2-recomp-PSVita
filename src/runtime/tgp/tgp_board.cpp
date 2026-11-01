@@ -13,6 +13,7 @@
 
 #include "games/game.h"
 #include "runtime/sharc/sharc.h"
+#include "runtime/board/sample_probe.h"
 
 #include <cstdio>
 #include <cstdlib>
@@ -51,7 +52,7 @@ public:
         sharc_.set_flag_input(1, 0);
 #if defined(M2_FAST_SHARC) && !defined(M2_DC_MEMORY)
         sharc_.set_direct_board({&b_.in_, &b_.out_, b_.buffer_, b_.copro_data_.data(), uint32_t(b_.copro_data_.size() - 1),
-                                 &b_.stop_on_output_});
+                                 &b_.output_mode_});
 #endif
 #ifdef M2_SHARC_PROFILE
         counts_.assign(0x8000, 0); // every program address the recompiled code can count
@@ -75,7 +76,8 @@ public:
         if (address >= 0xc00000 && address < 0x1400000) {
             M2SHARC_EV(fifo_out);
             b_.out_.push_back(data);
-            if (b_.stop_on_output_) sharc_.end_run(); // need_output: the word the i960 waits for
+            if (b_.output_mode_ == 1) sharc_.end_run(); // need_output: the word the i960 waits for
+            else if (b_.output_mode_ == 2) sharc_.set_flag_input(0, 1); // the command finishes, the next waits
         }
         else if (address >= 0x1400000 && address < 0x1c00000) M2SHARC_EV(buffer_w), b_.buffer_[address & 0x7fff] = data;
         else M2SHARC_EV(other);
@@ -132,10 +134,39 @@ void TgpBoard::sharc_iop_w(uint32_t offset, uint32_t data) {
 // Until the SHARC polls an empty input FIFO (its wait loop, run_generated's
 // "waiting"), or idles. 50 M instructions without waiting: a fault.
 void TgpBoard::run_sharc() {
+    M2_PROBE_SCOPE(ProbeSharc);
     const uint64_t t0 = clock_ ? clock_() : 0;
+    const uint64_t i0 = clock_ ? sharc_->core().instructions() : 0;
     M2SHARC_CALL(SharcToWait);
     run_sharc_to_wait();
-    if (clock_) sharc_ticks_ += clock_() - t0;
+    if (clock_) {
+        const uint64_t t1 = clock_();
+        sharc_ticks_ += t1 - t0;
+        profile_handoff(t0, t1, sharc_->core().instructions() - i0);
+    }
+}
+
+void TgpBoard::profile_handoff(uint64_t t0, uint64_t t1, uint64_t sharc_instr) {
+    const int b = handoff_bin(sharc_instr);
+    ++handoff_.runs[b];
+    handoff_.run_instr[b] += sharc_instr;
+    handoff_.run_ticks[b] += t1 - t0;
+    if (i960_count_) {
+        const uint64_t count = *i960_count_;
+        if (last_exit_ticks_ && t0 >= last_exit_ticks_ && count >= last_exit_count_) {
+            if (t0 - last_exit_ticks_ <= kHandoffMaxGapUs) {
+                const uint64_t n = count - last_exit_count_;
+                const int g = handoff_bin(n);
+                ++handoff_.gaps[g];
+                handoff_.gap_instr[g] += n;
+                handoff_.gap_ticks[g] += t0 - last_exit_ticks_;
+            } else {
+                ++handoff_.long_gaps;
+            }
+        }
+        last_exit_count_ = count;
+    }
+    last_exit_ticks_ = t1;
 }
 
 void TgpBoard::run_sharc_to_wait() {
@@ -155,7 +186,10 @@ void TgpBoard::run_sharc_to_wait() {
 TgpBoard::TgpBoard(const std::vector<uint8_t> &tables, const std::vector<uint8_t> &copro_data)
     : tables_(words(tables)), copro_data_(words(copro_data)) {
     if (tables_.size() != 0x10000 || copro_data_.size() != 0x200000) throw TgpFatal("bad TGP table or copro data image");
-    if (game().board == BoardType::Model2b) sharc_ = std::make_unique<SharcCopro>(*this);
+    if (game().board == BoardType::Model2b) {
+        sharc_ = std::make_unique<SharcCopro>(*this);
+        finish_commands_ = sharc::sharc_gen_fast;
+    }
     tgp_.bus = this;
 #ifdef M2_FAST_TGP
     tgp_.in_fifo = &in_;
@@ -237,12 +271,19 @@ void TgpBoard::run_tgp() {
 // Vipers' fight, 19 Oct 2026: word 0x7c5f, written by the SHARC, cleared by
 // the i960 right after, read back by the SHARC 3,000 input words later; in
 // MAME the clear comes first).
+// With fast_inaccuracy SHARC code (finish_commands_) the word does not end the
+// run: FLAG0 then reads empty, so the command finishes (its other output
+// words: one hand-off instead of one a word) and the SHARC waits as if the
+// i960 had pushed nothing more; the next run sees the FIFO as it is. Still
+// never into a queued command.
 void TgpBoard::need_output() {
     if (!sharc_) return run_tgp();
     if (!booted_) return;
+    M2_PROBE_SCOPE(ProbeSharc);
     const uint64_t t0 = clock_ ? clock_() : 0;
+    const uint64_t i0 = clock_ ? sharc_->core().instructions() : 0;
     M2SHARC_CALL(SharcNeedOutput);
-    stop_on_output_ = true;
+    output_mode_ = finish_commands_ ? 2 : 1;
     for (uint64_t done = 0; out_.empty() && done < 50'000'000;) {
         sharc::adsp21062_device &s = sharc_->core();
         s.set_flag_input(0, in_.empty() ? 1 : 0);
@@ -255,8 +296,12 @@ void TgpBoard::need_output() {
             break;
         }
     }
-    stop_on_output_ = false;
-    if (clock_) sharc_ticks_ += clock_() - t0;
+    output_mode_ = 0;
+    if (clock_) {
+        const uint64_t t1 = clock_();
+        sharc_ticks_ += t1 - t0;
+        profile_handoff(t0, t1, sharc_->core().instructions() - i0);
+    }
 }
 
 void TgpBoard::run_sharc_slice(uint64_t instructions) {
@@ -264,12 +309,18 @@ void TgpBoard::run_sharc_slice(uint64_t instructions) {
     // polls are not counted; ~1 us a call on the Vita, 380 a frame).
     if (!sharc_ || !booted_ || (sharc_starved_ && in_.empty())) return;
     sharc::adsp21062_device &s = sharc_->core();
+    M2_PROBE_SCOPE(ProbeSharc);
     const uint64_t t0 = clock_ ? clock_() : 0;
+    const uint64_t i0 = clock_ ? s.instructions() : 0;
     M2SHARC_CALL(SharcSlice);
     M2SHARC_RUN(SharcSlice);
     s.set_flag_input(0, in_.empty() ? 1 : 0);
     sharc_starved_ = s.run_generated(instructions) && in_.empty();
-    if (clock_) sharc_ticks_ += clock_() - t0;
+    if (clock_) {
+        const uint64_t t1 = clock_();
+        sharc_ticks_ += t1 - t0;
+        profile_handoff(t0, t1, s.instructions() - i0);
+    }
 }
 
 void TgpBoard::sync_buffer_read() {

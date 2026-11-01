@@ -1,5 +1,92 @@
 # Handoff
 
+## SHARC HLE 0x20b8a and 0x20982, HLE limit 10, main-core probes, a command finishes in one hand-off, delayed colour tables (2026-11-01)
+
+rules.md "Coprocessor HLE": the owner raised the limit to ten routines a
+game, each kept only with a measured gain (design doc and todo.md follow).
+
+Two more HLE routines (src/games/fvipers_sharc_hle.h, seeds/fvipers_sharc_hle.txt):
+0x20b8a (the 64-cell occupancy grid, ~15,400 instructions a call) and
+0x20982 (the cage contact tests, ~5,500, with its callee 0x20b57). Native
+arithmetic through FVIPERS_HLE_ARITH (MAME's FADD/FSUB/FMUL/FIX/FABS/FCOMP
+values and sticky bits, -ffp-contract=off as everywhere); registers as
+locals; buffer RAM and FIFO accesses in the program's order; the final ASTAT
+(the last ALU operation of each routine is known: COMP(3,3) -> AZ; 0x20b57's
+32-32 -> AZ|AC), the compare history, STKY, the stacks (the last loop's
+slots, then the calls') and the instruction count as the program leaves
+them. Each declines unless I3=0x30300, M0-M2 = 0,1,2, L1/L6/L7 = 0, ALUSAT
+off, and runs only when the run's budget covers its longest path (17,800 /
+7,600), so a short slice still runs the program's way.
+Checks: m2sharccheck_gen (--fast --hle) MATCH, fight 613,709,679 and attract
+459,076 instructions (the same counts: the paths are counted exactly); the
+fast_inaccuracy native fight is the same with the two routines on or off
+(3803ad2b69636e68, 280,344,577 i960 instructions: the fast_inaccuracy
+reference; 2fcd2223eeb056c0 is the exact build's).
+Vita (user, same new match: two different characters, heavier than the
+mirror match of 31 Oct), fight windows: SHARC 13.33 -> 12.35 ms a frame
+(sd 0.15), 96.5 -> 89.1 ns a SHARC instruction, 37.3 -> 38.6 fps. Both
+routines were measured together (the owner accepted the pair).
+
+Main-core probes (Vita diagnostics only, M2_SAMPLE_PROBE;
+src/runtime/board/sample_probe.h, platform/vita/frontend/sampler.h):
+- a tag word (gen::run, an i960 bus call and its address, a SHARC run) set
+  by a store at each change; a thread on the geometry core samples it with
+  the i960's IP (Cpu::m_IP, written at each block start) every
+  sceKernelDelayThread(100) (~370 us in practice, 2.7 samples a ms);
+  perf.log: ms a frame by tag, bus calls by region, the 20 i960 blocks with
+  the most time;
+- TgpBoard::handoff: each SHARC run and each i960 stretch between two runs
+  by length (0, 1-63, ... 4096+ instructions), from the two clock reads
+  each run already had (GameLoop exposes Lockstep::count and Cpu::m_IP).
+Fight result (same match): ~835 SHARC runs a frame, 350 of them after a
+stretch of 0 i960 instructions; i960 171-182 ns an instruction and SHARC
+110-121 ns whatever the stretch length (no cold-cache cost at hand-offs);
+time: SHARC 13.7, i960 code 5.4, bus 1.6 (copro ports/buffer RAM 0.72, work
+RAM 0.56, data ROM 0.16), outside gen::run 6.6 ms a frame. Block 0x118dc
+(the frame wait, 0.63 ms) is the vblank work run while the i960 sits there
+(buffer RAM snapshot), not spinning (M2_SPIN_SKIP covers it). The probes
+cost ~0.9 ms of core 0 (37.3 against 38.6 fps) and slow core 1's parse
+(14.05 against 12.7 ms).
+
+A command finishes in one hand-off (fast_inaccuracy SHARC code only):
+need_output used to end the run at the word the i960 waits for, so a
+command with two result words (0x5a5c's) took two hand-offs. Now
+(TgpBoard::finish_commands_, set from sharc::sharc_gen_fast, which
+m2sharcrecomp emits; sharc.h DirectBoard::on_output) that word makes FLAG0
+read empty: the command finishes and the program waits as if nothing more
+were queued; the next run sees the real FIFO. It never starts a queued
+command (the i960 may still write buffer RAM before that one: 19 Oct). Exact
+builds keep ending the run at the word. Checks: fast_inaccuracy native fight
+unchanged (3803ad2b69636e68, 280,344,577), m2sharccheck_gen MATCH (fight,
+attract), ctest 23/23. Vita: in build_fightingvipers/vita_hle's package
+(with the probes and the colour tables below), not measured yet; expected
+~350 hand-offs fewer a frame, ~0.5-1 ms.
+
+Delayed colour tables (Vita renderer): the pipelined geometry shows the
+previous frame's list, but the renderer read the live palette, colour
+translation and luma RAM (Video::gpu_mem holds pointers), so a list was
+coloured with the next frame's tables (the reference draws a list with its
+own frame's). GpuGlRenderer copies them at the end of each draw for the next
+one (192 KB, only when Video::colour_generation moved; Session turns it on
+with the pipelined geometry). Texture RAM stays live (4 MB: not copied).
+Not yet seen on the console.
+
+Measured and dropped:
+- the inlined i960 bus for Model 2B (m2recomp --board model2b, the buffer
+  RAM read through sync_buffer_read): PC fight identical, Vita no gain (i960
+  part 6.62 -> 6.88 ms, sd 0.11/0.21; 37.3 -> 36.7 fps); reverted;
+- the i960 chunks at -Os on the Vita: i960 code 5.4 -> 6.7-6.8 ms, ~35 fps:
+  the i960 is not slow for its code size; reverted.
+Analysis (not built): the SHARC on its own core gains nothing: 99.6 % of its
+instructions run while the i960 waits for their result (PC profile), so the
+cores would take turns at ~835 cross-core round trips a frame. The i960 +
+SHARC chain (~19.5 ms a frame) is the limit on any split of the cores.
+Next (todo.md): measure the hand-off change and the colour tables on the
+Vita; re-measure SHARC flag liveness (the per-instruction cost fell from
+~118 to ~40-49 cycles since it was set aside); the SHARC's call/return
+dispatch; TGP flags and block-local registers (Model 2/2A); the Vita's
+vertex writing on core 1 (planned, on hold by the owner).
+
 ## Vita measurement of the day's work; todo.md (2026-10-31)
 
 Vita (user, fvipers, --fast-inaccuracy --diagnostics, no profile counters;
@@ -4979,6 +5066,8 @@ Also found:
   the Vita's instruction cache: 26 % slower on the console than the
   specialised code (3.22 against 2.37 M instructions/s, same session).
 - Applying SHARC flag liveness: ~1.1 dead flag writes an executed instruction.
+  (Measured at ~118 cycles a SHARC instruction; it is ~40-49 now: worth
+  re-measuring, todo.md.)
 - SHARC registers as locals in plain runs: GCC already forwards them (18 of
   3,899 loads re-read a stored value in the hot chunk); a few per cent.
 - Fastmem (MMU mirroring, SIGSEGV for faults) on the Vita: no user-mode
@@ -5002,6 +5091,13 @@ Also found:
   (15 Oct 2026).
 - Cutting i960 bus calls on the Vita (the inlined bus, gen::BoardMem: RAM,
   ROM, TGP FIFO): no measurable gain without profilers (15 Oct 2026).
+- The inlined bus for Model 2B (Fighting Vipers, 1 Nov 2026): no gain either.
+- The i960 chunks at -Os on the Vita: 1.3 ms a frame slower than -O3.
+- The SHARC on its own core (Model 2B): it runs almost only while the i960
+  waits for its result; ~835 hand-offs a frame would become cross-core
+  round trips.
+- Cold caches at i960<->SHARC hand-offs as the cause of the i960's cost:
+  the probes show the same ns an instruction for short and long stretches.
 - Measuring bus changes with `--i960-profile`: prof_bus() makes every bus
   call dearer, so fewer calls look faster.
 - Comparing Vita builds on race windows from separate sessions: ~10 %

@@ -3,6 +3,7 @@
 #include "render/gl_internal.h"
 #include "games/game.h"
 #include <cmath>
+#include <cstring>
 
 namespace vita {
 using namespace gldraw;
@@ -10,7 +11,15 @@ using namespace gldraw;
 // ---- Renderer: Model 2 polygons --------------------------------------------------------
 void GpuGlRenderer::draw_polygons(rt::Video &video) {
     const auto &polys = video.gpu_polys();
-    const rt::VideoMem &mem = video.gpu_mem();
+    rt::VideoMem mem = video.gpu_mem();
+    uint64_t colour_generation = video.colour_generation();
+    if (delayed_colours_) {
+        if (!colours_shown_.valid) capture_colours(mem, colour_generation); // the first frame: the live ones
+        mem.palram = colours_shown_.palram.data();
+        mem.colorxlat = colours_shown_.colorxlat.data();
+        mem.lumaram = colours_shown_.lumaram.data();
+        colour_generation = colours_shown_.generation;
+    }
     FrameStats &st = g.stats;
     st.polys_in = unsigned(polys.size());
     material_drops_ = material_builds_ = material_defers_ = 0;
@@ -27,8 +36,8 @@ void GpuGlRenderer::draw_polygons(rt::Video &video) {
     }
     // The rows' colours come from palette, colour translation and luma RAM: when the game
     // rewrites them (fades), every row is stale. Rebuilt on use, like after a reset.
-    if (const uint64_t generation = video.colour_generation(); generation != colour_generation_) {
-        colour_generation_ = generation;
+    if (colour_generation != colour_generation_) {
+        colour_generation_ = colour_generation;
         palette_index_.clear();
         palette_used_ = 0;
     }
@@ -176,6 +185,9 @@ void GpuGlRenderer::draw_polygons(rt::Video &video) {
     const uint64_t vertex_begin = now_us();
     flush_batches();
     last_vertex_us_ = now_us() - vertex_begin;
+    // This frame's colour tables, for the next draw (which shows this frame's list).
+    if (delayed_colours_ && video.colour_generation() != colours_shown_.generation)
+        capture_colours(video.gpu_mem(), video.colour_generation());
 
     // Polygon counters, from what flush_batches() actually wrote (it drops invalid polygons).
     for (size_t i = 0; i < g.batch_count; ++i) {
@@ -191,6 +203,20 @@ void GpuGlRenderer::draw_polygons(rt::Video &video) {
             if (checker) checker_polys_ += b.valid_polys;
         }
     }
+}
+
+void GpuGlRenderer::capture_colours(const rt::VideoMem &live, uint64_t generation) {
+    // Sizes as M2Board maps them: palette RAM 0x4000, colour translation 0xc000, luma 0x20000.
+    auto copy = [](std::vector<uint8_t> &to, const uint8_t *from, size_t n) {
+        to.resize(n);
+        if (from) std::memcpy(to.data(), from, n);
+        else std::fill(to.begin(), to.end(), uint8_t(0));
+    };
+    copy(colours_shown_.palram, live.palram, 0x4000);
+    copy(colours_shown_.colorxlat, live.colorxlat, 0xc000);
+    copy(colours_shown_.lumaram, live.lumaram, 0x20000);
+    colours_shown_.generation = generation;
+    colours_shown_.valid = true;
 }
 
 } // namespace vita

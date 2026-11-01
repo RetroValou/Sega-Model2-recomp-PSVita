@@ -138,6 +138,10 @@ public:
     uint64_t frames() const { return frames_; }
     uint64_t instructions() const { return ls_->count; }
     int interrupts() const { return ls_->interrupts(); }
+    // For the frontend's probes (diagnostics): the i960's instruction counter
+    // (Lockstep::count) and IP (Cpu::m_IP, the current block's start).
+    const uint64_t *instruction_counter() const { return &ls_->count; }
+    const uint32_t *i960_ip() const { return &cpu_->m_IP; }
 
 private:
     void probe();

@@ -111,6 +111,9 @@ public:
     unsigned checker_polys() const { return checker_polys_; }
     unsigned textured_checker_polys() const { return textured_checker_polys_; }
     unsigned clip_changes() const { return clip_changes_; }
+    // Pipelined geometry (the list shown is the previous frame's): draw it with that
+    // frame's colour tables. Off: the live ones (Sync, the list is this frame's).
+    void set_delayed_colours(bool on) { delayed_colours_ = on; colours_shown_.valid = false; }
 
 private:
     // Model 2 textures are 4-bit texel indices; the colour comes from a palette chosen per
@@ -215,6 +218,18 @@ private:
     uint32_t palette_texture_ = 0;     // GLuint, kPaletteWidth x kPaletteRows RGBA
     uint32_t *palette_data_ = nullptr; // its pixels, written directly
     FlatIndex<uint32_t, uint32_t, 12> palette_index_; // palette key -> row (at most kPaletteRows)
+    // The colour tables the shown polygons were made with (pipelined geometry shows the
+    // previous frame's list: its palette, colour translation and luma RAM are those of
+    // the frame that made it, as on the reference, not the live ones). Copied at the end
+    // of each draw for the next, only when the game rewrote them (Video::colour_generation).
+    struct ColourTables {
+        std::vector<uint8_t> palram, colorxlat, lumaram;
+        uint64_t generation = 0;
+        bool valid = false;
+    };
+    ColourTables colours_shown_;
+    bool delayed_colours_ = false;
+    void capture_colours(const rt::VideoMem &live, uint64_t generation);
     uint32_t palette_used_ = 0;        // rows
     uint64_t colour_generation_ = 0;   // Video::colour_generation the rows were built at (fades rebuild them)
     uint64_t tex_generation_ = 0;      // VideoMem::tex_generation sources were last checked at

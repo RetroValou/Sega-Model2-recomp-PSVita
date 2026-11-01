@@ -11,6 +11,7 @@
 
 #include "runtime/board/m2_board.h"
 #include "runtime/cpu/i960_profile.h"
+#include "runtime/board/sample_probe.h"
 
 #include <algorithm>
 #include <iterator>
@@ -939,6 +940,7 @@ void M2Board::spin_skip(const Game::SpinWait &w, uint32_t value) {
 #endif
 
 uint8_t M2Board::read_byte(uint32_t addr) {
+    M2_PROBE_BUS(addr);
 #ifdef M2_I960_PROFILE
     prof_bus(addr, false);
 #endif
@@ -977,6 +979,7 @@ uint8_t M2Board::read_byte(uint32_t addr) {
 }
 
 uint16_t M2Board::read_word(uint32_t addr) {
+    M2_PROBE_BUS(addr);
 #ifdef M2_I960_PROFILE
     prof_bus(addr, false);
 #endif
@@ -1014,6 +1017,7 @@ uint16_t M2Board::read_word(uint32_t addr) {
 }
 
 uint32_t M2Board::read_dword(uint32_t addr) {
+    M2_PROBE_BUS(addr);
 #ifdef M2_I960_PROFILE
     prof_bus(addr, false);
 #endif
@@ -1081,6 +1085,7 @@ uint32_t M2Board::read_dword(uint32_t addr) {
 }
 
 void M2Board::write_byte(uint32_t addr, uint8_t data) {
+    M2_PROBE_BUS(addr);
 #ifdef M2_I960_PROFILE
     prof_bus(addr, true);
 #endif
@@ -1110,6 +1115,7 @@ void M2Board::write_byte(uint32_t addr, uint8_t data) {
 }
 
 void M2Board::write_word(uint32_t addr, uint16_t data) {
+    M2_PROBE_BUS(addr);
 #ifdef M2_I960_PROFILE
     prof_bus(addr, true);
 #endif
@@ -1139,6 +1145,7 @@ void M2Board::write_word(uint32_t addr, uint16_t data) {
 }
 
 void M2Board::write_dword(uint32_t addr, uint32_t data) {
+    M2_PROBE_BUS(addr);
 #ifdef M2_I960_PROFILE
     prof_bus(addr, true);
 #endif

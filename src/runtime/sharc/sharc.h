@@ -22,6 +22,11 @@
 
 namespace rt::sharc {
 
+// m2sharcrecomp --fast made the program (sharc_gen.cpp; false without one): the
+// board may then let a command finish past the word the i960 waits for
+// (TgpBoard, fast_inaccuracy timing).
+extern const bool sharc_gen_fast;
+
 // The board's side of the SHARC's data space above its internal memory
 // (word addresses): Model 2B maps the copro FIFOs, buffer RAM and the data ROM.
 struct Bus {
@@ -84,7 +89,10 @@ public:
         uint32_t *buffer = nullptr;            // 0x8000 words
         const uint32_t *rom = nullptr;         // rom_mask + 1 words
         uint32_t rom_mask = 0;
-        const bool *stop_on_output = nullptr;  // end_run on an output word
+        // An output word's effect (TgpBoard::need_output): 0 none, 1 end the run (the
+        // word the i960 waits for), 2 hold the input (FLAG0 reads empty: the
+        // command finishes, the next one is not started).
+        const uint8_t *on_output = nullptr;
     };
     void set_direct_board(const DirectBoard &b) { m_direct = b; }
 #endif

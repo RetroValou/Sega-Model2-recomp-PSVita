@@ -914,6 +914,7 @@ int main(int argc, char **argv) {
             for (uint32_t k = 0; k < n; ++k) o << (k % 32 ? "" : "\n    ") << chunk_of[k] << ",";
             o << "\n};\n\n";
         }
+        o << "const bool sharc_gen_fast = " << (fast ? "true" : "false") << "; // sharc.h\n\n";
         // The profile's view of the program (sharc_profile.h): each instruction's handler and kind.
         o << "#ifdef M2_SHARC_PROFILE\nconst char *const sharc_gen_mode = \"" << (full_steps ? "full steps" : fast ? (hle.empty() ? "--fast" : "--fast + HLE") : "exact")
           << "\";\nconst uint32_t sharc_gen_count = " << n << ";\nconst char *const sharc_gen_names[" << n << "] = {\n";

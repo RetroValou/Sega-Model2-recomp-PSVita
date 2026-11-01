@@ -93,6 +93,7 @@ void Session::configure_geometry() {
     rt::Geo *geo = geometry_of(game_.get());
     if (!geo) return;
     const bool ok = geo->configure(rt::GeoMode::Pipelined, kGeoCore, kProfile ? ticks_us : nullptr);
+    gpu_.set_delayed_colours(geo->mode() == rt::GeoMode::Pipelined); // the list shown is the previous frame's
     diag_.geometry_changed();
     const rt::Geo::Worker &w = geo->worker();
     char line[256];

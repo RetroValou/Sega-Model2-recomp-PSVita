@@ -86,6 +86,23 @@ public:
     // SHARC runs is summed in sharc_ticks (the clock's units).
     void set_profile_clock(uint64_t (*clock)()) { clock_ = clock; }
     uint64_t sharc_ticks() const { return sharc_ticks_; }
+    // The i960<->SHARC hand-offs (with the clock and the i960's instruction
+    // counter, Lockstep::count): each SHARC run and each i960 stretch between
+    // two runs, by its length in instructions (kHandoffBins: 0, 1-63, 64-255,
+    // 256-1023, 1024-4095, 4096+). Short stretches costing more per
+    // instruction than long ones is the price of switching (cold caches, the
+    // call itself). A stretch over kHandoffMaxGapUs (a frame's rendering in
+    // between) is only counted as long_gaps. No clock read of its own.
+    static constexpr int kHandoffBins = 6;
+    static constexpr uint64_t kHandoffMaxGapUs = 2000;
+    struct HandoffStats {
+        uint64_t runs[kHandoffBins]{}, run_instr[kHandoffBins]{}, run_ticks[kHandoffBins]{};
+        uint64_t gaps[kHandoffBins]{}, gap_instr[kHandoffBins]{}, gap_ticks[kHandoffBins]{};
+        uint64_t long_gaps = 0;
+    };
+    static int handoff_bin(uint64_t n) { return n == 0 ? 0 : n < 64 ? 1 : n < 256 ? 2 : n < 1024 ? 3 : n < 4096 ? 4 : 5; }
+    void set_profile_i960_counter(const uint64_t *count) { i960_count_ = count; }
+    const HandoffStats &handoff() const { return handoff_; }
 #ifdef M2_SHARC_PROFILE
     // The SHARC's executions by program address - 0x20000 (sharc_profile.h).
     const uint32_t *sharc_counts() const;
@@ -128,7 +145,18 @@ private:
     uint32_t upload_count_ = 0;
     uint64_t (*clock_)() = nullptr;
     uint64_t sharc_ticks_ = 0;
-    bool stop_on_output_ = false; // need_output: the SHARC's run ends at its next output word
+    const uint64_t *i960_count_ = nullptr;
+    HandoffStats handoff_;
+    uint64_t last_exit_ticks_ = 0, last_exit_count_ = 0;
+    void profile_handoff(uint64_t t0, uint64_t t1, uint64_t sharc_instr); // with clock_ set
+    // need_output's effect of an output word on the SHARC (sharc.h DirectBoard::on_output):
+    // 1 end the run there; 2 (finish_commands_) let the command finish without starting
+    // the next: FLAG0 reads empty until the next run. 0 outside need_output.
+    uint8_t output_mode_ = 0;
+    // fast_inaccuracy SHARC code (sharc::sharc_gen_fast): a command whose result the
+    // i960 waits for runs to its end in one hand-off, never into a command queued
+    // behind it (the i960 may still write buffer RAM before that one: 19 Oct 2026).
+    bool finish_commands_ = false;
     bool sharc_starved_ = false;  // the SHARC waits on an empty input FIFO (run_sharc_slice skips)
     void run_sharc();
     void run_sharc_to_wait();
